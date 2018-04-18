@@ -1,13 +1,8 @@
 (* :Title: learningNewtonsMethod.m -- a package for learning newton's method *)
-
 (* :Author: Matteo Sanfelici *)
-
 (* :Copyright: © <2018> by <Matteo Sanfelici> *)
-
 (* :Package Version: 1.0 *)
-
 (* :Mathematica Version: 11.2 *)
-
 (* :History: *)
 
 BeginPackage["LearningNewtonsMethod`"];
