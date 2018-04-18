@@ -20,8 +20,14 @@ interactiveNewton[]:=
 
 		(** Definition of Graphical Controller **)
 		(* Define a Graphics for PopupMenu "funcMenu", for an interactive selection of function to plot *)
-		{{funcMenu, f2, "function"}, {f1 -> TraditionalForm[-2 + x^2], f2 -> TraditionalForm[Cos[x]], f3 -> TraditionalForm[-7 + x^3],
-			f4 -> TraditionalForm[-1 + x - 3*x^2 + x^3]}, ControlType -> PopupMenu},
+		{{funcMenu, f2, "function"}, {
+			f1 -> TraditionalForm[Cos[x]],
+			f2 -> TraditionalForm[Sin[x]],
+			f3 -> TraditionalForm[-7 + x^2],
+			f4 -> TraditionalForm[-1 + x - 3*x^2 + x^3],
+			f5 -> TraditionalForm[Sin[x]*Cos[x]],
+			f6 -> TraditionalForm[-1 + x^2*Log2[x]]
+			}, ControlType -> PopupMenu},
 		(* Define a Graphics for SetterBar "iteration" controlling Newton's Iteration *)
 		{{iteration, 6, "n"}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
 		(* Define a Graphics for Slider "x0" controlling starting root *)
@@ -56,5 +62,12 @@ interactiveNewton[]:=
 				],
 				Attributes[Derivative] = {NHoldAll, ReadProtected},
 				Attributes[Subscript] = {NHoldRest}, Subscript[w, opt] = {2.706, 3.686},
-				Attributes[PlotRange] = {ReadProtected}, f2[x_] := Cos[x], f1[x_] := x^2 - 2, f3[x_] := x^3 - 7, f4[x_] := x^3 - 3*x^2 + x - 1}]
+				Attributes[PlotRange] = {ReadProtected},
+					f1[x_] := Cos[x],
+					f2[x_] := Sin[x],
+					f3[x_] := x^2 - 7,
+					f4[x_] := x^3 - 3*x^2 + x - 1,
+					f5[x_] := Sin[x]*Cos[x],
+					f6[x_] := x^2*Log[x] - 1
+				}]
 EndPackage[];
