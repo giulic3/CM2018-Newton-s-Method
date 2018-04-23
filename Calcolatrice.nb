@@ -1,0 +1,424 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     15887,        414]
+NotebookOptionsPosition[     14846,        390]
+NotebookOutlinePosition[     15184,        405]
+CellTagsIndexPosition[     15141,        402]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"funzione", " ", ":=", " ", "\"\<\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"TableForm", "[", "\[IndentingNewLine]", 
+  RowBox[{"{", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"\"\<\>\"", ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<sin\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<sin\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<cos\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<cos\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<Log\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<Log\>\""}]}]}], "]"}], ",", " ", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<tan\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<tan\>\""}]}]}], "]"}], ",", " ", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<ln\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<ln\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<1\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<1\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<2\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<2\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<3\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<3\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", "\"\<FINE\>\"", "]"}]}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<x\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<x\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<(\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<(\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<)\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<)\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<\[Product]\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<Pi\>\""}]}]}], "]"}], ",", " ", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<^\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<^\>\""}]}]}], "]"}], ",", " ", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<\[ScriptE]\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<nonloso\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<4\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<4\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<5\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<5\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<6\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<6\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<,\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<,\>\""}]}]}], "]"}]}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<\>\"", ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<+\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<+\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<*\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<*\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<-\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<-\>\""}]}]}], "]"}], ",", " ", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\</\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\</\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<\[Sqrt]\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<Sqrt\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<7\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<7\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<8\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<8\>\""}]}]}], "]"}], ",", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<9\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<9\>\""}]}]}], "]"}], ",", " ", 
+      RowBox[{"Button", "[", 
+       RowBox[{"\"\<0\>\"", ",", 
+        RowBox[{"funzione", " ", "=", " ", 
+         RowBox[{"funzione", "<>", "\"\<0\>\""}]}]}], "]"}]}], "}"}]}], 
+   "\[IndentingNewLine]", "}"}], "\[IndentingNewLine]", "]"}]}], "Input",
+ CellChangeTimes->{{3.733465644118191*^9, 3.7334657290000467`*^9}, {
+   3.733466095006633*^9, 3.7334661804538317`*^9}, {3.7334662397561626`*^9, 
+   3.733466352710717*^9}, {3.733466421412018*^9, 3.733466556659986*^9}, {
+   3.733466600707006*^9, 3.73346662433788*^9}, {3.733466810900791*^9, 
+   3.733466811588214*^9}, {3.7334668687790327`*^9, 3.733466893993589*^9}, {
+   3.7334670447400093`*^9, 3.733467066803323*^9}, 3.733467119672909*^9, {
+   3.733467202463978*^9, 3.7334672510811777`*^9}, {3.733467296946148*^9, 
+   3.733467331699812*^9}, {3.733467386579406*^9, 3.7334675553554287`*^9}, {
+   3.7334675864072647`*^9, 3.733467661367454*^9}, {3.7334677757411337`*^9, 
+   3.733467796126733*^9}, {3.733467842730191*^9, 3.733467845784431*^9}, {
+   3.7334678914241333`*^9, 3.733467948898588*^9}, {3.733468000327539*^9, 
+   3.733468007008747*^9}, {3.733468041163212*^9, 3.733468099074222*^9}, {
+   3.7334681604658127`*^9, 3.7334681879669333`*^9}, {3.7334682213011627`*^9, 
+   3.733468249338655*^9}},ExpressionUUID->"f5e12030-a9cb-4993-a855-\
+2ec0363a6594"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"\"\>", 
+     ButtonBox["\<\"sin\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "sin"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"cos\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "cos"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"Log\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "Log"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"tan\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "tan"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"ln\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "ln"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"1\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "1"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"2\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "2"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"3\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "3"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"FINE\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>{},
+      Evaluator->None,
+      Method->"Preemptive"]},
+    {
+     ButtonBox["\<\"x\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "x"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"(\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "("]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\")\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, ")"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"\[Product]\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "Pi"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"^\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "^"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"\[ScriptE]\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "nonloso"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"4\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "4"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"5\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "5"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"6\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "6"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\",\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, ","]),
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {"\<\"\"\>", 
+     ButtonBox["\<\"+\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "+"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"*\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "*"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"-\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "-"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"/\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "/"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"\[Sqrt]\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "Sqrt"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"7\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "7"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"8\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "8"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"9\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "9"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"0\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>($CellContext`funzione = 
+       StringJoin[$CellContext`funzione, "0"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"]}
+   },
+   GridBoxAlignment->{
+    "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+     "RowsIndexed" -> {}},
+   GridBoxSpacings->{"Columns" -> {
+       Offset[0.27999999999999997`], {
+        Offset[2.0999999999999996`]}, 
+       Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+       Offset[0.2], {
+        Offset[0.4]}, 
+       Offset[0.2]}, "RowsIndexed" -> {}}],
+  Function[BoxForm`e$, 
+   TableForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{
+  3.733467251981605*^9, 3.733467334775753*^9, 3.7334674391994467`*^9, {
+   3.73346748198521*^9, 3.733467507558157*^9}, 3.733467557043873*^9, 
+   3.733467672568405*^9, {3.733467799397335*^9, 3.733467848559422*^9}, 
+   3.7334682529205017`*^9},ExpressionUUID->"680d3f89-c316-48c9-8844-\
+7fe7e76bf806"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["funzione"], "Input",
+ CellChangeTimes->{{3.733467835928731*^9, 
+  3.7334678366072483`*^9}},ExpressionUUID->"ac852577-7df3-4e71-a104-\
+6a539d685f2b"],
+
+Cell[BoxData["\<\"sin(cos(Log(tan(x))))\"\>"], "Output",
+ CellChangeTimes->{{3.7334678369101887`*^9, 3.7334678578380404`*^9}, 
+   3.733468268372732*^9},ExpressionUUID->"16d8f980-6ff5-4abe-bb40-\
+bc5f5ef7e7ff"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.733467813017672*^9, 
+  3.73346783171836*^9}},ExpressionUUID->"c40e5ff8-8128-45ef-becc-\
+ae0abfe5bf51"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.7334678300317507`*^9, 
+  3.733467830045755*^9}},ExpressionUUID->"5682dd88-1550-4ac7-8781-\
+3875fe4a1ad5"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.7334667547857437`*^9, 3.733466785781465*^9}, {
+  3.7334676929245234`*^9, 
+  3.733467694647883*^9}},ExpressionUUID->"c97d57ae-75d5-4c13-901e-\
+7517c0a5ed1a"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.733467690292418*^9, 
+  3.733467690561884*^9}},ExpressionUUID->"0aaa74c7-949c-473c-a0c0-\
+9f15785a2b1e"]
+},
+WindowSize->{1366, 715},
+WindowMargins->{{0, Automatic}, {0, Automatic}},
+FrontEndVersion->"11.2 for Linux x86 (64-bit) (September 10, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 6411, 139, 435, "Input",ExpressionUUID->"f5e12030-a9cb-4993-a855-2ec0363a6594"],
+Cell[6994, 163, 6751, 190, 117, "Output",ExpressionUUID->"680d3f89-c316-48c9-8844-7fe7e76bf806"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13782, 358, 162, 3, 31, "Input",ExpressionUUID->"ac852577-7df3-4e71-a104-6a539d685f2b"],
+Cell[13947, 363, 209, 3, 92, "Output",ExpressionUUID->"16d8f980-6ff5-4abe-bb40-bc5f5ef7e7ff"]
+}, Open  ]],
+Cell[14171, 369, 151, 3, 31, "Input",ExpressionUUID->"c40e5ff8-8128-45ef-becc-ae0abfe5bf51"],
+Cell[14325, 374, 154, 3, 31, InheritFromParent,ExpressionUUID->"5682dd88-1550-4ac7-8781-3875fe4a1ad5"],
+Cell[14482, 379, 205, 4, 31, "Input",ExpressionUUID->"c97d57ae-75d5-4c13-901e-7517c0a5ed1a"],
+Cell[14690, 385, 152, 3, 31, InheritFromParent,ExpressionUUID->"0aaa74c7-949c-473c-a0c0-9f15785a2b1e"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
