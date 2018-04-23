@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[   1130391,      18949]
-NotebookOptionsPosition[   1121364,      18793]
-NotebookOutlinePosition[   1122776,      18828]
-CellTagsIndexPosition[   1122694,      18823]
+NotebookDataLength[   1142197,      19390]
+NotebookOptionsPosition[   1132296,      19221]
+NotebookOutlinePosition[   1133857,      19258]
+CellTagsIndexPosition[   1133775,      19253]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -121,7 +121,10 @@ Pu7kfNfO+x+/T/70++ob7NUEtQ==
  CellTags->
   "SlideShowHeader",ExpressionUUID->"73977808-b372-4344-b427-2a7b721a94b7"],
 
-Cell["Metodo di Newton", "Title",
+Cell[TextData[StyleBox["Metodo di Newton",
+ FontColor->RGBColor[
+  0.8518654154268711, 0.022919050888838024`, 0.030594338902876324`]]], "Title",\
+
  CellChangeTimes->{{3.73312030535553*^9, 3.733120332569319*^9}},
  TextAlignment->-0.5,ExpressionUUID->"bcc08b83-01a3-463f-a0a3-2bc637398695"],
 
@@ -18134,7 +18137,7 @@ Cell[TextData[{
 come la radice sesta di 1221?\nQuesto problema \[EGrave] equivalente alla ",
  StyleBox["ricerca di uno zero",
   FontSlant->"Italic"],
- " della funzione f (x) = x^6 - 1221 \noppure della ",
+ " della funzione f(x) = x^6 - 1221 \noppure della ",
  StyleBox["soluzione",
   FontSlant->"Italic"],
  " dell' equazione x^6 - 1221 = 0."
@@ -18142,8 +18145,8 @@ come la radice sesta di 1221?\nQuesto problema \[EGrave] equivalente alla ",
  CellGroupingRules->{"GroupTogetherGrouping", 10000.},
  CellChangeTimes->{
   3.733377509074945*^9, {3.7333776981795397`*^9, 3.733377711015149*^9}, 
-   3.733377761932819*^9, 3.7333809584497967`*^9, 
-   3.733381217555624*^9},ExpressionUUID->"948fe2a7-b7f8-4eec-b5f5-\
+   3.733377761932819*^9, 3.7333809584497967`*^9, 3.733381217555624*^9, 
+   3.733479947679585*^9},ExpressionUUID->"948fe2a7-b7f8-4eec-b5f5-\
 cd11160ac8a4"],
 
 Cell[TextData[{
@@ -18154,15 +18157,16 @@ considerarla per qualsiasi x che appartiene al suo dominio e quindi non solo \
 per le x che sono zeri della funzione.\n\tUn\[CloseCurlyQuote]equazione di \
 incognita x invece \[EGrave] un\[CloseCurlyQuote]uguaglianza che risulta vera \
 solo per le particolari x che sono sue soluzioni (dette radici) e non ha \
-senso considerarla per x \t\tdiverse da queste.",
+senso considerarla per x diverse da queste.",
   FontSize->20]
 }], "Text",
  CellGroupingRules->{"GroupTogetherGrouping", 10000.},
  CellChangeTimes->{{3.733377853706176*^9, 3.733377868099712*^9}, 
    3.733377929942625*^9, {3.733380498240878*^9, 3.733380509390168*^9}, {
    3.73338093601507*^9, 3.733380937799039*^9}, 3.733381217556231*^9, 
-   3.733381255558172*^9, {3.7333813920248833`*^9, 
-   3.733381397041259*^9}},ExpressionUUID->"50974d70-7376-441a-a70c-\
+   3.733381255558172*^9, {3.7333813920248833`*^9, 3.733381397041259*^9}, {
+   3.733479984772884*^9, 
+   3.733479985198031*^9}},ExpressionUUID->"50974d70-7376-441a-a70c-\
 d7613e8b5e72"]
 }, Open  ]],
 
@@ -18174,16 +18178,17 @@ Cell["Ma come si trova la scrittura decimale di uno zero di f(x)?", \
   3.733381312158063*^9},ExpressionUUID->"5e6afd63-1f4a-4989-84fe-\
 16999c0ce7a4"],
 
-Cell["\<\
-Questo problema potrebbe essere irresolubile se il numero cercato fosse \
-irrazionale e quindi avrebbe infinite cifre decimali.
-Siamo per\[OGrave] certi che \[EGrave] sempre possibile ottenere un\
-\[CloseCurlyQuote]approssimazione anche con molte cifre decimali di un \
-qualsiasi numero. 
-Notando che la funzione f(x)=x^6-1221 \[EGrave] continua e che f(3)<0 e \
-f(4)>0 osservando il grafico risulta chiaro che uno zero di f si trover\
-\[AGrave] tra 3 e 4.\
-\>", "Text",
+Cell[TextData[{
+ "Questo problema potrebbe essere irresolubile se il numero cercato fosse \
+irrazionale e quindi avrebbe infinite cifre decimali.\nSiamo per\[OGrave] \
+certi che \[EGrave] sempre possibile ottenere \
+un\[CloseCurlyQuote]approssimazione anche con molte cifre decimali di un \
+qualsiasi numero. \nNotando che la funzione f(x)=x^6-1221 \[EGrave] continua \
+e che f(3)<0 e f(4)>0 osservando il grafico risulta chiaro che uno zero di ",
+ StyleBox["f",
+  FontSlant->"Italic"],
+ " si trover\[AGrave] tra 3 e 4."
+}], "Text",
  CellChangeTimes->{{3.733381075165052*^9, 3.733381077272251*^9}, {
   3.733381413940756*^9, 3.733381428891184*^9}, {3.733381682361189*^9, 
   3.733381690441992*^9}, {3.733381788721327*^9, 3.7333817929180193`*^9}, {
@@ -18203,18 +18208,22 @@ qualunque funzione ",
  " ",
  StyleBox["continua",
   FontSlant->"Italic"],
- " in un intervallo ",
+ " in un ",
+ StyleBox["intervallo",
+  FontSlant->"Italic"],
+ " ",
  StyleBox["[a,b]",
-  FontWeight->"Bold"],
+  FontWeight->"Bold",
+  FontSlant->"Italic"],
  ", che assume vaori di segno opposto in ",
  StyleBox["a",
   FontSlant->"Italic"],
  " e ",
- StyleBox["b",
+ StyleBox["b.",
   FontSlant->"Italic"]
 }], "Text",
- CellChangeTimes->{{3.733463491383237*^9, 
-  3.733463546970623*^9}},ExpressionUUID->"9fddcab8-e0df-4802-94a5-\
+ CellChangeTimes->{{3.733463491383237*^9, 3.733463546970623*^9}, 
+   3.7334800918408823`*^9},ExpressionUUID->"9fddcab8-e0df-4802-94a5-\
 8926e5c6bfd0"],
 
 Cell["[RIQUADRO COLORATO]", "Text",
@@ -18222,20 +18231,34 @@ Cell["[RIQUADRO COLORATO]", "Text",
  TextAlignment->Center,ExpressionUUID->"34fb34a0-047c-43e8-9d04-896955c22bf1"],
 
 Cell[TextData[{
- "Data una funzione ",
- StyleBox["f(x)",
-  FontWeight->"Bold"],
- " continua in un intervallo ",
- StyleBox["[a,b]",
-  FontWeight->"Bold"],
+ "Data una funzione f(x) ",
+ StyleBox["continua",
+  FontSlant->"Italic"],
+ " in un ",
+ StyleBox["intervallo",
+  FontSlant->"Italic"],
+ " [a,b]",
  StyleBox[" ",
+  FontSlant->"Italic"],
+ "tale che ",
+ StyleBox["f(a)f(b)<0",
   FontWeight->"Bold",
   FontSlant->"Italic"],
- "tale che f(a)f(b)<0 allora E c \[Element] (a,b) tale che f(c)=0."
+ " allora ",
+ StyleBox["E",
+  FontWeight->"Bold"],
+ StyleBox[" c \[Element] [a,b]",
+  FontWeight->"Bold",
+  FontSlant->"Italic"],
+ " tale che ",
+ StyleBox["f(c)=0",
+  FontWeight->"Bold",
+  FontSlant->"Italic"],
+ "."
 }], "Text",
  CellChangeTimes->{{3.7334636239465837`*^9, 3.733463680713574*^9}, {
-  3.7334637408507547`*^9, 
-  3.733463751587414*^9}},ExpressionUUID->"6fd0dbe4-bc8d-4fc9-8a71-\
+  3.7334637408507547`*^9, 3.733463751587414*^9}, {3.733480157881263*^9, 
+  3.733480161652987*^9}},ExpressionUUID->"6fd0dbe4-bc8d-4fc9-8a71-\
 889c7cfc0a66"],
 
 Cell["\<\
@@ -18256,7 +18279,10 @@ Cell["", "SlideShowNavigationBar",
 
 Cell[CellGroupData[{
 
-Cell["Metodo di Bisezione:", "Section",
+Cell[TextData[StyleBox["Metodo di Bisezione:",
+ FontColor->RGBColor[
+  0.8544136720836194, 0.022674906538490882`, 
+   0.030731670099946592`]]], "Section",
  CellChangeTimes->{{3.733458848280221*^9, 3.7334588635536013`*^9}, {
   3.7334595213707314`*^9, 3.733459566149139*^9}, {3.733459650442567*^9, 
   3.733459864491934*^9}, {3.733459914742546*^9, 3.733459918262168*^9}, {
@@ -18266,18 +18292,38 @@ Cell["Metodo di Bisezione:", "Section",
   3.733461244426138*^9}},ExpressionUUID->"5b5ac152-a1ef-4eed-a28f-\
 a1179036d822"],
 
-Cell["\<\
-Una tecnica per la ricerca di un\[CloseCurlyQuote]approssimazione dello zero \
-all\[CloseCurlyQuote]interno di un intervallo [a,b] consiste nell\
-\[CloseCurlyQuote]assumere come approssimazione dello zero fi f(x) il valore \
-medio dell\[CloseCurlyQuote]intervallo, cio\[EGrave] (a+b)/2.\
-\>", "Text",
+Cell[TextData[{
+ "Una tecnica per la ricerca di un\[CloseCurlyQuote]approssimazione dello \
+zero all\[CloseCurlyQuote]interno di un intervallo ",
+ StyleBox["[a,b]",
+  FontSlant->"Italic"],
+ " consiste nell\[CloseCurlyQuote]assumere come approssimazione dello zero di \
+",
+ StyleBox["f(x)",
+  FontWeight->"Bold"],
+ " il ",
+ StyleBox["valore medio",
+  FontSlant->"Italic"],
+ " dell\[CloseCurlyQuote]intervallo, cio\[EGrave] ",
+ Cell[BoxData[
+  FormBox[
+   StyleBox[
+    FractionBox[
+     RowBox[{"a", "+", "b"}], "2"],
+    FontSize->30,
+    FontWeight->"Regular"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "0e81f7f6-83ad-4b49-87dc-88f61dff5096"],
+ "."
+}], "Text",
  CellChangeTimes->{{3.733460977647788*^9, 3.733460979922988*^9}, 
-   3.733461258380826*^9, {3.7334615686820717`*^9, 
-   3.733461653750925*^9}},ExpressionUUID->"121c551e-1990-40c0-8148-\
+   3.733461258380826*^9, {3.7334615686820717`*^9, 3.733461653750925*^9}, {
+   3.733479711809119*^9, 3.733479754403921*^9}, {3.7334798599832973`*^9, 
+   3.733479860464315*^9}},ExpressionUUID->"121c551e-1990-40c0-8148-\
 69015428522b"],
 
-Cell["Passo 1", "Subsection",
+Cell[TextData[StyleBox["Passo 1",
+ FontColor->RGBColor[1, 0.5, 0]]], "Subsection",
  CellChangeTimes->{{3.73345878583292*^9, 3.733458842353058*^9}, 
    3.733458910900606*^9, {3.733460599504236*^9, 3.7334606069843407`*^9}, {
    3.733460647773308*^9, 3.733460648220216*^9}, {3.733460755334523*^9, 
@@ -18290,26 +18336,76 @@ Cell[TextData[{
  StyleBox["caso 1",
   FontSize->24,
   FontWeight->"Bold"],
- StyleBox[" :\tf ((a + b)/2) = 0   \[LongRightArrow]   a questo punto abbiamo \
-trovato esattamente uno zero fi f (x)",
+ StyleBox[" :\t ",
+  FontSize->24],
+ Cell[BoxData[
+  FormBox[
+   FractionBox[
+    RowBox[{
+     StyleBox["f",
+      FontSize->24], 
+     StyleBox["(",
+      FontSize->18], 
+     StyleBox[
+      RowBox[{"a", " ", "+", " ", "b"}],
+      FontSize->24], 
+     StyleBox[")",
+      FontSize->18]}], "2"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "7e3bb020-11a5-49f4-b472-67a2f9d04462"],
+ StyleBox["= 0   \[LongRightArrow]   a questo punto abbiamo trovato \
+esattamente uno zero fi f(x)",
   FontSize->24]
 }], "Subchapter",
  CellChangeTimes->{{3.733461316627524*^9, 3.733461316629232*^9}, 
-   3.7334617704685793`*^9},ExpressionUUID->"88a6a2de-270d-4688-b95f-\
+   3.7334617704685793`*^9, 3.7334796042388678`*^9, {3.733479772843302*^9, 
+   3.733479791633655*^9}, 
+   3.733479848698802*^9},ExpressionUUID->"88a6a2de-270d-4688-b95f-\
 ead7370f2264"],
 
 Cell[TextData[{
  StyleBox["caso 2",
   FontSize->24,
   FontWeight->"Bold"],
- StyleBox[" :\tf ((a + b)/2) ha lo stesso segno di f (a)   \[LongRightArrow]  \
- in questo caso possiamo ripetere il ragionamento precedente ed essere sicuri \
-che lo zero si trovi in ((a + b)/2)",
+ StyleBox[" :\t ",
+  FontSize->24],
+ Cell[BoxData[
+  FormBox[
+   FractionBox[
+    RowBox[{
+     StyleBox["f",
+      FontSize->24], 
+     StyleBox["(",
+      FontSize->18], 
+     StyleBox[
+      RowBox[{"a", " ", "+", " ", "b"}],
+      FontSize->24], 
+     StyleBox[")",
+      FontSize->18]}], "2"], TraditionalForm]],ExpressionUUID->
+  "81b89240-64c9-49ba-b08b-1e9820f9429a"],
+ StyleBox[" ha lo stesso segno di ",
+  FontSize->24],
+ StyleBox["f(a)",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox["   \[LongRightArrow]   in questo caso possiamo ripetere il \
+ragionamento precedente ed essere sicuri che lo zero si trovi in (",
+  FontSize->24],
+ Cell[BoxData[
+  FormBox[
+   StyleBox[
+    FractionBox[
+     RowBox[{"a", "+", "b"}], "2"],
+    FontSize->30,
+    FontWeight->"Regular"], TraditionalForm]],ExpressionUUID->
+  "25e9e235-e45a-4b47-a413-0378e38310cd"],
+ StyleBox[", b)",
   FontSize->24]
 }], "Subchapter",
  CellChangeTimes->{{3.733461325968534*^9, 3.733461325969677*^9}, 
-   3.733461774964733*^9, 
-   3.733462444565496*^9},ExpressionUUID->"bbfc0088-78d8-4e74-94af-\
+   3.733461774964733*^9, 3.733462444565496*^9, 3.733479609032045*^9, {
+   3.733479803304941*^9, 3.73347984122511*^9}, {3.7334803196620483`*^9, 
+   3.733480351472227*^9}},ExpressionUUID->"bbfc0088-78d8-4e74-94af-\
 15e0dd0780a5"],
 
 Cell[CellGroupData[{
@@ -18318,46 +18414,105 @@ Cell[TextData[{
  StyleBox["caso 3 ",
   FontSize->24,
   FontWeight->"Bold"],
- StyleBox[":\tf ((a + b)/2) ha lo stesso segno di f (b)   \[LongRightArrow]   \
-in questo caso possiamo ripetere il ragionamento precedente ed essere sicuri \
-che lo zero si trovi in (a, (a + b)/2)",
+ StyleBox[":\t ",
+  FontSize->24],
+ Cell[BoxData[
+  FormBox[
+   FractionBox[
+    RowBox[{
+     StyleBox["f",
+      FontSize->24], 
+     StyleBox["(",
+      FontSize->18], 
+     StyleBox[
+      RowBox[{"a", " ", "+", " ", "b"}],
+      FontSize->24], 
+     StyleBox[")",
+      FontSize->18]}], "2"], TraditionalForm]],ExpressionUUID->
+  "8614d96e-2b0e-498e-b6b7-3ddf65941883"],
+ StyleBox[" ha lo stesso segno di ",
+  FontSize->24],
+ StyleBox["f(b)",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox["   \[LongRightArrow]   in questo caso possiamo ripetere il \
+ragionamento precedente ed essere sicuri che lo zero si trovi in (a, ",
+  FontSize->24],
+ Cell[BoxData[
+  FormBox[
+   StyleBox[
+    FractionBox[
+     RowBox[{"a", "+", "b"}], "2"],
+    FontSize->30,
+    FontWeight->"Regular"], TraditionalForm]],ExpressionUUID->
+  "1d4e3191-f9e2-4bcb-b12c-c686ee59aa14"],
+ StyleBox[")",
   FontSize->24]
 }], "Subchapter",
  CellChangeTimes->{{3.733461335012662*^9, 3.733461335013783*^9}, 
-   3.7334617779410553`*^9, {3.7334624208551607`*^9, 
-   3.733462447465764*^9}},ExpressionUUID->"029c37de-b9b9-4830-ae91-\
+   3.7334617779410553`*^9, {3.7334624208551607`*^9, 3.733462447465764*^9}, 
+   3.733479613169778*^9, {3.7334798070443373`*^9, 3.7334798433324423`*^9}, {
+   3.733480346132963*^9, 
+   3.7334803474355717`*^9}},ExpressionUUID->"029c37de-b9b9-4830-ae91-\
 2c616bd60637"],
 
 Cell[CellGroupData[{
 
-Cell["Passo 2", "Subsection",
+Cell[TextData[StyleBox["Passo 2",
+ FontColor->RGBColor[1, 0.5, 0]]], "Subsection",
  CellChangeTimes->{{3.733461897883143*^9, 
   3.733461903411942*^9}},ExpressionUUID->"1a72bf33-abad-4a19-b705-\
 b0baead972de"],
 
-Cell["\<\
-Nei casi 2 e 3 ribattezziamo a e b gli estremi del nuovo intervallo (che ?? \
-ampiezza ?? met\[AGrave] del precedente) e ritorniao al passo 1.\
-\>", "Text",
- CellChangeTimes->{{3.733461917211794*^9, 
-  3.733461976620895*^9}},ExpressionUUID->"7821d24f-9c36-4f79-ab41-\
+Cell[TextData[{
+ "Nei casi 2 e 3 ribattezziamo ",
+ StyleBox["a",
+  FontSlant->"Italic"],
+ " e ",
+ StyleBox["b",
+  FontSlant->"Italic"],
+ " gli estremi del nuovo intervallo (la cui ampiezza sar\[AGrave] la met\
+\[AGrave] della precedente) e ritorniamo al passo 1."
+}], "Text",
+ CellChangeTimes->{{3.733461917211794*^9, 3.733461976620895*^9}, {
+  3.733481350733754*^9, 3.733481390687821*^9}, {3.733481761509169*^9, 
+  3.7334817867530823`*^9}},ExpressionUUID->"7821d24f-9c36-4f79-ab41-\
 512a164c9af4"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Passo 3", "Subsection",
+Cell[TextData[StyleBox["Passo 3",
+ FontColor->RGBColor[1, 0.5, 0]]], "Subsection",
  CellChangeTimes->{{3.733461997685594*^9, 
   3.733461999330846*^9}},ExpressionUUID->"0f64704c-93e5-4271-9218-\
 6704119b48af"],
 
-Cell["\<\
-Quando la differenza tra a e b \[EGrave] minore \
-dell\[CloseCurlyQuote]approssimazione voluta, assumiamo definitivamente come \
-zero di f il valore (a+b)/2.\
-\>", "Text",
- CellChangeTimes->{{3.73346202788305*^9, 
-  3.7334620964935627`*^9}},ExpressionUUID->"98d82256-d076-4a54-9e89-\
+Cell[TextData[{
+ "Quando la differenza tra ",
+ StyleBox["a",
+  FontSlant->"Italic"],
+ " e ",
+ StyleBox["b",
+  FontSlant->"Italic"],
+ " \[EGrave] minore dell\[CloseCurlyQuote]approssimazione voluta, assumiamo \
+definitivamente come zero di ",
+ StyleBox["f",
+  FontSlant->"Italic"],
+ " il valore ",
+ Cell[BoxData[
+  FormBox[
+   StyleBox[
+    FractionBox[
+     RowBox[{"a", "+", "b"}], "2"],
+    FontSize->30,
+    FontWeight->"Regular"], TraditionalForm]],ExpressionUUID->
+  "42db699c-91bd-46ae-a5b4-71de503ac061"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.73346202788305*^9, 3.7334620964935627`*^9}, {
+  3.733480514706089*^9, 3.733480515671917*^9}, {3.733480771775321*^9, 
+  3.733480781747715*^9}},ExpressionUUID->"98d82256-d076-4a54-9e89-\
 ed8fa0583732"],
 
 Cell["\t\t\t\t\t\t\t[GRAFICO]", "Text",
@@ -18376,7 +18531,10 @@ Cell["", "SlideShowNavigationBar",
 
 Cell[CellGroupData[{
 
-Cell["Metodo delle Secanti:", "Section",
+Cell[TextData[StyleBox["Metodo delle Secanti:",
+ FontColor->RGBColor[
+  0.8491798275730525, 0.02316319523918517, 0.030457007705806057`]]], "Section",\
+
  CellChangeTimes->{{3.733464849690166*^9, 3.733464858469364*^9}, {
   3.73346489440135*^9, 3.73346489989182*^9}, {3.733466661883437*^9, 
   3.733466662266575*^9}},ExpressionUUID->"0ee3c122-85d5-4603-a2b4-\
@@ -18386,16 +18544,40 @@ Cell[TextData[{
  "Un' altra tecnica per la ricerca dell\[CloseCurlyQuote]approssimazione \
 dello zero consiste nell\[CloseCurlyQuote]assumere come valore approssimato \
 dello zero del punto ",
- StyleBox["P=(px,py) ",
+ StyleBox["P = (px, py) ",
+  FontWeight->"Bold",
   FontSlant->"Italic"],
- "di intersezione tra il segmento che unisce i punti (a,f(a)) e (b,f(b)) e l\
-\[CloseCurlyQuote]asse ",
- StyleBox["x",
+ "di intersezione tra il segmento che unisce i punti ",
+ StyleBox["(a, f",
   FontSlant->"Italic"],
- ".\nP \[EGrave] la soluzione del sistema:"
+ StyleBox["(",
+  FontSize->18,
+  FontSlant->"Italic"],
+ StyleBox["a",
+  FontSlant->"Italic"],
+ StyleBox[")",
+  FontSize->18,
+  FontSlant->"Italic"],
+ StyleBox[")",
+  FontSlant->"Italic"],
+ " e ",
+ StyleBox["(b, f",
+  FontSlant->"Italic"],
+ StyleBox["(",
+  FontSize->18,
+  FontSlant->"Italic"],
+ StyleBox["b",
+  FontSlant->"Italic"],
+ StyleBox[")",
+  FontSize->18,
+  FontSlant->"Italic"],
+ StyleBox[")",
+  FontSlant->"Italic"],
+ " e l\[CloseCurlyQuote]asse x.\nP \[EGrave] la soluzione del sistema:"
 }], "Text",
- CellChangeTimes->{{3.7334649149520206`*^9, 
-  3.733465075748919*^9}},ExpressionUUID->"39e3cd76-57a0-46a3-9c9a-\
+ CellChangeTimes->{{3.7334649149520206`*^9, 3.733465075748919*^9}, {
+  3.733480935451373*^9, 3.733480937927433*^9}, {3.733480971457582*^9, 
+  3.733480974694356*^9}},ExpressionUUID->"39e3cd76-57a0-46a3-9c9a-\
 499fe81ca934"],
 
 Cell[BoxData[
@@ -18493,13 +18675,19 @@ Cell[TextData[{
 
 Cell[CellGroupData[{
 
-Cell["Passo 1", "Subsection",
+Cell[TextData[StyleBox["Passo 1",
+ FontColor->RGBColor[1, 0.5, 0]]], "Subsection",
  CellChangeTimes->{{3.733465664955963*^9, 3.73346567136609*^9}, {
   3.733466727420471*^9, 
   3.7334667368840513`*^9}},ExpressionUUID->"79154b0a-9565-45c7-ba3c-\
 3fd98e23eb1a"],
 
-Cell["Calcolando f(px) possiamo trovare:", "Text",
+Cell[TextData[{
+ "Calcolando ",
+ StyleBox["f(px) ",
+  FontSlant->"Italic"],
+ "possiamo trovare:"
+}], "Text",
  CellChangeTimes->{{3.7334656930074778`*^9, 
   3.7334657227543783`*^9}},ExpressionUUID->"2a911d74-3f2f-449a-8df7-\
 7599497e98f0"]
@@ -18507,11 +18695,21 @@ Cell["Calcolando f(px) possiamo trovare:", "Text",
 }, Open  ]],
 
 Cell[TextData[{
- StyleBox["caso 1 :\t",
+ StyleBox["caso 1 :",
   FontSize->24,
   FontWeight->"Bold"],
- StyleBox["f (px) = 0",
+ StyleBox["\t",
+  FontSize->24,
+  FontWeight->"Bold",
+  FontSlant->"Italic"],
+ StyleBox["f(px)",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox[" ",
   FontSize->24],
+ StyleBox["= 0",
+  FontSize->24,
+  FontSlant->"Italic"],
  StyleBox["   \[LongRightArrow]   ",
   FontSize->24,
   FontWeight->"Bold"],
@@ -18520,25 +18718,46 @@ Cell[TextData[{
  StyleBox[" ",
   FontSize->24,
   FontWeight->"Bold"],
- StyleBox["trovato esattamente uno zero di f(x)",
-  FontSize->24]
+ StyleBox["trovato esattamente uno ",
+  FontSize->24],
+ StyleBox["zero",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox[" di ",
+  FontSize->24],
+ StyleBox["f(x)",
+  FontSize->24,
+  FontSlant->"Italic"]
 }], "Subchapter",
  CellChangeTimes->{{3.733465729859861*^9, 3.733465855833745*^9}, 
-   3.733465891619403*^9},ExpressionUUID->"1de4062b-017a-4f22-9c01-\
+   3.733465891619403*^9, 
+   3.73348099198987*^9},ExpressionUUID->"1de4062b-017a-4f22-9c01-\
 a2625e11b27f"],
 
 Cell[TextData[{
  StyleBox["caso 2",
   FontSize->24,
   FontWeight->"Bold"],
- StyleBox[" :\tf (px) ha lo stesso segno di f(a)  \[LongRightArrow]   in \
-questo caso possiamo ripetere il ragionamento precedente ed essere sicuri che \
-lo zero si trovi in (px, b)",
-  FontSize->24]
+ StyleBox[" :\t",
+  FontSize->24],
+ StyleBox["f(px)",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox[" ha lo stesso segno di ",
+  FontSize->24],
+ StyleBox["f(a)",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox["  \[LongRightArrow]   in questo caso possiamo ripetere il \
+ragionamento precedente ed essere sicuri che lo zero si trovi in ",
+  FontSize->24],
+ StyleBox["(px, b)",
+  FontSize->24,
+  FontSlant->"Italic"]
 }], "Subchapter",
  CellChangeTimes->{{3.733461316627524*^9, 3.733461316629232*^9}, 
-   3.7334617704685793`*^9, {3.733465864759984*^9, 
-   3.733465966920721*^9}},ExpressionUUID->"9e4f2381-c813-46d0-80eb-\
+   3.7334617704685793`*^9, {3.733465864759984*^9, 3.733465966920721*^9}, 
+   3.733480995444385*^9},ExpressionUUID->"9e4f2381-c813-46d0-80eb-\
 9787c4d29c23"],
 
 Cell[CellGroupData[{
@@ -18547,27 +18766,47 @@ Cell[TextData[{
  StyleBox["caso 3",
   FontSize->24,
   FontWeight->"Bold"],
- StyleBox[" :\tf (px) ha lo stesso segno di f(b)   \[LongRightArrow]   in \
-questo caso possiamo ripetere il ragionamento precedente ed essere sicuri che \
-lo zero si trovi in (a, px)  ",
+ StyleBox[" :\t",
+  FontSize->24],
+ StyleBox["f(px)",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox[" ha lo stesso segno di ",
+  FontSize->24],
+ StyleBox["f(b)",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox["   \[LongRightArrow]   in questo caso possiamo ripetere il \
+ragionamento precedente ed essere sicuri che lo zero si trovi in ",
+  FontSize->24],
+ StyleBox["(a, px) ",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox[" ",
   FontSize->24]
 }], "Subchapter",
  CellChangeTimes->{{3.733461316627524*^9, 3.733461316629232*^9}, 
-   3.7334617704685793`*^9, {3.733465974598839*^9, 
-   3.733466039476398*^9}},ExpressionUUID->"c39e6271-b51e-4724-8d6f-\
+   3.7334617704685793`*^9, {3.733465974598839*^9, 3.733466039476398*^9}, 
+   3.733480996991593*^9},ExpressionUUID->"c39e6271-b51e-4724-8d6f-\
 1e21efe2bcee"],
 
 Cell[CellGroupData[{
 
-Cell["Passo 2 ", "Subsection",
+Cell[TextData[StyleBox["Passo 2 ",
+ FontColor->RGBColor[1, 0.5, 0]]], "Subsection",
  CellChangeTimes->{{3.733466061373088*^9, 
   3.733466067269372*^9}},ExpressionUUID->"2ac2c125-91d7-422c-b2a0-\
 ffb11f022e7b"],
 
-Cell["\<\
-Nei casi 2 e 3 ribattezziamo a e b gli estremmi del nuovo intervallo e \
-ritorniamo al passo 1.\
-\>", "Text",
+Cell[TextData[{
+ "Nei casi 2 e 3 ribattezziamo ",
+ StyleBox["a",
+  FontSlant->"Italic"],
+ " e ",
+ StyleBox["b",
+  FontSlant->"Italic"],
+ " gli estremmi del nuovo intervallo e ritorniamo al passo 1."
+}], "Text",
  CellChangeTimes->{{3.733466092854272*^9, 
   3.733466125412044*^9}},ExpressionUUID->"c6f98ea3-1ecd-4a45-ae1f-\
 dd9891fa8104"]
@@ -18575,16 +18814,28 @@ dd9891fa8104"]
 
 Cell[CellGroupData[{
 
-Cell["Passo 3", "Subsection",
+Cell[TextData[StyleBox["Passo 3",
+ FontColor->RGBColor[1, 0.5, 0]]], "Subsection",
  CellChangeTimes->{{3.733466132064481*^9, 
   3.733466133632633*^9}},ExpressionUUID->"1c56ba29-ddd1-438b-aed1-\
 0fcb10679386"],
 
-Cell["\<\
-Quando  la differenza tra a e b \[EGrave] monire \
-dell\[CloseCurlyQuote]approssimazione voluta, assumiamo definitivamente come \
-zero di f il valore px.\
-\>", "Text",
+Cell[TextData[{
+ "Quando  la differenza tra ",
+ StyleBox["a",
+  FontSlant->"Italic"],
+ " e ",
+ StyleBox["b",
+  FontSlant->"Italic"],
+ " \[EGrave] monire dell\[CloseCurlyQuote]approssimazione voluta, assumiamo \
+definitivamente come zero di ",
+ StyleBox["f",
+  FontSlant->"Italic"],
+ " il valore ",
+ StyleBox["px",
+  FontSlant->"Italic"],
+ "."
+}], "Text",
  CellChangeTimes->{{3.733466147511828*^9, 
   3.733466207213636*^9}},ExpressionUUID->"5d357b4a-4a5c-4d54-8ac7-\
 ca78468276ac"]
@@ -18600,7 +18851,10 @@ Cell["", "SlideShowNavigationBar",
 
 Cell[CellGroupData[{
 
-Cell["Metodo delle Tangenti :", "Section",
+Cell[TextData[StyleBox["Metodo delle Tangenti :",
+ FontColor->RGBColor[
+  0.8760204470893416, 0.020614938582436865`, 0.03160143434805829]]], "Section",\
+
  CellChangeTimes->{{3.7334662319351997`*^9, 
   3.7334662436502247`*^9}},ExpressionUUID->"b048c9d0-5a7f-4021-a956-\
 1148fd618a41"],
@@ -18610,30 +18864,72 @@ Cell[TextData[{
 \[CloseCurlyQuote]approssimazione dello zero consiste \
 nell\[CloseCurlyQuote]assumere come valore approssimato dello zero l\
 \[CloseCurlyQuote]ascissa del punto ",
- StyleBox["P=(px,py) ",
+ StyleBox["P = (px, py)",
+  FontWeight->"Bold",
   FontSlant->"Italic"],
- "di intersezione tra la retta ",
+ StyleBox[" ",
+  FontSlant->"Italic"],
+ "di intersezione tra la ",
+ StyleBox["retta ",
+  FontWeight->"Bold"],
+ StyleBox["r",
+  FontWeight->"Bold",
+  FontSlant->"Italic"],
+ StyleBox[" ",
+  FontWeight->"Bold"],
+ " tangente al punto ",
+ StyleBox["(a,f",
+  FontSlant->"Italic"],
+ StyleBox["(",
+  FontSize->18,
+  FontSlant->"Italic"],
+ StyleBox["a",
+  FontSlant->"Italic"],
+ StyleBox[")",
+  FontSize->18,
+  FontSlant->"Italic"],
+ StyleBox[")",
+  FontSlant->"Italic"],
+ " e l\[CloseCurlyQuote]asse ",
+ StyleBox["x",
+  FontSlant->"Italic"],
+ ".\nLa retta ",
  StyleBox["r",
   FontSlant->"Italic"],
- " tangente al punto a,f(a)) e l\[CloseCurlyQuote]asse x.\nLa retta ",
- StyleBox["r",
+ " ha coefficiente angolare ",
+ StyleBox["f(a)",
   FontSlant->"Italic"],
- " ha coefficiente angolare f(a) e passa per il punto (a,f(a)) ed ha quindi \
-equazione "
+ " e passa per il punto ",
+ StyleBox["(a,f",
+  FontSlant->"Italic"],
+ StyleBox["(",
+  FontSize->18,
+  FontSlant->"Italic"],
+ StyleBox["a",
+  FontSlant->"Italic"],
+ StyleBox[")",
+  FontSize->18,
+  FontSlant->"Italic"],
+ StyleBox[")",
+  FontSlant->"Italic"],
+ " ed ha quindi equazione: "
 }], "Text",
- CellChangeTimes->{{3.733466258824821*^9, 
-  3.733466433766939*^9}},ExpressionUUID->"005039ac-acae-42a5-b279-\
+ CellChangeTimes->{{3.733466258824821*^9, 3.733466433766939*^9}, {
+  3.733481195106739*^9, 
+  3.733481252846613*^9}},ExpressionUUID->"005039ac-acae-42a5-b279-\
 5125e22df4ae"],
 
 Cell[TextData[StyleBox["y - f(a) = f(a)*(x-a)",
- FontSize->18]], "InlineFormula",
+ FontSize->24,
+ FontSlant->"Italic"]], "InlineFormula",
  CellChangeTimes->{{3.733466475373313*^9, 3.733466505647421*^9}},
  TextAlignment->-0.5,ExpressionUUID->"cf0834c2-a44b-4dd7-ab5a-d0889b27d18c"],
 
-Cell["P \[EGrave] la soluzione del sistema", "Text",
+Cell["P \[EGrave] la soluzione del sistema:", "Text",
  CellChangeTimes->{{3.733466578096775*^9, 3.733466590586885*^9}, {
-  3.733466825746331*^9, 3.7334668667823267`*^9}, {3.733467000460294*^9, 
-  3.733467000935461*^9}},ExpressionUUID->"3de4e480-81aa-4547-9dd0-\
+   3.733466825746331*^9, 3.7334668667823267`*^9}, {3.733467000460294*^9, 
+   3.733467000935461*^9}, 
+   3.733481275884828*^9},ExpressionUUID->"3de4e480-81aa-4547-9dd0-\
 2e9065cc5bda"],
 
 Cell[BoxData[
@@ -18691,7 +18987,9 @@ Cell[BoxData[
 b96ce9a9b573"],
 
 Cell[TextData[{
- "Si ottiene px=a-",
+ "Si ottiene ",
+ StyleBox["px = a - ",
+  FontSlant->"Italic"],
  Cell[BoxData[
   FormBox[
    StyleBox[
@@ -18700,22 +18998,29 @@ Cell[TextData[{
      RowBox[{
       RowBox[{"f", "'"}], 
       RowBox[{"(", "a", ")"}]}]],
-    FontSize->24], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
-  "ebdd96c5-457b-4d8d-a0ca-834d3c20cfb1"]
+    FontSize->27,
+    FontWeight->"Regular"], TraditionalForm]],
+  FontSlant->"Italic",ExpressionUUID->"ebdd96c5-457b-4d8d-a0ca-834d3c20cfb1"]
 }], "Text",
- CellChangeTimes->{{3.733467053544086*^9, 
-  3.733467088963614*^9}},ExpressionUUID->"2501dbf3-4650-4822-9a4d-\
+ CellChangeTimes->{{3.733467053544086*^9, 3.733467088963614*^9}, {
+  3.7334812794014482`*^9, 
+  3.7334812858743153`*^9}},ExpressionUUID->"2501dbf3-4650-4822-9a4d-\
 3e0f74a68ff1"],
 
 Cell[CellGroupData[{
 
-Cell["Passo 1", "Subsection",
+Cell[TextData[StyleBox["Passo 1",
+ FontColor->RGBColor[1, 0.5, 0]]], "Subsection",
  CellChangeTimes->{{3.733467109772995*^9, 
   3.733467114281541*^9}},ExpressionUUID->"39e35697-f67b-4756-866c-\
 83a63a8de160"],
 
-Cell["Calcolando f(px) possiamo trovare:", "Text",
+Cell[TextData[{
+ "Calcolando ",
+ StyleBox["f(px) ",
+  FontSlant->"Italic"],
+ "possiamo trovare:"
+}], "Text",
  CellChangeTimes->{{3.733467129511115*^9, 
   3.7334671489571753`*^9}},ExpressionUUID->"798a7c7e-a984-4a41-8b86-\
 5deb76b506f0"]
@@ -18726,21 +19031,40 @@ Cell[TextData[{
  StyleBox["caso 1: ",
   FontSize->24,
   FontWeight->"Bold"],
- StyleBox["f(px) = 0   \[LongRightArrow]   a questo punto abbiamo trovato \
-esattamente uno zero fi f(x)",
-  FontSize->24]
+ StyleBox["f(px) = 0",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox["   \[LongRightArrow]   a questo punto abbiamo trovato esattamente \
+uno ",
+  FontSize->24],
+ StyleBox["zero",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox[" di ",
+  FontSize->24],
+ StyleBox["f(x)",
+  FontSize->24,
+  FontSlant->"Italic"]
 }], "Subchapter",
- CellChangeTimes->{{3.7334671566461363`*^9, 
-  3.733467233061902*^9}},ExpressionUUID->"6c6d352f-1f20-40c0-82ee-\
+ CellChangeTimes->{{3.7334671566461363`*^9, 3.733467233061902*^9}, {
+  3.733481854219838*^9, 
+  3.733481854847577*^9}},ExpressionUUID->"6c6d352f-1f20-40c0-82ee-\
 309cdb2dd32e"],
 
 Cell[CellGroupData[{
 
 Cell[TextData[{
- StyleBox["caso 2: ",
+ StyleBox["caso 2:",
   FontSize->24,
   FontWeight->"Bold"],
- StyleBox["f(px) \[NotEqual] 0   ",
+ StyleBox[" ",
+  FontSize->24,
+  FontWeight->"Bold",
+  FontSlant->"Italic"],
+ StyleBox["f(px) \[NotEqual] 0",
+  FontSize->24,
+  FontSlant->"Italic"],
+ StyleBox["   ",
   FontSize->24]
 }], "Subchapter",
  CellChangeTimes->{{3.733467274293994*^9, 3.733467320824656*^9}, 
@@ -18750,14 +19074,21 @@ Cell[TextData[{
 
 Cell[CellGroupData[{
 
-Cell["Passo 2", "Subsection",
+Cell[TextData[StyleBox["Passo 2",
+ FontColor->RGBColor[1, 0.5, 0]]], "Subsection",
  CellChangeTimes->{{3.733467419056098*^9, 
   3.7334674285248117`*^9}},ExpressionUUID->"1c3214d9-a759-428c-927a-\
 4e0319d37caf"],
 
-Cell["\<\
-Nel caso 2 ribattezziamo a il valore px e ritorniamo al passo 1.\
-\>", "Text",
+Cell[TextData[{
+ "Nel caso 2 ribattezziamo ",
+ StyleBox["a",
+  FontSlant->"Italic"],
+ " il valore ",
+ StyleBox["px",
+  FontSlant->"Italic"],
+ " e ritorniamo al passo 1."
+}], "Text",
  CellChangeTimes->{{3.733467443107795*^9, 
   3.7334674608095303`*^9}},ExpressionUUID->"659e3cb8-b639-4066-9fc8-\
 14d4ecfe8ec4"]
@@ -18765,35 +19096,132 @@ Nel caso 2 ribattezziamo a il valore px e ritorniamo al passo 1.\
 
 Cell[CellGroupData[{
 
-Cell["Passo 3", "Subsection",
+Cell[TextData[StyleBox["Passo 3",
+ FontColor->RGBColor[1, 0.5, 0]]], "Subsection",
  CellChangeTimes->{{3.733467528477867*^9, 
   3.733467530088484*^9}},ExpressionUUID->"d4df92b6-d200-4163-b2a1-\
 6d77e6930e2a"],
 
-Cell["\<\
-Quando la differenza tra px ed a \[EGrave] minore \
-dell\[CloseCurlyQuote]approssimazione voluta assumiamo definitivamente come \
-zero di f il valore px.\
-\>", "Text",
+Cell[TextData[{
+ "Quando la differenza tra ",
+ StyleBox["px",
+  FontSlant->"Italic"],
+ " ed ",
+ StyleBox["a",
+  FontSlant->"Italic"],
+ " \[EGrave] minore dell\[CloseCurlyQuote]approssimazione voluta assumiamo \
+definitivamente come zero di ",
+ StyleBox["f",
+  FontSlant->"Italic"],
+ " il valore ",
+ StyleBox["px",
+  FontSlant->"Italic"],
+ "."
+}], "Text",
  CellChangeTimes->{{3.733467573728045*^9, 
   3.733467612288534*^9}},ExpressionUUID->"ed883bfa-9f45-44e9-bb34-\
-de70611f6452"],
+de70611f6452"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "SlideShowNavigationBar",
+ CellTags->
+  "SlideShowHeader",ExpressionUUID->"c5f83d15-6d2a-48ba-938f-3d0c116e2cf0"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Teoria",
+ FontColor->RGBColor[0.8234836346990158, 0., 0.08627450980392157]]], "Section",\
+
+ CellChangeTimes->{{3.7334822156780453`*^9, 
+  3.733482228029831*^9}},ExpressionUUID->"6e363369-8c93-4480-9fe2-\
+5a8c88d3101a"],
 
 Cell[BoxData[
- RowBox[{"\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
-  "\[IndentingNewLine]", "\[IndentingNewLine]", 
-  "\[IndentingNewLine]"}]], "Input", "Input",
- CellChangeTimes->{{3.7334674732221127`*^9, 3.733467500660227*^9}, {
-  3.7334675544043093`*^9, 
-  3.7334675556395073`*^9}},ExpressionUUID->"a7b40579-88bb-49a0-bd71-\
-c3f8f65aaea7"]
-}, Open  ]]
+ RowBox[{
+  RowBox[{
+   RowBox[{"--", 
+    RowBox[{"-", " ", "cenni"}]}], " ", 
+   RowBox[{"Storici", " ", "--"}]}], "-"}]], "Input",
+ CellChangeTimes->{{3.733484621331933*^9, 3.733484621333012*^9}, {
+   3.733484680990885*^9, 3.733484761015973*^9}, 3.73348552806914*^9, {
+   3.733486122979456*^9, 3.733486131411861*^9}, 
+   3.733487019724372*^9},ExpressionUUID->"c0e5855d-5e7b-494a-b44c-\
+9a89ebcaf601"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.733485524419688*^9, 
+  3.733485524984873*^9}},ExpressionUUID->"db38f477-5818-4021-b31b-\
+948661491fc2"],
+
+Cell["\<\
+Il metodo delle tangenti, o metodo di Newton, pu\[OGrave] presentare delle \
+problematiche.
+
+Nell\[CloseCurlyQuote] esempio qui a fianco si pu\[OGrave] notare che il \
+metodo d\[AGrave] come seconda approssimazione dello zero un valore esterno \
+al dominio della funzione.
+
+
+[inseriamo l\[CloseCurlyQuote]esempio??]\
+\>", "Text",
+ CellChangeTimes->{{3.733486146063757*^9, 3.733486267021472*^9}, {
+  3.7334863009346*^9, 3.7334863121631413`*^9}, {3.733486714937776*^9, 
+  3.733486717160913*^9}},ExpressionUUID->"05a8557f-03e1-47fa-871d-\
+4086743206e9"],
+
+Cell[TextData[{
+ "In quest\[CloseCurlyQuote]altro esempio invece possiamo notare che non \
+\[EGrave] possibile calcolare neache una prima approssimazione dello zero ",
+ StyleBox["px = a - ",
+  FontWeight->"Bold",
+  FontSlant->"Italic"],
+ Cell[BoxData[
+  FormBox[
+   StyleBox[
+    FractionBox[
+     RowBox[{"f", "(", "a", ")"}], 
+     RowBox[{
+      RowBox[{"f", "'"}], 
+      RowBox[{"(", "a", ")"}]}]],
+    FontSize->28], TraditionalForm]],
+  FormatType->"TraditionalForm",
+  FontWeight->"Bold",ExpressionUUID->"1a74517f-2ed1-4508-a459-5e18a92bdd8e"],
+ " poich\[EAcute]  ",
+ StyleBox["f \[CloseCurlyQuote] (a)=0.",
+  FontSlant->"Italic"]
+}], "Text",
+ CellChangeTimes->{{3.733486321275858*^9, 3.7334864376760483`*^9}, {
+  3.7334867914555264`*^9, 3.733486810373961*^9}, {3.733486871488558*^9, 
+  3.7334868729944572`*^9}, {3.733487029779574*^9, 
+  3.73348712142034*^9}},ExpressionUUID->"8e04db45-3600-4a52-9be3-\
+a7fd4a6d4e53"],
+
+Cell["\<\
+Per ovviare a questi due possibili problemi possiamo limitarci ad usare \
+questo metodo con opportune restrizioni.
+Per prima cosa, come per tutti gli altri metodi, dobbiamo essere certi che \
+esista uno zero il che accade sempre se la funzione \[EGrave] continua ed \
+assume valori sia positivi che negativi.
+Inoltre chiediamo chiediamo che il dominio della funzione sia tutto \
+\[DoubleStruckCapitalR] , per essere certi di non trovare mai approssimazioni \
+dello zero che cadono fuori dal dominio.
+Infine chiediamo che la funzione ammetta derivata prima e seconda (entrambe \
+continue) e che la derivata prima, di volta in volta non si annulli nei punti \
+assunti come approssimazione.\
+\>", "Text",
+ CellChangeTimes->{{3.733486448531538*^9, 
+  3.733486692780766*^9}},ExpressionUUID->"4c3ef493-4f45-4944-9f46-\
+0a091194c9ce"]
 }, Open  ]]
 }, Open  ]]
 },
 ScreenStyleEnvironment->"SlideShow",
 WindowSize->{Full, Full},
-WindowMargins->{{18, Automatic}, {Automatic, 21}},
+WindowMargins->{{Automatic, 302}, {Automatic, 71}},
 TaggingRules->{"SlideShow" -> True},
 Magnification:>0.75 Inherited,
 FrontEndVersion->"11.2 for Mac OS X x86 (32-bit, 64-bit Kernel) (September \
@@ -18808,21 +19236,23 @@ CellTagsIndex->{
  "SlideShowHeader"->{
   Cell[580, 22, 4441, 99, 0, "SlideShowNavigationBar",ExpressionUUID->"73977808-b372-4344-b427-2a7b721a94b7",
    CellTags->"SlideShowHeader"],
-  Cell[1093545, 17983, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"b7760451-0455-4055-abcf-98485822b06d",
+  Cell[1093658, 17986, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"b7760451-0455-4055-abcf-98485822b06d",
    CellTags->"SlideShowHeader"],
-  Cell[1099089, 18117, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"d14e6e64-82ff-4590-a453-04b0d983af26",
+  Cell[1099202, 18120, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"d14e6e64-82ff-4590-a453-04b0d983af26",
    CellTags->"SlideShowHeader"],
-  Cell[1103949, 18252, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"784051dd-8111-4905-b1b6-ef7f083274d6",
+  Cell[1104536, 18275, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"784051dd-8111-4905-b1b6-ef7f083274d6",
    CellTags->"SlideShowHeader"],
-  Cell[1108225, 18372, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"2381fdf0-1b59-4387-8dc8-88aa2d584884",
+  Cell[1112314, 18527, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"2381fdf0-1b59-4387-8dc8-88aa2d584884",
    CellTags->"SlideShowHeader"],
-  Cell[1115140, 18596, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"bfd82759-eab6-4f02-908d-456573f19d32",
+  Cell[1121220, 18847, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"bfd82759-eab6-4f02-908d-456573f19d32",
+   CellTags->"SlideShowHeader"],
+  Cell[1128973, 19129, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"c5f83d15-6d2a-48ba-938f-3d0c116e2cf0",
    CellTags->"SlideShowHeader"]}
  }
 *)
 (*CellTagsIndex
 CellTagsIndex->{
- {"SlideShowHeader", 1121787, 18807}
+ {"SlideShowHeader", 1132720, 19235}
  }
 *)
 (*NotebookFileOutline
@@ -18830,125 +19260,136 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[580, 22, 4441, 99, 0, "SlideShowNavigationBar",ExpressionUUID->"73977808-b372-4344-b427-2a7b721a94b7",
  CellTags->"SlideShowHeader"],
-Cell[5024, 123, 175, 2, 138, "Title",ExpressionUUID->"bcc08b83-01a3-463f-a0a3-2bc637398695"],
-Cell[5202, 127, 1088306, 17851, 492, "Subtitle",ExpressionUUID->"d3f82a64-13ec-4ac1-a354-d77c4d5bf9eb"]
+Cell[5024, 123, 288, 5, 75, "Title",ExpressionUUID->"bcc08b83-01a3-463f-a0a3-2bc637398695"],
+Cell[5315, 130, 1088306, 17851, 477, "Subtitle",ExpressionUUID->"d3f82a64-13ec-4ac1-a354-d77c4d5bf9eb"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1093545, 17983, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"b7760451-0455-4055-abcf-98485822b06d",
+Cell[1093658, 17986, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"b7760451-0455-4055-abcf-98485822b06d",
  CellTags->"SlideShowHeader"],
 Cell[CellGroupData[{
-Cell[1093692, 17989, 178, 3, 97, "Section",ExpressionUUID->"050f3378-50a8-48a4-8834-1031df8b4198"],
-Cell[1093873, 17994, 276, 5, 41, "Text",ExpressionUUID->"0ad80bcc-1dca-4110-956a-0e06c29406a2"],
-Cell[1094152, 18001, 1661, 32, 18, "Text",ExpressionUUID->"981e5a6e-b826-4e5a-9a6d-30018d108ef9",
+Cell[1093805, 17992, 178, 3, 97, "Section",ExpressionUUID->"050f3378-50a8-48a4-8834-1031df8b4198"],
+Cell[1093986, 17997, 276, 5, 41, "Text",ExpressionUUID->"0ad80bcc-1dca-4110-956a-0e06c29406a2"],
+Cell[1094265, 18004, 1661, 32, 14, "Text",ExpressionUUID->"981e5a6e-b826-4e5a-9a6d-30018d108ef9",
  Evaluatable->True,
  CellOpen->False],
-Cell[1095816, 18035, 830, 19, 56, "Output",ExpressionUUID->"7603bf16-47e9-4c89-bc98-0914b85613de"],
-Cell[1096649, 18056, 337, 11, 67, "Text",ExpressionUUID->"40220977-90bd-42bb-bfd0-e020ce42f4dc"],
-Cell[1096989, 18069, 1600, 29, 18, "Text",ExpressionUUID->"9ce69a76-7a5d-4db2-949d-005db8c9eb25",
+Cell[1095929, 18038, 830, 19, 56, "Output",ExpressionUUID->"7603bf16-47e9-4c89-bc98-0914b85613de"],
+Cell[1096762, 18059, 337, 11, 67, "Text",ExpressionUUID->"40220977-90bd-42bb-bfd0-e020ce42f4dc"],
+Cell[1097102, 18072, 1600, 29, 14, "Text",ExpressionUUID->"9ce69a76-7a5d-4db2-949d-005db8c9eb25",
  Evaluatable->True,
  CellOpen->False],
-Cell[1098592, 18100, 448, 11, 56, "Output",ExpressionUUID->"87962e97-edb6-42eb-9bcb-03dd5e137d37"]
+Cell[1098705, 18103, 448, 11, 56, "Output",ExpressionUUID->"87962e97-edb6-42eb-9bcb-03dd5e137d37"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1099089, 18117, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"d14e6e64-82ff-4590-a453-04b0d983af26",
+Cell[1099202, 18120, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"d14e6e64-82ff-4590-a453-04b0d983af26",
  CellTags->"SlideShowHeader"],
 Cell[CellGroupData[{
-Cell[1099236, 18123, 380, 6, 97, "Section",ExpressionUUID->"5536b49f-4f48-4d3d-90f0-84ac7f590052",
+Cell[1099349, 18126, 380, 6, 97, "Section",ExpressionUUID->"5536b49f-4f48-4d3d-90f0-84ac7f590052",
  CellGroupingRules->{"GroupTogetherGrouping", 10000.}],
-Cell[1099619, 18131, 657, 15, 90, "Text",ExpressionUUID->"948fe2a7-b7f8-4eec-b5f5-cd11160ac8a4",
+Cell[1099732, 18134, 678, 15, 90, "Text",ExpressionUUID->"948fe2a7-b7f8-4eec-b5f5-cd11160ac8a4",
  CellGroupingRules->{"GroupTogetherGrouping", 10000.}],
-Cell[1100279, 18148, 907, 17, 60, "Text",ExpressionUUID->"50974d70-7376-441a-a70c-d7613e8b5e72",
+Cell[1100413, 18151, 953, 18, 60, "Text",ExpressionUUID->"50974d70-7376-441a-a70c-d7613e8b5e72",
  CellGroupingRules->{"GroupTogetherGrouping", 10000.}]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1101223, 18170, 185, 4, 71, "Subsection",ExpressionUUID->"5e6afd63-1f4a-4989-84fe-16999c0ce7a4"],
-Cell[1101411, 18176, 848, 15, 90, "Text",ExpressionUUID->"39884396-8367-4a62-8ebc-ddc0c2bf4240"],
-Cell[1102262, 18193, 170, 2, 38, "Text",ExpressionUUID->"04fe836b-5ab7-4df3-a99d-5fd7722749eb"],
-Cell[1102435, 18197, 533, 20, 38, "Text",ExpressionUUID->"9fddcab8-e0df-4802-94a5-8926e5c6bfd0"],
-Cell[1102971, 18219, 182, 2, 38, "Text",ExpressionUUID->"34fb34a0-047c-43e8-9d04-896955c22bf1"],
-Cell[1103156, 18223, 473, 15, 38, "Text",ExpressionUUID->"6fd0dbe4-bc8d-4fc9-8a71-889c7cfc0a66"],
-Cell[1103632, 18240, 268, 6, 38, "Text",ExpressionUUID->"66872013-9f72-4c5a-9c62-126278abfec8"]
+Cell[1101403, 18174, 185, 4, 71, "Subsection",ExpressionUUID->"5e6afd63-1f4a-4989-84fe-16999c0ce7a4"],
+Cell[1101591, 18180, 900, 16, 90, "Text",ExpressionUUID->"39884396-8367-4a62-8ebc-ddc0c2bf4240"],
+Cell[1102494, 18198, 170, 2, 38, "Text",ExpressionUUID->"04fe836b-5ab7-4df3-a99d-5fd7722749eb"],
+Cell[1102667, 18202, 625, 24, 38, "Text",ExpressionUUID->"9fddcab8-e0df-4802-94a5-8926e5c6bfd0"],
+Cell[1103295, 18228, 182, 2, 38, "Text",ExpressionUUID->"34fb34a0-047c-43e8-9d04-896955c22bf1"],
+Cell[1103480, 18232, 736, 29, 38, "Text",ExpressionUUID->"6fd0dbe4-bc8d-4fc9-8a71-889c7cfc0a66"],
+Cell[1104219, 18263, 268, 6, 38, "Text",ExpressionUUID->"66872013-9f72-4c5a-9c62-126278abfec8"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1103949, 18252, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"784051dd-8111-4905-b1b6-ef7f083274d6",
+Cell[1104536, 18275, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"784051dd-8111-4905-b1b6-ef7f083274d6",
  CellTags->"SlideShowHeader"],
 Cell[CellGroupData[{
-Cell[1104096, 18258, 549, 8, 97, "Section",ExpressionUUID->"5b5ac152-a1ef-4eed-a28f-a1179036d822"],
-Cell[1104648, 18268, 511, 9, 64, "Text",ExpressionUUID->"121c551e-1990-40c0-8148-69015428522b"],
-Cell[1105162, 18279, 441, 6, 71, "Subsection",ExpressionUUID->"5b5cb7c3-08c8-4551-ba51-82f9c2b299af"]
+Cell[1104683, 18281, 664, 11, 97, "Section",ExpressionUUID->"5b5ac152-a1ef-4eed-a28f-a1179036d822"],
+Cell[1105350, 18294, 989, 28, 77, "Text",ExpressionUUID->"121c551e-1990-40c0-8148-69015428522b"],
+Cell[1106342, 18324, 494, 7, 71, "Subsection",ExpressionUUID->"5b5cb7c3-08c8-4551-ba51-82f9c2b299af"]
 }, Open  ]],
-Cell[1105618, 18288, 379, 10, 45, "Subchapter",ExpressionUUID->"88a6a2de-270d-4688-b95f-ead7370f2264"],
-Cell[1106000, 18300, 481, 12, 34, "Subchapter",ExpressionUUID->"bbfc0088-78d8-4e74-94af-15e0dd0780a5"],
+Cell[1106851, 18334, 870, 29, 63, "Subchapter",ExpressionUUID->"88a6a2de-270d-4688-b95f-ead7370f2264"],
+Cell[1107724, 18365, 1283, 43, 52, "Subchapter",ExpressionUUID->"bbfc0088-78d8-4e74-94af-15e0dd0780a5"],
 Cell[CellGroupData[{
-Cell[1106506, 18316, 512, 12, 34, "Subchapter",ExpressionUUID->"029c37de-b9b9-4830-ae91-2c616bd60637"],
+Cell[1109032, 18412, 1320, 44, 52, "Subchapter",ExpressionUUID->"029c37de-b9b9-4830-ae91-2c616bd60637"],
 Cell[CellGroupData[{
-Cell[1107043, 18332, 155, 3, 71, "Subsection",ExpressionUUID->"1a72bf33-abad-4a19-b705-b0baead972de"],
-Cell[1107201, 18337, 292, 6, 38, "Text",ExpressionUUID->"7821d24f-9c36-4f79-ab41-512a164c9af4"]
+Cell[1110377, 18460, 208, 4, 71, "Subsection",ExpressionUUID->"1a72bf33-abad-4a19-b705-b0baead972de"],
+Cell[1110588, 18466, 498, 13, 38, "Text",ExpressionUUID->"7821d24f-9c36-4f79-ab41-512a164c9af4"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1107530, 18348, 155, 3, 71, "Subsection",ExpressionUUID->"0f64704c-93e5-4271-9218-6704119b48af"],
-Cell[1107688, 18353, 308, 7, 38, "Text",ExpressionUUID->"98d82256-d076-4a54-9e89-ed8fa0583732"],
-Cell[1107999, 18362, 165, 3, 38, "Text",ExpressionUUID->"979d8b53-f370-48f6-a5f0-4bc455325a4e"]
+Cell[1111123, 18484, 208, 4, 71, "Subsection",ExpressionUUID->"0f64704c-93e5-4271-9218-6704119b48af"],
+Cell[1111334, 18490, 751, 25, 51, "Text",ExpressionUUID->"98d82256-d076-4a54-9e89-ed8fa0583732"],
+Cell[1112088, 18517, 165, 3, 38, "Text",ExpressionUUID->"979d8b53-f370-48f6-a5f0-4bc455325a4e"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1108225, 18372, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"2381fdf0-1b59-4387-8dc8-88aa2d584884",
+Cell[1112314, 18527, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"2381fdf0-1b59-4387-8dc8-88aa2d584884",
  CellTags->"SlideShowHeader"],
 Cell[CellGroupData[{
-Cell[1108372, 18378, 259, 4, 97, "Section",ExpressionUUID->"0ee3c122-85d5-4603-a2b4-e8b30d4371fd"],
-Cell[1108634, 18384, 567, 14, 90, "Text",ExpressionUUID->"39e3cd76-57a0-46a3-9c9a-499fe81ca934"],
-Cell[1109204, 18400, 2109, 62, 74, "Input",ExpressionUUID->"9378edd2-ea15-4c42-a7b0-687920f787d8"],
-Cell[1111316, 18464, 152, 3, 36, "Input",ExpressionUUID->"df32ac36-476e-405a-9f2c-9d51bd971d6e"],
-Cell[1111471, 18469, 687, 22, 51, "Text",ExpressionUUID->"6911ca55-384b-4119-bd89-786f8c73f9d0"],
+Cell[1112461, 18533, 370, 7, 97, "Section",ExpressionUUID->"0ee3c122-85d5-4603-a2b4-e8b30d4371fd"],
+Cell[1112834, 18542, 1098, 38, 90, "Text",ExpressionUUID->"39e3cd76-57a0-46a3-9c9a-499fe81ca934"],
+Cell[1113935, 18582, 2109, 62, 74, "Input",ExpressionUUID->"9378edd2-ea15-4c42-a7b0-687920f787d8"],
+Cell[1116047, 18646, 152, 3, 36, "Input",ExpressionUUID->"df32ac36-476e-405a-9f2c-9d51bd971d6e"],
+Cell[1116202, 18651, 687, 22, 51, "Text",ExpressionUUID->"6911ca55-384b-4119-bd89-786f8c73f9d0"],
 Cell[CellGroupData[{
-Cell[1112183, 18495, 205, 4, 71, "Subsection",ExpressionUUID->"79154b0a-9565-45c7-ba3c-3fd98e23eb1a"],
-Cell[1112391, 18501, 180, 3, 38, "Text",ExpressionUUID->"2a911d74-3f2f-449a-8df7-7599497e98f0"]
+Cell[1116914, 18677, 258, 5, 71, "Subsection",ExpressionUUID->"79154b0a-9565-45c7-ba3c-3fd98e23eb1a"],
+Cell[1117175, 18684, 238, 8, 38, "Text",ExpressionUUID->"2a911d74-3f2f-449a-8df7-7599497e98f0"]
 }, Open  ]]
 }, Open  ]],
-Cell[1112598, 18508, 535, 19, 45, "Subchapter",ExpressionUUID->"1de4062b-017a-4f22-9c01-a2625e11b27f"],
-Cell[1113136, 18529, 494, 12, 34, "Subchapter",ExpressionUUID->"9e4f2381-c813-46d0-80eb-9787c4d29c23"],
+Cell[1117440, 18696, 882, 38, 45, "Subchapter",ExpressionUUID->"1de4062b-017a-4f22-9c01-a2625e11b27f"],
+Cell[1118325, 18736, 737, 24, 34, "Subchapter",ExpressionUUID->"9e4f2381-c813-46d0-80eb-9787c4d29c23"],
 Cell[CellGroupData[{
-Cell[1113655, 18545, 497, 12, 34, "Subchapter",ExpressionUUID->"c39e6271-b51e-4724-8d6f-1e21efe2bcee"],
+Cell[1119087, 18764, 771, 26, 34, "Subchapter",ExpressionUUID->"c39e6271-b51e-4724-8d6f-1e21efe2bcee"],
 Cell[CellGroupData[{
-Cell[1114177, 18561, 156, 3, 71, "Subsection",ExpressionUUID->"2ac2c125-91d7-422c-b2a0-ffb11f022e7b"],
-Cell[1114336, 18566, 245, 6, 38, "Text",ExpressionUUID->"c6f98ea3-1ecd-4a45-ae1f-dd9891fa8104"]
+Cell[1119883, 18794, 209, 4, 71, "Subsection",ExpressionUUID->"2ac2c125-91d7-422c-b2a0-ffb11f022e7b"],
+Cell[1120095, 18800, 336, 11, 38, "Text",ExpressionUUID->"c6f98ea3-1ecd-4a45-ae1f-dd9891fa8104"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1114618, 18577, 155, 3, 71, "Subsection",ExpressionUUID->"1c56ba29-ddd1-438b-aed1-0fcb10679386"],
-Cell[1114776, 18582, 303, 7, 38, "Text",ExpressionUUID->"5d357b4a-4a5c-4d54-8ac7-ca78468276ac"]
+Cell[1120468, 18816, 208, 4, 41, "Subsection",ExpressionUUID->"1c56ba29-ddd1-438b-aed1-0fcb10679386"],
+Cell[1120679, 18822, 480, 18, 27, "Text",ExpressionUUID->"5d357b4a-4a5c-4d54-8ac7-ca78468276ac"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1115140, 18596, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"bfd82759-eab6-4f02-908d-456573f19d32",
+Cell[1121220, 18847, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"bfd82759-eab6-4f02-908d-456573f19d32",
  CellTags->"SlideShowHeader"],
 Cell[CellGroupData[{
-Cell[1115287, 18602, 172, 3, 97, "Section",ExpressionUUID->"b048c9d0-5a7f-4021-a956-1148fd618a41"],
-Cell[1115462, 18607, 705, 18, 90, "Text",ExpressionUUID->"005039ac-acae-42a5-b279-5125e22df4ae"],
-Cell[1116170, 18627, 224, 3, 24, "InlineFormula",ExpressionUUID->"cf0834c2-a44b-4dd7-ab5a-d0889b27d18c"],
-Cell[1116397, 18632, 275, 4, 38, "Text",ExpressionUUID->"3de4e480-81aa-4547-9dd0-2e9065cc5bda"],
-Cell[1116675, 18638, 1827, 52, 56, "Input",ExpressionUUID->"e6869c45-de76-4904-b841-b96ce9a9b573"],
-Cell[1118505, 18692, 470, 16, 49, "Text",ExpressionUUID->"2501dbf3-4650-4822-9a4d-3e0f74a68ff1"],
+Cell[1121367, 18853, 283, 6, 51, "Section",ExpressionUUID->"b048c9d0-5a7f-4021-a956-1148fd618a41"],
+Cell[1121653, 18861, 1454, 58, 68, "Text",ExpressionUUID->"005039ac-acae-42a5-b279-5125e22df4ae"],
+Cell[1123110, 18921, 246, 4, 25, "InlineFormula",ExpressionUUID->"cf0834c2-a44b-4dd7-ab5a-d0889b27d18c"],
+Cell[1123359, 18927, 304, 5, 27, "Text",ExpressionUUID->"3de4e480-81aa-4547-9dd0-2e9065cc5bda"],
+Cell[1123666, 18934, 1827, 52, 35, "Input",ExpressionUUID->"e6869c45-de76-4904-b841-b96ce9a9b573"],
+Cell[1125496, 18988, 579, 19, 46, "Text",ExpressionUUID->"2501dbf3-4650-4822-9a4d-3e0f74a68ff1"],
 Cell[CellGroupData[{
-Cell[1119000, 18712, 155, 3, 71, "Subsection",ExpressionUUID->"39e35697-f67b-4756-866c-83a63a8de160"],
-Cell[1119158, 18717, 178, 3, 38, "Text",ExpressionUUID->"798a7c7e-a984-4a41-8b86-5deb76b506f0"]
+Cell[1126100, 19011, 208, 4, 41, "Subsection",ExpressionUUID->"39e35697-f67b-4756-866c-83a63a8de160"],
+Cell[1126311, 19017, 236, 8, 27, "Text",ExpressionUUID->"798a7c7e-a984-4a41-8b86-5deb76b506f0"]
 }, Open  ]]
 }, Open  ]],
-Cell[1119363, 18724, 345, 10, 45, "Subchapter",ExpressionUUID->"6c6d352f-1f20-40c0-82ee-309cdb2dd32e"],
+Cell[1126574, 19029, 587, 22, 46, "Subchapter",ExpressionUUID->"6c6d352f-1f20-40c0-82ee-309cdb2dd32e"],
 Cell[CellGroupData[{
-Cell[1119733, 18738, 321, 10, 34, "Subchapter",ExpressionUUID->"882b2844-98ba-4154-a8b9-8f5edc10e346"],
+Cell[1127186, 19055, 451, 17, 35, "Subchapter",ExpressionUUID->"882b2844-98ba-4154-a8b9-8f5edc10e346"],
 Cell[CellGroupData[{
-Cell[1120079, 18752, 157, 3, 71, "Subsection",ExpressionUUID->"1c3214d9-a759-428c-927a-4e0319d37caf"],
-Cell[1120239, 18757, 216, 5, 38, "Text",ExpressionUUID->"659e3cb8-b639-4066-9fc8-14d4ecfe8ec4"]
+Cell[1127662, 19076, 210, 4, 41, "Subsection",ExpressionUUID->"1c3214d9-a759-428c-927a-4e0319d37caf"],
+Cell[1127875, 19082, 309, 11, 27, "Text",ExpressionUUID->"659e3cb8-b639-4066-9fc8-14d4ecfe8ec4"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1120492, 18767, 155, 3, 71, "Subsection",ExpressionUUID->"d4df92b6-d200-4163-b2a1-6d77e6930e2a"],
-Cell[1120650, 18772, 303, 7, 38, "Text",ExpressionUUID->"ed883bfa-9f45-44e9-bb34-de70611f6452"],
-Cell[1120956, 18781, 368, 7, 151, "Input",ExpressionUUID->"a7b40579-88bb-49a0-bd71-c3f8f65aaea7"]
+Cell[1128221, 19098, 208, 4, 41, "Subsection",ExpressionUUID->"d4df92b6-d200-4163-b2a1-6d77e6930e2a"],
+Cell[1128432, 19104, 480, 18, 38, "Text",ExpressionUUID->"ed883bfa-9f45-44e9-bb34-de70611f6452"]
 }, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1128973, 19129, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"c5f83d15-6d2a-48ba-938f-3d0c116e2cf0",
+ CellTags->"SlideShowHeader"],
+Cell[CellGroupData[{
+Cell[1129120, 19135, 242, 5, 97, "Section",ExpressionUUID->"6e363369-8c93-4480-9fe2-5a8c88d3101a"],
+Cell[1129365, 19142, 417, 10, 36, "Input",ExpressionUUID->"c0e5855d-5e7b-494a-b44c-9a89ebcaf601"],
+Cell[1129785, 19154, 152, 3, 36, InheritFromParent,ExpressionUUID->"db38f477-5818-4021-b31b-948661491fc2"],
+Cell[1129940, 19159, 560, 14, 167, "Text",ExpressionUUID->"05a8557f-03e1-47fa-871d-4086743206e9"],
+Cell[1130503, 19175, 925, 25, 56, "Text",ExpressionUUID->"8e04db45-3600-4a52-9be3-a7fd4a6d4e53"],
+Cell[1131431, 19202, 837, 15, 141, "Text",ExpressionUUID->"4c3ef493-4f45-4944-9f46-0a091194c9ce"]
 }, Open  ]]
 }, Open  ]]
 }
