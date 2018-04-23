@@ -1,5 +1,5 @@
 (* :Title: LearningNewtonsMethod.m *)
-(* :Summary: A package providing function useful for learning newton's method )
+(* :Summary: A package providing function useful for learning newton's method *)
 (* :Author:	Matteo Sanfelici, Anna Avena,	Giulia Cantini 	*)
 (* :Copyright: © <2018> by <Matteo Sanfelici> *)
 (* :Package Version: 1.0 *)

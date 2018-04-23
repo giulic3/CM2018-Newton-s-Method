@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[   1220277,      20196]
-NotebookOptionsPosition[   1216467,      20117]
-NotebookOutlinePosition[   1217560,      20147]
-CellTagsIndexPosition[   1217478,      20142]
+NotebookDataLength[   1224978,      20294]
+NotebookOptionsPosition[   1220737,      20209]
+NotebookOutlinePosition[   1221830,      20239]
+CellTagsIndexPosition[   1221748,      20234]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -17991,32 +17991,124 @@ Cell["Inizializzazioni e Configurazione", "Section",
   3.733381854593607*^9}},ExpressionUUID->"050f3378-50a8-48a4-8834-\
 1031df8b4198"],
 
+Cell[TextData[StyleBox["Cliccando su questo tasto andrai ad impostare la \
+directory di lavoro da cui importare il package.",
+ FontSize->25]], "Text",
+ CellChangeTimes->{{3.733460293422687*^9, 
+  3.733460331314958*^9}},ExpressionUUID->"0ad80bcc-1dca-4110-956a-\
+0e06c29406a2"],
+
 Cell[BoxData[
- RowBox[{"Button", "[", 
-  RowBox[{"\"\<Imposta la directory di root\>\"", ",", 
-   RowBox[{"SetDirectory", "[", 
-    RowBox[{"NotebookDirectory", "[", "]"}], "]"}]}], "]"}]], "Text",
- Editable->False,
+ RowBox[{"Button", "[", "\[IndentingNewLine]", 
+  RowBox[{
+  "\"\<Imposta la directory di lavoro\>\"", ",", "\[IndentingNewLine]", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"SetDirectory", "[", 
+      RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+     "MessageDialog", "[", 
+      "\"\<Hai impostato la directory di lavoro correttamente\>\"", "]"}]}], 
+    "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"BaseStyle", "\[Rule]", 
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{"\"\<GenericButton\>\"", ",", "\[IndentingNewLine]", 
+      RowBox[{"FontFamily", "\[Rule]", "\"\<SourceSansPro\>\""}], ",", 
+      "\[IndentingNewLine]", "30"}], "\[IndentingNewLine]", "}"}]}]}], 
+  "\[IndentingNewLine]", "]"}]], "Text",
  Evaluatable->True,
  CellOpen->False,
  CellChangeTimes->{{3.733381862267103*^9, 3.733381986059875*^9}, {
-  3.7333825222201557`*^9, 3.7333825501218243`*^9}, {3.733382595539011*^9, 
-  3.733382598996916*^9}, {3.733382653963705*^9, 
-  3.733382685618058*^9}},ExpressionUUID->"981e5a6e-b826-4e5a-9a6d-\
+   3.7333825222201557`*^9, 3.7333825501218243`*^9}, {3.733382595539011*^9, 
+   3.733382598996916*^9}, {3.733382653963705*^9, 3.733382685618058*^9}, {
+   3.7334581587820797`*^9, 3.733458193293891*^9}, {3.73345823241534*^9, 
+   3.733458272311408*^9}, 3.733458520410215*^9, {3.7334585841919203`*^9, 
+   3.733458593407207*^9}, {3.73345865733407*^9, 3.733458730373898*^9}, {
+   3.733458777681108*^9, 3.733458778060639*^9}, {3.733459177033849*^9, 
+   3.733459191714251*^9}, {3.733459305129634*^9, 3.733459314857288*^9}, {
+   3.733459871794725*^9, 3.7334598968617*^9}, {3.733460147795249*^9, 
+   3.733460237915942*^9}, {3.7334605381717978`*^9, 
+   3.733460543472722*^9}},ExpressionUUID->"981e5a6e-b826-4e5a-9a6d-\
 30018d108ef9"],
 
 Cell[BoxData[
- ButtonBox["\<\"Imposta la directory di root\"\>",
+ ButtonBox["\<\"Imposta la directory di lavoro\"\>",
   Appearance->Automatic,
-  ButtonFunction:>SetDirectory[
-    NotebookDirectory[]],
+  BaseStyle->{"GenericButton", FontFamily -> "SourceSansPro", 30},
+  ButtonFunction:>{
+    SetDirectory[
+     NotebookDirectory[]], 
+    MessageDialog["Hai impostato la directory di lavoro correttamente"]},
   Evaluator->Automatic,
   Method->"Preemptive"]], "Output",
  Editable->False,
  Deployed->True,
- CellChangeTimes->{3.73338269200528*^9, 
-  3.7333828309956627`*^9},ExpressionUUID->"b2c45f94-4b51-4010-99e9-\
-d73a0abe688d"]
+ CellChangeTimes->{
+  3.73338269200528*^9, 3.7333828309956627`*^9, 3.733458195969819*^9, {
+   3.733458515468981*^9, 3.733458521173465*^9}, 3.733458594355906*^9, {
+   3.7334586908474207`*^9, 3.733458731368729*^9}, 3.733459344857831*^9, 
+   3.733459551368556*^9, 3.733459877421935*^9, 3.733460177677484*^9, 
+   3.733460208555201*^9, 3.733460240386579*^9, 
+   3.733460608377159*^9},ExpressionUUID->"7603bf16-47e9-4c89-bc98-\
+0914b85613de"],
+
+Cell[TextData[{
+ "\n",
+ StyleBox["Cliccando su questo tasto caricherai il package ",
+  FontSize->25],
+ StyleBox["LearningNewtonsMethod.m",
+  FontSize->25,
+  FontWeight->"Bold",
+  FontSlant->"Italic"]
+}], "Text",
+ CellChangeTimes->{{3.733460402778386*^9, 
+  3.733460436922847*^9}},ExpressionUUID->"40220977-90bd-42bb-bfd0-\
+e020ce42f4dc"],
+
+Cell[BoxData[
+ RowBox[{"Button", "[", "\[IndentingNewLine]", 
+  RowBox[{"\"\<Carica Package\>\"", ",", "\[IndentingNewLine]", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Get", "[", "\"\<LearningNewtonsMethod.m\>\"", "]"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+     "MessageDialog", "[", "\"\<Hai caricato il package correttamente\>\"", 
+      "]"}]}], "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"BaseStyle", "\[Rule]", 
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{"\"\<GenericButton\>\"", ",", "\[IndentingNewLine]", 
+      RowBox[{"FontFamily", "\[Rule]", "\"\<SourceSansPro\>\""}], ",", 
+      "\[IndentingNewLine]", "30"}], "\[IndentingNewLine]", "}"}]}]}], 
+  "\[IndentingNewLine]", "]"}]], "Text",
+ Evaluatable->True,
+ CellOpen->False,
+ CellChangeTimes->{{3.733381862267103*^9, 3.733381986059875*^9}, {
+   3.7333825222201557`*^9, 3.7333825501218243`*^9}, {3.733382595539011*^9, 
+   3.733382598996916*^9}, {3.733382653963705*^9, 3.733382685618058*^9}, {
+   3.7334581587820797`*^9, 3.733458193293891*^9}, {3.73345823241534*^9, 
+   3.733458272311408*^9}, 3.733458520410215*^9, {3.7334585841919203`*^9, 
+   3.733458593407207*^9}, {3.73345865733407*^9, 3.733458730373898*^9}, {
+   3.733458777681108*^9, 3.733458778060639*^9}, {3.733459177033849*^9, 
+   3.733459191714251*^9}, {3.733459305129634*^9, 3.733459314857288*^9}, {
+   3.733459871794725*^9, 3.7334598968617*^9}, {3.733460147795249*^9, 
+   3.733460237915942*^9}, {3.733460550901672*^9, 
+   3.733460604085299*^9}},ExpressionUUID->"9ce69a76-7a5d-4db2-949d-\
+005db8c9eb25"],
+
+Cell[BoxData[
+ ButtonBox["\<\"Carica Package\"\>",
+  Appearance->Automatic,
+  BaseStyle->{"GenericButton", FontFamily -> "SourceSansPro", 30},
+  ButtonFunction:>{
+    Get["LearningNewtonsMethod.m"], 
+    MessageDialog["Hai caricato il package correttamente"]},
+  Evaluator->Automatic,
+  Method->"Preemptive"]], "Output",
+ CellChangeTimes->{{3.733460596220128*^9, 
+  3.7334606108308992`*^9}},ExpressionUUID->"87962e97-edb6-42eb-9bcb-\
+03dd5e137d37"]
 }, Open  ]]
 }, Open  ]],
 
@@ -20133,15 +20225,15 @@ CellTagsIndex->{
    CellTags->"SlideShowHeader"],
   Cell[1093453, 17982, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"b7760451-0455-4055-abcf-98485822b06d",
    CellTags->"SlideShowHeader"],
-  Cell[1094727, 18024, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"d14e6e64-82ff-4590-a453-04b0d983af26",
+  Cell[1098997, 18116, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"d14e6e64-82ff-4590-a453-04b0d983af26",
    CellTags->"SlideShowHeader"],
-  Cell[1097852, 18105, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"784051dd-8111-4905-b1b6-ef7f083274d6",
+  Cell[1102122, 18197, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"784051dd-8111-4905-b1b6-ef7f083274d6",
    CellTags->"SlideShowHeader"]}
  }
 *)
 (*CellTagsIndex
 CellTagsIndex->{
- {"SlideShowHeader", 1216867, 20130}
+ {"SlideShowHeader", 1221137, 20222}
  }
 *)
 (*NotebookFileOutline
@@ -20157,45 +20249,51 @@ Cell[1093453, 17982, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"b77604
  CellTags->"SlideShowHeader"],
 Cell[CellGroupData[{
 Cell[1093600, 17988, 178, 3, 88, "Section",ExpressionUUID->"050f3378-50a8-48a4-8834-1031df8b4198"],
-Cell[1093781, 17993, 527, 12, 18, "Text",ExpressionUUID->"981e5a6e-b826-4e5a-9a6d-30018d108ef9",
+Cell[1093781, 17993, 276, 5, 41, "Text",ExpressionUUID->"0ad80bcc-1dca-4110-956a-0e06c29406a2"],
+Cell[1094060, 18000, 1661, 32, 18, "Text",ExpressionUUID->"981e5a6e-b826-4e5a-9a6d-30018d108ef9",
  Evaluatable->True,
  CellOpen->False],
-Cell[1094311, 18007, 367, 11, 40, "Output",ExpressionUUID->"b2c45f94-4b51-4010-99e9-d73a0abe688d"]
+Cell[1095724, 18034, 830, 19, 60, "Output",ExpressionUUID->"7603bf16-47e9-4c89-bc98-0914b85613de"],
+Cell[1096557, 18055, 337, 11, 68, "Text",ExpressionUUID->"40220977-90bd-42bb-bfd0-e020ce42f4dc"],
+Cell[1096897, 18068, 1600, 29, 18, "Text",ExpressionUUID->"9ce69a76-7a5d-4db2-949d-005db8c9eb25",
+ Evaluatable->True,
+ CellOpen->False],
+Cell[1098500, 18099, 448, 11, 60, "Output",ExpressionUUID->"87962e97-edb6-42eb-9bcb-03dd5e137d37"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1094727, 18024, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"d14e6e64-82ff-4590-a453-04b0d983af26",
+Cell[1098997, 18116, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"d14e6e64-82ff-4590-a453-04b0d983af26",
  CellTags->"SlideShowHeader"],
 Cell[CellGroupData[{
-Cell[1094874, 18030, 380, 6, 88, "Section",ExpressionUUID->"5536b49f-4f48-4d3d-90f0-84ac7f590052",
+Cell[1099144, 18122, 380, 6, 88, "Section",ExpressionUUID->"5536b49f-4f48-4d3d-90f0-84ac7f590052",
  CellGroupingRules->{"GroupTogetherGrouping", 10000.}],
-Cell[1095257, 18038, 657, 15, 93, "Text",ExpressionUUID->"948fe2a7-b7f8-4eec-b5f5-cd11160ac8a4",
+Cell[1099527, 18130, 657, 15, 93, "Text",ExpressionUUID->"948fe2a7-b7f8-4eec-b5f5-cd11160ac8a4",
  CellGroupingRules->{"GroupTogetherGrouping", 10000.}],
-Cell[1095917, 18055, 907, 17, 84, "Text",ExpressionUUID->"50974d70-7376-441a-a70c-d7613e8b5e72",
+Cell[1100187, 18147, 907, 17, 84, "Text",ExpressionUUID->"50974d70-7376-441a-a70c-d7613e8b5e72",
  CellGroupingRules->{"GroupTogetherGrouping", 10000.}]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1096861, 18077, 185, 4, 66, "Subsection",ExpressionUUID->"5e6afd63-1f4a-4989-84fe-16999c0ce7a4"],
-Cell[1097049, 18083, 754, 16, 146, "Text",ExpressionUUID->"39884396-8367-4a62-8ebc-ddc0c2bf4240"]
+Cell[1101131, 18169, 185, 4, 66, "Subsection",ExpressionUUID->"5e6afd63-1f4a-4989-84fe-16999c0ce7a4"],
+Cell[1101319, 18175, 754, 16, 146, "Text",ExpressionUUID->"39884396-8367-4a62-8ebc-ddc0c2bf4240"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1097852, 18105, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"784051dd-8111-4905-b1b6-ef7f083274d6",
+Cell[1102122, 18197, 122, 2, 1, "SlideShowNavigationBar",ExpressionUUID->"784051dd-8111-4905-b1b6-ef7f083274d6",
  CellTags->"SlideShowHeader"],
 Cell[CellGroupData[{
-Cell[1097999, 18111, 105, 0, 66, "Subsection",ExpressionUUID->"78911892-aea2-4bc9-ba0d-0bd9c877ba2f"],
-Cell[1098107, 18113, 362, 5, 66, "Text",ExpressionUUID->"41576bb0-1084-4815-b859-e6848a39fc7d"],
+Cell[1102269, 18203, 105, 0, 66, "Subsection",ExpressionUUID->"78911892-aea2-4bc9-ba0d-0bd9c877ba2f"],
+Cell[1102377, 18205, 362, 5, 66, "Text",ExpressionUUID->"41576bb0-1084-4815-b859-e6848a39fc7d"],
 Cell[CellGroupData[{
-Cell[1098494, 18122, 107, 0, 41, "Subsubsection",ExpressionUUID->"9b9f50d2-77fc-4213-aa1f-044eedf2d9e2"],
+Cell[1102764, 18214, 107, 0, 22, "Subsubsection",ExpressionUUID->"9b9f50d2-77fc-4213-aa1f-044eedf2d9e2"],
 Cell[CellGroupData[{
-Cell[1098626, 18126, 463, 13, 41, "Input",ExpressionUUID->"7a1b2805-a4ce-4980-9768-1a15488075e4"],
-Cell[1099092, 18141, 56916, 969, 173, "Output",ExpressionUUID->"123023ad-28cb-4b2f-abc4-846c677c5b9f"]
+Cell[1102896, 18218, 463, 13, 22, "Input",ExpressionUUID->"7a1b2805-a4ce-4980-9768-1a15488075e4"],
+Cell[1103362, 18233, 56916, 969, 96, "Output",ExpressionUUID->"123023ad-28cb-4b2f-abc4-846c677c5b9f"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1156069, 19117, 105, 0, 66, "Subsection",ExpressionUUID->"dd90c9f3-9430-4abb-9bc5-b3f99ba4f17a"],
-Cell[1156177, 19119, 60262, 994, 141, "SideCaptionArray",ExpressionUUID->"3af14b7f-dbb1-4387-af4b-430fb1ee0e3e"]
+Cell[1160339, 19209, 105, 0, 36, "Subsection",ExpressionUUID->"dd90c9f3-9430-4abb-9bc5-b3f99ba4f17a"],
+Cell[1160447, 19211, 60262, 994, 78, "SideCaptionArray",ExpressionUUID->"3af14b7f-dbb1-4387-af4b-430fb1ee0e3e"]
 }, Open  ]]
 }, Open  ]]
 }
