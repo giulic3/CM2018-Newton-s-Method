@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     23610,        613]
-NotebookOptionsPosition[     22519,        585]
-NotebookOutlinePosition[     22857,        600]
-CellTagsIndexPosition[     22814,        597]
+NotebookDataLength[     23574,        608]
+NotebookOptionsPosition[     22507,        582]
+NotebookOutlinePosition[     22845,        597]
+CellTagsIndexPosition[     22802,        594]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -391,7 +391,7 @@ Cell[BoxData[
       Evaluator->Automatic,
       Method->"Preemptive"], "\<\"\"\>", 
      DynamicBox[ToBoxes[$CellContext`funzione, StandardForm],
-      ImageSizeCache->{48., {3., 10.}}]},
+      ImageSizeCache->{64., {0., 10.}}]},
     {
      ButtonBox["\<\"x\"\>",
       Appearance->Automatic,
@@ -569,19 +569,16 @@ Cell[BoxData[
 e4226069a6c7"]
 }, Open  ]],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[
  RowBox[{"f", "[", "Pi", "]"}]], "Input",
  CellChangeTimes->{{3.733720813205695*^9, 
   3.7337208172189617`*^9}},ExpressionUUID->"e9dcc716-b432-40e5-b372-\
 127df7ef42b6"],
 
-Cell[BoxData["2"], "Output",
- CellChangeTimes->{
-  3.7337208179575787`*^9},ExpressionUUID->"342dc0d4-1582-4c19-8f35-\
+Cell[BoxData["23"], "Input",
+ CellChangeTimes->{{3.733724137551138*^9, 
+  3.733724137552658*^9}},ExpressionUUID->"342dc0d4-1582-4c19-8f35-\
 8f2918913558"]
-}, Open  ]]
 },
 WindowSize->{1366, 715},
 WindowMargins->{{0, Automatic}, {0, Automatic}},
@@ -611,10 +608,8 @@ Cell[CellGroupData[{
 Cell[21568, 552, 333, 8, 31, "Input",ExpressionUUID->"8ee380b5-21f0-4ab7-8e18-234f616ea37a"],
 Cell[21904, 562, 244, 6, 35, "Output",ExpressionUUID->"b3779b3d-0679-4ce4-9a09-e4226069a6c7"]
 }, Open  ]],
-Cell[CellGroupData[{
-Cell[22185, 573, 183, 4, 31, "Input",ExpressionUUID->"e9dcc716-b432-40e5-b372-127df7ef42b6"],
-Cell[22371, 579, 132, 3, 68, "Output",ExpressionUUID->"342dc0d4-1582-4c19-8f35-8f2918913558"]
-}, Open  ]]
+Cell[22163, 571, 183, 4, 31, "Input",ExpressionUUID->"e9dcc716-b432-40e5-b372-127df7ef42b6"],
+Cell[22349, 577, 154, 3, 31, InheritFromParent,ExpressionUUID->"342dc0d4-1582-4c19-8f35-8f2918913558"]
 }
 ]
 *)
