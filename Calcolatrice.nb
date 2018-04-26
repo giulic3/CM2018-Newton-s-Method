@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     22369,        567]
-NotebookOptionsPosition[     21850,        550]
-NotebookOutlinePosition[     22188,        565]
-CellTagsIndexPosition[     22145,        562]
+NotebookDataLength[     22418,        567]
+NotebookOptionsPosition[     21899,        550]
+NotebookOutlinePosition[     22237,        565]
+CellTagsIndexPosition[     22194,        562]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -327,8 +327,8 @@ Cell[BoxData[{
    3.733734047991041*^9}, {3.733734112290225*^9, 3.733734140052525*^9}, {
    3.733734196145782*^9, 3.7337342018066177`*^9}, {3.7337343580604057`*^9, 
    3.733734358184409*^9}, {3.7337344917867823`*^9, 3.73373449259625*^9}, {
-   3.7337345683833103`*^9, 
-   3.733734571017387*^9}},ExpressionUUID->"f5e12030-a9cb-4993-a855-\
+   3.7337345683833103`*^9, 3.733734571017387*^9}, {3.733741181431416*^9, 
+   3.7337411845892763`*^9}},ExpressionUUID->"f5e12030-a9cb-4993-a855-\
 2ec0363a6594"],
 
 Cell[BoxData[
@@ -397,7 +397,7 @@ Cell[BoxData[
       Evaluator->Automatic,
       Method->"Preemptive"], "\<\"\"\>", 
      DynamicBox[ToBoxes[$CellContext`funzione, StandardForm],
-      ImageSizeCache->{48., {3., 10.}}]},
+      ImageSizeCache->{64., {0., 10.}}]},
     {
      ButtonBox["\<\"x\"\>",
       Appearance->Automatic,
@@ -516,7 +516,7 @@ Cell[BoxData[
       Method->"Preemptive"], "\<\"\"\>", "\<\"\"\>", 
      DynamicBox[ToBoxes[
        $CellContext`funzioneFinale["x"], StandardForm],
-      ImageSizeCache->{48., {3., 10.}}]}
+      ImageSizeCache->{136., {3., 10.}}]}
    },
    AutoDelete->False,
    GridBoxAlignment->{"Columns" -> {{Center}}},
@@ -565,10 +565,10 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 13046, 309, 1021, "Input",ExpressionUUID->"f5e12030-a9cb-4993-a855-2ec0363a6594"],
-Cell[13629, 333, 8050, 209, 98, "Output",ExpressionUUID->"19303e04-bc47-4618-8657-9a29510af611"]
+Cell[580, 22, 13094, 309, 1021, "Input",ExpressionUUID->"f5e12030-a9cb-4993-a855-2ec0363a6594"],
+Cell[13677, 333, 8051, 209, 98, "Output",ExpressionUUID->"19303e04-bc47-4618-8657-9a29510af611"]
 }, Open  ]],
-Cell[21694, 545, 152, 3, 31, "Input",ExpressionUUID->"be1d1dca-7730-493e-9c6f-c9b1f0a0bd03"]
+Cell[21743, 545, 152, 3, 31, "Input",ExpressionUUID->"be1d1dca-7730-493e-9c6f-c9b1f0a0bd03"]
 }
 ]
 *)
