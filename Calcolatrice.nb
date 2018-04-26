@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     20553,        535]
-NotebookOptionsPosition[     20127,        519]
-NotebookOutlinePosition[     20465,        534]
-CellTagsIndexPosition[     20422,        531]
+NotebookDataLength[     23610,        613]
+NotebookOptionsPosition[     22519,        585]
+NotebookOutlinePosition[     22857,        600]
+CellTagsIndexPosition[     22814,        597]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -22,10 +22,11 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[BoxData[{
  RowBox[{
-  RowBox[{"funzione", " ", ":=", " ", "\"\<\>\""}], 
+  RowBox[{"funzione", " ", "=", " ", "\"\<\>\""}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"funzioneFinale", " ", ":=", " ", "\"\<\>\""}], 
+  RowBox[{
+   RowBox[{"funzioneFinale", "[", "x_", "]"}], "=", "\"\<\>\""}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"ParentesiSin", "=", " ", "0"}], ";"}], "\[IndentingNewLine]", 
@@ -96,9 +97,10 @@ Cell[BoxData[{
   RowBox[{"buttonFINE", " ", "=", " ", 
    RowBox[{"Button", "[", 
     RowBox[{"\"\<FINE\>\"", ",", 
-     RowBox[{"funzioneFinale", "=", 
-      RowBox[{"WolframAlpha", "[", 
-       RowBox[{"funzione", ",", "\"\<WolframParse\>\""}], "]"}]}]}], "]"}]}], 
+     RowBox[{
+      RowBox[{"funzioneFinale", "[", "x_", "]"}], "=", 
+      RowBox[{"ToExpression", "[", 
+       RowBox[{"funzione", ",", "TraditionalForm"}], "]"}]}]}], "]"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"buttonAzzera", " ", "=", 
@@ -107,8 +109,9 @@ Cell[BoxData[{
      RowBox[{"{", 
       RowBox[{
        RowBox[{"funzione", "=", "\"\<\>\""}], ",", 
-       RowBox[{"funzioneFinale", "=", "\"\<\>\""}]}], "}"}]}], "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"funzioneFinale", "[", "x_", "]"}], "=", "\"\<\>\""}]}], 
+      "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"buttonx", " ", "=", " ", 
    RowBox[{"Button", "[", 
@@ -313,8 +316,13 @@ Cell[BoxData[{
    3.733480982398649*^9, 3.733481030340815*^9, {3.7334810930721703`*^9, 
    3.733481104689023*^9}, {3.733481160638195*^9, 3.7334811630031767`*^9}, {
    3.73348478002359*^9, 3.733484789747835*^9}, {3.7334854833136587`*^9, 
-   3.733485494114339*^9}, {3.733485619698642*^9, 
-   3.733485619725111*^9}},ExpressionUUID->"f5e12030-a9cb-4993-a855-\
+   3.733485494114339*^9}, {3.733485619698642*^9, 3.733485619725111*^9}, {
+   3.733551898380991*^9, 3.73355190342281*^9}, {3.733555652771473*^9, 
+   3.733555740493539*^9}, {3.733555797058056*^9, 3.7335558153474207`*^9}, {
+   3.733555896128233*^9, 3.733555931443712*^9}, {3.7335560276581793`*^9, 
+   3.733556061640833*^9}, {3.7335560997571363`*^9, 3.733556145904015*^9}, {
+   3.733556266197113*^9, 
+   3.733556385285366*^9}},ExpressionUUID->"f5e12030-a9cb-4993-a855-\
 2ec0363a6594"],
 
 Cell[BoxData[
@@ -370,18 +378,20 @@ Cell[BoxData[
       Method->"Preemptive"], 
      ButtonBox["\<\"FINE\"\>",
       Appearance->Automatic,
-      ButtonFunction:>($CellContext`funzioneFinale = 
-       WolframAlpha[$CellContext`funzione, "WolframParse"]),
+      ButtonFunction:>($CellContext`funzioneFinale[
+         Pattern[$CellContext`x, 
+          Blank[]]] = ToExpression[$CellContext`funzione, TraditionalForm]),
       Evaluator->Automatic,
       Method->"Preemptive"], 
      ButtonBox["\<\"Azzera\"\>",
       Appearance->Automatic,
-      ButtonFunction:>{$CellContext`funzione = 
-        "", $CellContext`funzioneFinale = ""},
+      ButtonFunction:>{$CellContext`funzione = "", $CellContext`funzioneFinale[
+          Pattern[$CellContext`x, 
+           Blank[]]] = ""},
       Evaluator->Automatic,
       Method->"Preemptive"], "\<\"\"\>", 
      DynamicBox[ToBoxes[$CellContext`funzione, StandardForm],
-      ImageSizeCache->{0., {0., 7.}}]},
+      ImageSizeCache->{48., {3., 10.}}]},
     {
      ButtonBox["\<\"x\"\>",
       Appearance->Automatic,
@@ -499,7 +509,7 @@ Cell[BoxData[
       Evaluator->Automatic,
       Method->"Preemptive"], "\<\"\"\>", "\<\"\"\>", 
      DynamicBox[ToBoxes[$CellContext`funzioneFinale, StandardForm],
-      ImageSizeCache->{0., {0., 7.}}]}
+      ImageSizeCache->{112., {0., 10.}}]}
    },
    AutoDelete->False,
    GridBoxAlignment->{"Columns" -> {{Center}}},
@@ -513,8 +523,64 @@ Cell[BoxData[
    3.7334810340274982`*^9, 3.7334811218218184`*^9, 3.733481170531948*^9, 
    3.733484793694169*^9, 3.733485491540413*^9, 3.733485545252533*^9, {
    3.733485643118333*^9, 3.733485658182344*^9}, 3.7334862702228527`*^9, 
-   3.733487419945292*^9},ExpressionUUID->"906850ce-4b06-4ddb-841c-\
-f50f56a61511"]
+   3.733487419945292*^9, {3.733547132866653*^9, 3.733547133265435*^9}, 
+   3.7335533400766487`*^9, 3.733554783493483*^9, 3.733555505464096*^9, 
+   3.7335556831315823`*^9, {3.7335557176679783`*^9, 3.733555741328137*^9}, 
+   3.73355580343946*^9, 3.733555854867238*^9, 3.733556103958946*^9, 
+   3.733556146714242*^9, {3.733556290601493*^9, 3.733556379662374*^9}, {
+   3.733720768326333*^9, 
+   3.733720792115419*^9}},ExpressionUUID->"495cccbb-2c2c-42e3-afba-\
+2314adea936b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"fun", " ", "=", " ", "\"\<Sin[x]+Cos[x]+3\>\""}]], "Input",
+ CellChangeTimes->{{3.733555517162204*^9, 3.73355553584453*^9}, 
+   3.733556165387528*^9, {3.73355619900515*^9, 
+   3.733556199450109*^9}},ExpressionUUID->"d6f22a33-4aa0-4495-809c-\
+1d76139084b8"],
+
+Cell[BoxData["\<\"Sin[x]+Cos[x]+3\"\>"], "Output",
+ CellChangeTimes->{3.7335562006627817`*^9, 
+  3.7337208072181463`*^9},ExpressionUUID->"fdb0c80f-8699-4896-8b5b-\
+1cd2b1c39e43"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"f", "[", "x_", "]"}], "=", 
+  RowBox[{"ToExpression", "[", 
+   RowBox[{"fun", ",", "TraditionalForm"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.73355616752313*^9, 3.733556192444116*^9}, {
+  3.7335562514653053`*^9, 
+  3.733556258136351*^9}},ExpressionUUID->"8ee380b5-21f0-4ab7-8e18-\
+234f616ea37a"],
+
+Cell[BoxData[
+ RowBox[{"3", "+", 
+  RowBox[{"Cos", "[", "x", "]"}], "+", 
+  RowBox[{"Sin", "[", "x", "]"}]}]], "Output",
+ CellChangeTimes->{3.733556258870983*^9, 
+  3.733720811463332*^9},ExpressionUUID->"b3779b3d-0679-4ce4-9a09-\
+e4226069a6c7"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"f", "[", "Pi", "]"}]], "Input",
+ CellChangeTimes->{{3.733720813205695*^9, 
+  3.7337208172189617`*^9}},ExpressionUUID->"e9dcc716-b432-40e5-b372-\
+127df7ef42b6"],
+
+Cell[BoxData["2"], "Output",
+ CellChangeTimes->{
+  3.7337208179575787`*^9},ExpressionUUID->"342dc0d4-1582-4c19-8f35-\
+8f2918913558"]
 }, Open  ]]
 },
 WindowSize->{1366, 715},
@@ -534,8 +600,20 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 12197, 295, 1021, "Input",ExpressionUUID->"f5e12030-a9cb-4993-a855-2ec0363a6594"],
-Cell[12780, 319, 7331, 197, 131, "Output",ExpressionUUID->"906850ce-4b06-4ddb-841c-f50f56a61511"]
+Cell[580, 22, 12629, 303, 1021, "Input",ExpressionUUID->"f5e12030-a9cb-4993-a855-2ec0363a6594"],
+Cell[13212, 327, 7821, 205, 98, "Output",ExpressionUUID->"495cccbb-2c2c-42e3-afba-2314adea936b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21070, 537, 280, 5, 31, "Input",ExpressionUUID->"d6f22a33-4aa0-4495-809c-1d76139084b8"],
+Cell[21353, 544, 178, 3, 35, "Output",ExpressionUUID->"fdb0c80f-8699-4896-8b5b-1cd2b1c39e43"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21568, 552, 333, 8, 31, "Input",ExpressionUUID->"8ee380b5-21f0-4ab7-8e18-234f616ea37a"],
+Cell[21904, 562, 244, 6, 35, "Output",ExpressionUUID->"b3779b3d-0679-4ce4-9a09-e4226069a6c7"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22185, 573, 183, 4, 31, "Input",ExpressionUUID->"e9dcc716-b432-40e5-b372-127df7ef42b6"],
+Cell[22371, 579, 132, 3, 68, "Output",ExpressionUUID->"342dc0d4-1582-4c19-8f35-8f2918913558"]
 }, Open  ]]
 }
 ]
