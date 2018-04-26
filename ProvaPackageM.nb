@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      4084,        119]
-NotebookOptionsPosition[      3280,         94]
-NotebookOutlinePosition[      3618,        109]
-CellTagsIndexPosition[      3575,        106]
+NotebookDataLength[     11701,        305]
+NotebookOptionsPosition[     10885,        280]
+NotebookOutlinePosition[     11253,        296]
+CellTagsIndexPosition[     11210,        293]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -30,10 +30,9 @@ Cell[CellGroupData[{
 Cell["\<\
 Button[
 \t\"Carica Package\",
-\t{SetDirectory[NotebookDirectory[]], Get[\"learningNewtonsMethod.m\"]}
+\t{SetDirectory[NotebookDirectory[]], Get[\"LearningNewtonsMethod.m\"]}
 ]\
 \>", "Input",
- Editable->False,
  CellOpen->False,
  CellChangeTimes->{{3.7330338540635653`*^9, 3.733033884154005*^9}, {
    3.733038037539777*^9, 3.733038038412199*^9}, {3.7330381049655247`*^9, 
@@ -50,7 +49,8 @@ Button[
    3.733041471631937*^9, 3.733041501532415*^9}, {3.7330416709149647`*^9, 
    3.733041705878704*^9}, {3.733041824191731*^9, 3.733041962394388*^9}, {
    3.733042003334938*^9, 3.7330420186456203`*^9}, {3.733042177784017*^9, 
-   3.733042184948833*^9}},ExpressionUUID->"9dd28d07-db4e-4215-9a44-\
+   3.733042184948833*^9}, {3.733741030552815*^9, 
+   3.733741031592606*^9}},ExpressionUUID->"9dd28d07-db4e-4215-9a44-\
 e8a32ebfcfd0"],
 
 Cell[BoxData[
@@ -59,41 +59,228 @@ Cell[BoxData[
   ButtonFunction:>{
     SetDirectory[
      NotebookDirectory[]], 
-    Get["learningNewtonsMethod.m"]},
+    Get["LearningNewtonsMethod.m"]},
   Evaluator->Automatic,
   Method->"Preemptive"]], "Output",
  CellChangeTimes->{{3.733041869319365*^9, 3.733041888950219*^9}, 
    3.733041950903632*^9, 3.733042019817628*^9, 3.733042068432795*^9, 
-   3.733042121227152*^9, 
-   3.7330421972205353`*^9},ExpressionUUID->"9b03ef20-3c07-4595-8e41-\
-605cafc774d7"]
-}, Open  ]]
+   3.733042121227152*^9, 3.7330421972205353`*^9, {3.733741032411825*^9, 
+   3.733741038621255*^9}, 3.733741120662615*^9, 3.73374169635634*^9, 
+   3.733742173489294*^9},ExpressionUUID->"883874eb-ff5c-4787-b28e-\
+fea7a35ecdb4"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell[TextData[{
- "Clicca nel men\[UGrave] su     ",
- StyleBox["Evaluation > Evaluate Notebook",
-  FontColor->GrayLevel[0]]
-}], "Subsection",
- CellChangeTimes->{{3.733042132224131*^9, 3.733042138875372*^9}, {
-  3.7330422196453342`*^9, 
-  3.7330422585697203`*^9}},ExpressionUUID->"a530c37b-3331-401e-91b5-\
-7363b24466da"],
+Cell[BoxData[
+ RowBox[{"calcolatrice", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.733744331760584*^9, 
+  3.73374433359103*^9}},ExpressionUUID->"6badda4c-99e3-4ad5-af56-\
+f8f994521293"],
 
 Cell[BoxData[
- RowBox[{" ", 
-  RowBox[{"interactiveNewton", "[", "]"}]}]], "Input",
- Editable->False,
- CellOpen->False,
- CellChangeTimes->{{3.7330420223406277`*^9, 
-  3.733042022341357*^9}},ExpressionUUID->"80bd045b-e847-4ae9-9e5d-\
-9c7b9cdb1a25"]
+ TagBox[GridBox[{
+    {"\<\"\"\>", 
+     ButtonBox["\<\"sin\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "sin"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"cos\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "cos"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"Log\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "Log"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"tan\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "tan"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"ln\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "ln"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\" 1 \"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "1"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\" 2 \"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "2"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\" 3 \"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "3"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"FINE\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzioneFinale$4795[
+         Pattern[LearningNewtonsMethod`x$, 
+          Blank[]]] = 
+       ToExpression[LearningNewtonsMethod`funzione$4795, TraditionalForm]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"Azzera\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>{
+       LearningNewtonsMethod`funzione$4795 = "", 
+        LearningNewtonsMethod`funzioneFinale$4795[
+          Pattern[LearningNewtonsMethod`x, 
+           Blank[]]] = ""},
+      Evaluator->Automatic,
+      Method->"Preemptive"], "\<\"\"\>", 
+     DynamicBox[ToBoxes[LearningNewtonsMethod`funzione$4795, StandardForm],
+      ImageSizeCache->{42., {3., 7.}}]},
+    {
+     ButtonBox["\<\"x\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "x"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"(\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "("]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\")\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, ")"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"\[Product]\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "Pi"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"^\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "^"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"\[ScriptE]\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "nonloso"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"4\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "4"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"5\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "5"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"6\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "6"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\",\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, ","]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], "\<\"\"\>", "\<\"\"\>", ""},
+    {"\<\"\"\>", 
+     ButtonBox["\<\"+\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "+"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"*\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "*"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"-\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "-"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"/\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "/"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"Sqrt\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "Sqrt"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"7\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "7"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"8\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "8"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"9\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "9"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], 
+     ButtonBox["\<\"0\"\>",
+      Appearance->Automatic,
+      ButtonFunction:>(LearningNewtonsMethod`funzione$4795 = 
+       StringJoin[LearningNewtonsMethod`funzione$4795, "0"]),
+      Evaluator->Automatic,
+      Method->"Preemptive"], "\<\"\"\>", "\<\"\"\>", 
+     DynamicBox[ToBoxes[
+       LearningNewtonsMethod`funzioneFinale$4795["x"], StandardForm],
+      ImageSizeCache->{42., {3., 7.}}]}
+   },
+   AutoDelete->False,
+   GridBoxAlignment->{"Columns" -> {{Center}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{3.733744334379216*^9, 
+  3.733745399780304*^9},ExpressionUUID->"39c9b1c6-c167-47a6-842a-\
+eb1ca283baea"]
+}, Open  ]]
 }, Open  ]]
 },
-WindowSize->{1366, 715},
+WindowSize->{683, 715},
 WindowMargins->{{0, Automatic}, {0, Automatic}},
+Magnification:>0.75 Inherited,
 FrontEndVersion->"11.2 for Linux x86 (64-bit) (September 10, 2017)",
 StyleDefinitions->"Default.nb"
 ]
@@ -109,17 +296,16 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 198, 3, 55, "Subsection",ExpressionUUID->"a1f28c51-b890-4369-9483-a2cf22ddcfd0"],
+Cell[580, 22, 198, 3, 41, "Subsection",ExpressionUUID->"a1f28c51-b890-4369-9483-a2cf22ddcfd0"],
 Cell[CellGroupData[{
-Cell[803, 29, 1355, 24, 19, "Input",ExpressionUUID->"9dd28d07-db4e-4215-9a44-e8a32ebfcfd0",
+Cell[803, 29, 1387, 24, 14, "Input",ExpressionUUID->"9dd28d07-db4e-4215-9a44-e8a32ebfcfd0",
  CellOpen->False],
-Cell[2161, 55, 485, 13, 42, "Output",ExpressionUUID->"9b03ef20-3c07-4595-8e41-605cafc774d7"]
-}, Open  ]]
+Cell[2193, 55, 600, 14, 35, "Output",ExpressionUUID->"883874eb-ff5c-4787-b28e-fea7a35ecdb4"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2695, 74, 319, 8, 55, "Subsection",ExpressionUUID->"a530c37b-3331-401e-91b5-7363b24466da"],
-Cell[3017, 84, 247, 7, 19, "Input",ExpressionUUID->"80bd045b-e847-4ae9-9e5d-9c7b9cdb1a25",
- CellOpen->False]
+Cell[2830, 74, 185, 4, 24, "Input",ExpressionUUID->"6badda4c-99e3-4ad5-af56-f8f994521293"],
+Cell[3018, 80, 7839, 196, 116, "Output",ExpressionUUID->"39c9b1c6-c167-47a6-842a-eb1ca283baea"]
+}, Open  ]]
 }, Open  ]]
 }
 ]
