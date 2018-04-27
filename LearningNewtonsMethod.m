@@ -2,7 +2,7 @@
 
 (* :Title: LearningNewtonsMethod.m *)
 (* :Summary: A package providing function useful for learning newton's method *)
-(* :Author:	Matteo Sanfelici, Anna Avena,	Giulia Cantini 	*)
+(* :Author:	Matteo Sanfelici, Anna Avena, Giulia Cantini 	*)
 (* :Copyright: \[Copyright] <2018> by <Matteo Sanfelici> *)
 (* :Package Version: 1.0 *)
 (* :Mathematica Version: 11.2 *)
