@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     47368,        823]
-NotebookOptionsPosition[     46642,        803]
-NotebookOutlinePosition[     46981,        818]
-CellTagsIndexPosition[     46938,        815]
+NotebookDataLength[     47618,        829]
+NotebookOptionsPosition[     46813,        806]
+NotebookOutlinePosition[     47242,        824]
+CellTagsIndexPosition[     47199,        821]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -794,16 +794,22 @@ JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEl6Uv8DZvMoTQ==
     BoxForm`ImageTag["Byte", ColorSpace -> "RGB", Interleaving -> True],
     Selectable->False],
    DefaultBaseStyle->"ImageGraphics",
+   ImageSize->{23.609375000000057`, Automatic},
    ImageSizeRaw->{1600, 1600},
    PlotRange->{{0, 1600}, {0, 1600}}]}]], "Input",
- CellChangeTimes->{{3.733735961055593*^9, 
-  3.7337359686381187`*^9}},ExpressionUUID->"4f89c159-1017-477e-8b91-\
+ CellChangeTimes->{{3.733735961055593*^9, 3.7337359686381187`*^9}, 
+   3.734322004441324*^9, {3.734322053389594*^9, 3.734322056850896*^9}, {
+   3.734322341741231*^9, 
+   3.734322342448427*^9}},ExpressionUUID->"4f89c159-1017-477e-8b91-\
 2772c0fc40cc"]
 }, Open  ]]
 },
-WindowSize->{808, 705},
+ScreenStyleEnvironment->"SlideShow",
+WindowSize->{Full, Full},
 WindowMargins->{{Automatic, 304}, {0, Automatic}},
-FrontEndVersion->"11.2 for Linux x86 (64-bit) (September 10, 2017)",
+Magnification:>0.75 Inherited,
+FrontEndVersion->"11.2 for Mac OS X x86 (32-bit, 64-bit Kernel) (September \
+10, 2017)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -818,12 +824,12 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 221, 7, 107, "Section",ExpressionUUID->"ddf97e63-dfa8-4a55-929d-c72e4fb678f2"],
-Cell[804, 31, 198, 5, 31, "Input",ExpressionUUID->"667b6f8f-e280-448b-88fb-11ceb28d20f4"],
-Cell[1005, 38, 195, 3, 55, "Input",ExpressionUUID->"711e3963-bc2f-44eb-b3c3-67b5fa2e5555"],
+Cell[580, 22, 221, 7, 138, "Section",ExpressionUUID->"ddf97e63-dfa8-4a55-929d-c72e4fb678f2"],
+Cell[804, 31, 198, 5, 36, "Input",ExpressionUUID->"667b6f8f-e280-448b-88fb-11ceb28d20f4"],
+Cell[1005, 38, 195, 3, 61, "Input",ExpressionUUID->"711e3963-bc2f-44eb-b3c3-67b5fa2e5555"],
 Cell[1203, 43, 416, 11, 19, "Input",ExpressionUUID->"119e5b01-12a9-4fd5-af1a-b466bcfb1b30",
  CellOpen->False],
-Cell[1622, 56, 45004, 744, 105, InheritFromParent,ExpressionUUID->"4f89c159-1017-477e-8b91-2772c0fc40cc"]
+Cell[1622, 56, 45175, 747, 40, "Input",ExpressionUUID->"4f89c159-1017-477e-8b91-2772c0fc40cc"]
 }, Open  ]]
 }
 ]
