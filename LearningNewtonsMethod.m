@@ -10,57 +10,65 @@
 (* :History: *)
 
 BeginPackage["LearningNewtonsMethod`"];
+	(*Remove[NewtonInteractive];
+	NewtonInteractive::usage = "Usalo";
 	
-
-
-NewtonInteractive[]:=
-	Manipulate[
-		newton[input,N[x0], 0, 2*Pi, iteration],
-		{{input, funzioneFinale2, "function"}, {
-			funzioneFinale1 -> TraditionalForm[Cos[x]],
-			funzioneFinale2 -> TraditionalForm[Sin[x]],
-			funzioneFinale3 -> TraditionalForm[-7 + x^2],
-			funzioneFinale4 -> TraditionalForm[-1 + x - 3*x^2 + x^3],
-			funzioneFinale5 -> TraditionalForm[Sin[x]*Cos[x]],
-			funzioneFinale6 -> TraditionalForm[-1 + x^2*Log2[x]]
-			}, ControlType -> PopupMenu},
-		{{iteration, 0, "n"}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
-		{{x0, 0.20000000000000004, Subscript["x", "0"]}, 0.01, 6.11, Appearance -> "Labeled"},
-		ControllerLinking -> True,
-		Initialization:>{
-			newton[funzioneFinale_,x0_,a_,b_,n_] :=
-				Module[
-					{list = NestList[#1 - funzioneFinale[#1]/Derivative[1][funzioneFinale][#1] & , x0, n]},
-					Column[{
-						TraditionalForm[Text[Style[Row[{HoldForm[Subscript[{Subscript[x, k]}, k = 0]^n], " = ", list}], 14]]],
-						Plot[
-							funzioneFinale[x], {x, a, b},
-							PlotRange -> All,
-							AxesLabel -> {Style[x, 16], Style[y, 16]},
-							PlotStyle -> Thickness[0.006],
-							Epilog -> {
-								{Red, Thickness[0.002],
-									Arrowheads[0.03],
-									Arrow[Most[Flatten[({{#1, 0}, {#1, funzioneFinale[#1]}} & ) /@ list, 1]]]},
-								{PointSize[0.015],
-									Point[{x0, 0}]}
-							},
-							ImageSize -> {600, 325}
-							]},
-					Center]
-				],
-				Attributes[Derivative] = {NHoldAll, ReadProtected},
-				Attributes[Subscript] = {NHoldRest}, Subscript[w, opt] = {2.706, 3.686},
-				Attributes[PlotRange] = {ReadProtected},
-				funzioneFinale1[x_] := Cos[x],
-				funzioneFinale2[x_] := Sin[x],
-				funzioneFinale3[x_] := x^2 - 7,
-				funzioneFinale4[x_] := x^3 - 3*x^2 + x - 1,
-				funzioneFinale5[x_] := Sin[x]*Cos[x],
-				funzioneFinale6[x_] := x^2*Log[x] - 1
-		}]
+	Begin["`Private`"];*)
+	Clear[funzioneFinale,x,funz,list,x0,a,b,n,input];
+	NewtonInteractive[]:=
+		Manipulate[
+			newton[input,N[x0], 0, 2*Pi, iteration],
+			{{input,Null,"function"},{InputField[func,Expression]},ControlType->InputField},
+			(*{{input1, funzioneFinale2, "function"}, {
+				funzioneFinale1 -> TraditionalForm[Cos[x]],
+				funzioneFinale2 -> TraditionalForm[Sin[x]],
+				funzioneFinale3 -> TraditionalForm[-7 + x^2],
+				funzioneFinale4 -> TraditionalForm[-1 + x - 3*x^2 + x^3],
+				funzioneFinale5 -> TraditionalForm[Sin[x]*Cos[x]],
+				funzioneFinale6 -> TraditionalForm[-1 + x^2*Log2[x]]
+				}, ControlType -> PopupMenu},*)
+			{{iteration, 0, "n"}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
+			{{x0, 0.2, Subscript["x", "0"]}, 0.01, 6.11, Appearance -> "Labeled"},
+			ControllerLinking -> True,
+			Initialization:>{
+				newton[input_,x0_,a_,b_,n_] :=
+					Module[
+						{
+						list = NestList[ #1 - funzioneFinale[#1]/funzioneFinale'[#1] & ,x0, n]
+						},
+						funzioneFinale[x_] := input;
+						
+						Column[{
+							TraditionalForm[Text[Style[Row[{HoldForm[Subscript[{Subscript[x, k]}, k = 0]^n], " = ", list}], 14]]],
+							Plot[
+								funzioneFinale[x], {x, a, b},
+								PlotRange -> All,
+								AxesLabel -> {Style[x, 16], Style[y, 16]},
+								PlotStyle -> Thickness[0.006],
+								Epilog -> {
+									{Red, Thickness[0.002],
+										Arrowheads[0.03],
+										Arrow[Most[Flatten[({{#1, 0}, {#1, funzioneFinale[#1]}} & ) /@ list, 1]]]},
+									{PointSize[0.015],
+										Point[{x0, 0}]}
+								},
+								ImageSize -> {600, 325}
+								]},
+						Center]
+					],
+					Attributes[Derivative] = {NHoldAll, ReadProtected},
+					Attributes[Subscript] = {NHoldRest}, Subscript[w, opt] = {2.706, 3.686},
+					Attributes[PlotRange] = {ReadProtected}
+					(*funzioneFinale[x_]:= ToExpression[value]*)
+					(*funzioneFinale1[x_] := Cos[x],
+					funzioneFinale2[x_] := Sin[x],
+					funzioneFinale3[x_] := x^2 - 7,
+					funzioneFinale4[x_] := x^3 - 3*x^2 + x - 1,
+					funzioneFinale5[x_] := Sin[x]*Cos[x],
+					funzioneFinale6[x_] := x^2*Log[x] - 1*)
+			}];
 				
-calcolatrice[] :=
+	calcolatrice[] :=
 		Module[{},
 			funzione = "";
 			funzioneFinale[x_]= "";
@@ -76,4 +84,5 @@ calcolatrice[] :=
 			Alignment->Center
 			]
 		];
+(*End[];*)
 EndPackage[];

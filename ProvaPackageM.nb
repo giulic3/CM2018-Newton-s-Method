@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      3670,        100]
-NotebookOptionsPosition[      3015,         79]
-NotebookOutlinePosition[      3352,         94]
-CellTagsIndexPosition[      3309,         91]
+NotebookDataLength[      9341,        223]
+NotebookOptionsPosition[      8556,        199]
+NotebookOutlinePosition[      8893,        214]
+CellTagsIndexPosition[      8850,        211]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -70,14 +70,134 @@ Cell[BoxData[
 fea7a35ecdb4"]
 }, Open  ]],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[
  RowBox[{"NewtonInteractive", "[", "]"}]], "Input",
- CellChangeTimes->{{3.734328429028912*^9, 
-  3.734328430551279*^9}},ExpressionUUID->"b9756c97-cc81-42e7-8d16-\
-5452f81ddc17"]
+ CellChangeTimes->{{3.7344291461043*^9, 3.7344291494530687`*^9}, {
+  3.734430969596944*^9, 3.734430970486043*^9}, {3.734431033114565*^9, 
+  3.7344310345804768`*^9}, {3.734432540308682*^9, 
+  3.734432572157402*^9}},ExpressionUUID->"d4862b73-e3cc-41a2-8eea-\
+4ccff3a8164b"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{LearningNewtonsMethod`input$$ = Null, 
+    LearningNewtonsMethod`iteration$$ = 0, LearningNewtonsMethod`x0$$ = 0.2, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[LearningNewtonsMethod`input$$], Null, "function"}, {
+       InputField[LearningNewtonsMethod`func, Expression]}}, {{
+       Hold[LearningNewtonsMethod`iteration$$], 0, "n"}, {0, 1, 2, 3, 4, 5, 
+      6}}, {{
+       Hold[LearningNewtonsMethod`x0$$], 0.2, 
+       Subscript["x", "0"]}, 0.01, 6.11}}, Typeset`size$$ = {
+    600., {173.5, 178.5}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = False, LearningNewtonsMethod`input$12728$$ = 
+    False, LearningNewtonsMethod`iteration$12729$$ = 0, 
+    LearningNewtonsMethod`x0$12730$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {
+       LearningNewtonsMethod`input$$ = Null, 
+        LearningNewtonsMethod`iteration$$ = 0, LearningNewtonsMethod`x0$$ = 
+        0.2}, "ControllerVariables" :> {
+        Hold[
+        LearningNewtonsMethod`input$$, LearningNewtonsMethod`input$12728$$, 
+         False], 
+        Hold[
+        LearningNewtonsMethod`iteration$$, 
+         LearningNewtonsMethod`iteration$12729$$, 0], 
+        Hold[
+        LearningNewtonsMethod`x0$$, LearningNewtonsMethod`x0$12730$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      LearningNewtonsMethod`newton[LearningNewtonsMethod`input$$, 
+        N[LearningNewtonsMethod`x0$$], 0, 2 Pi, 
+        LearningNewtonsMethod`iteration$$], 
+      "Specifications" :> {{{
+         LearningNewtonsMethod`input$$, Null, "function"}, {
+          InputField[LearningNewtonsMethod`func, Expression]}, ControlType -> 
+         InputField}, {{LearningNewtonsMethod`iteration$$, 0, "n"}, {0, 1, 2, 
+         3, 4, 5, 6}, ControlType -> SetterBar}, {{
+         LearningNewtonsMethod`x0$$, 0.2, 
+          Subscript["x", "0"]}, 0.01, 6.11, Appearance -> "Labeled"}}, 
+      "Options" :> {ControllerLinking -> True}, "DefaultOptions" :> {}],
+     ImageSizeCache->{647., {243., 248.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>({LearningNewtonsMethod`newton[
+         Pattern[LearningNewtonsMethod`input, 
+          Blank[]], 
+         Pattern[LearningNewtonsMethod`x0, 
+          Blank[]], 
+         Pattern[LearningNewtonsMethod`a, 
+          Blank[]], 
+         Pattern[LearningNewtonsMethod`b, 
+          Blank[]], 
+         Pattern[LearningNewtonsMethod`n, 
+          Blank[]]] := 
+       Module[{LearningNewtonsMethod`list = 
+          NestList[# - LearningNewtonsMethod`funzioneFinale[#]/Derivative[1][
+            LearningNewtonsMethod`funzioneFinale][#]& , 
+            LearningNewtonsMethod`x0, LearningNewtonsMethod`n]}, 
+         LearningNewtonsMethod`funzioneFinale[
+            Pattern[LearningNewtonsMethod`x, 
+             Blank[]]] := LearningNewtonsMethod`input; Column[{
+            TraditionalForm[
+             Text[
+              Style[
+               Row[{
+                 HoldForm[Subscript[{
+                    Subscript[
+                    LearningNewtonsMethod`x, LearningNewtonsMethod`k]}, 
+                    LearningNewtonsMethod`k = 0]^LearningNewtonsMethod`n], 
+                 " = ", LearningNewtonsMethod`list}], 14]]], 
+            Plot[
+             LearningNewtonsMethod`funzioneFinale[LearningNewtonsMethod`x], {
+             LearningNewtonsMethod`x, LearningNewtonsMethod`a, 
+              LearningNewtonsMethod`b}, PlotRange -> All, AxesLabel -> {
+               Style[LearningNewtonsMethod`x, 16], 
+               Style[LearningNewtonsMethod`y, 16]}, PlotStyle -> 
+             Thickness[0.006], Epilog -> {{Red, 
+                Thickness[0.002], 
+                Arrowheads[0.03], 
+                Arrow[
+                 Most[
+                  Flatten[
+                   Map[{{#, 0}, {#, 
+                    LearningNewtonsMethod`funzioneFinale[#]}}& , 
+                    LearningNewtonsMethod`list], 1]]]}, {
+                PointSize[0.015], 
+                Point[{LearningNewtonsMethod`x0, 0}]}}, 
+             ImageSize -> {600, 325}]}, Center]], 
+       Attributes[Derivative] = {NHoldAll, ReadProtected}, 
+       Attributes[Subscript] = {NHoldRest}, 
+       Subscript[LearningNewtonsMethod`w, LearningNewtonsMethod`opt] = {2.706,
+         3.686}, Attributes[PlotRange] = {ReadProtected}}; 
+     Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.7344335915372047`*^9, {3.73443404623136*^9, 3.7344340609889183`*^9}, 
+   3.7344350797765017`*^9, 
+   3.734435117160306*^9},ExpressionUUID->"49d6b696-eca1-417b-9be3-\
+553acf71143b"]
+}, Open  ]]
 }, Open  ]]
 },
-WindowSize->{683, 715},
+WindowSize->{683, 708},
 WindowMargins->{{0, Automatic}, {0, Automatic}},
 FrontEndVersion->"11.2 for Linux x86 (64-bit) (September 10, 2017)",
 StyleDefinitions->"Default.nb"
@@ -100,7 +220,10 @@ Cell[803, 29, 1387, 24, 19, "Input",ExpressionUUID->"9dd28d07-db4e-4215-9a44-e8a
  CellOpen->False],
 Cell[2193, 55, 600, 14, 42, "Output",ExpressionUUID->"883874eb-ff5c-4787-b28e-fea7a35ecdb4"]
 }, Open  ]],
-Cell[2808, 72, 191, 4, 31, "Input",ExpressionUUID->"b9756c97-cc81-42e7-8d16-5452f81ddc17"]
+Cell[CellGroupData[{
+Cell[2830, 74, 337, 6, 31, "Input",ExpressionUUID->"d4862b73-e3cc-41a2-8eea-4ccff3a8164b"],
+Cell[3170, 82, 5358, 113, 510, "Output",ExpressionUUID->"49d6b696-eca1-417b-9be3-553acf71143b"]
+}, Open  ]]
 }, Open  ]]
 }
 ]
