@@ -84,5 +84,11 @@ BeginPackage["LearningNewtonsMethod`"];
 			Alignment->Center
 			]
 		];
+		
+		(* helper function that converts an image to a nine-patch image to be used as background*)
+		ConvertImageToFullyScaledNinePatch[img_] :=
+		Module[{paddedImage = ImagePad[img,1,Black]},
+		ReplaceImageValue[paddedImage,
+		Flatten[Outer[List,{0,#1},{0,#2}]&@@ImageDimensions[paddedImage],1] -> White]];
 (*End[];*)
 EndPackage[];
