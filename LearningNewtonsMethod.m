@@ -81,42 +81,11 @@ BeginPackage["LearningNewtonsMethod`"];
 			]
 		];
 
-	(*NewtonInteractive[]:=
-		Manipulate[
-			newton[input,N[x0], 0, 2*Pi, iteration],
-			{{input,Null,"function"},{InputField[func,String]},ControlType -> InputField},
-			{{iteration, 0, "n"}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
-			{{x0, 0.2, Subscript["x", "0"]}, 0.01, 6.11, Appearance -> "Labeled"},
-			ControllerLinking -> True,
-			Initialization:>{
-				newton[input_,x0_,a_,b_,n_] :=
-					Module[
-						{
-						list = NestList[ #1 - funzioneFinale[#1]/funzioneFinale'[#1] & ,x0, n]
-						},
-						funzioneFinale[x_] := Sin[x];
 
-						Column[{
-							TraditionalForm[Text[Style[Row[{HoldForm[Subscript[{Subscript[x, k]}, k = 0]^n], " = ", list}], 14]]],
-							Plot[
-								funzioneFinale[x], {x, a, b},
-								PlotRange -> All,
-								AxesLabel -> {Style[x, 16], Style[y, 16]},
-								PlotStyle -> Thickness[0.006],
-								Epilog -> {
-									{Red, Thickness[0.002],
-										Arrowheads[0.03],
-										Arrow[Most[Flatten[({{#1, 0}, {#1, funzioneFinale[#1]}} & ) /@ list, 1]]]},
-									{PointSize[0.015],
-										Point[{x0, 0}]}
-								},
-								ImageSize -> {600, 325}
-								]},
-						Center]
-					],
-					Attributes[Derivative] = {NHoldAll, ReadProtected},
-					Attributes[Subscript] = {NHoldRest}, Subscript[w, opt] = {2.706, 3.686},
-					Attributes[PlotRange] = {ReadProtected}
-			}];*)
+		(* helper function that converts an image to a nine-patch image to be used as background*)
+		ConvertImageToFullyScaledNinePatch[img_] :=
+		Module[{paddedImage = ImagePad[img,1,Black]},
+		ReplaceImageValue[paddedImage,
+		Flatten[Outer[List,{0,#1},{0,#2}]&@@ImageDimensions[paddedImage],1] -> White]];
 End[];
 EndPackage[];
