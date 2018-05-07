@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     47618,        829]
-NotebookOptionsPosition[     46813,        806]
-NotebookOutlinePosition[     47242,        824]
-CellTagsIndexPosition[     47199,        821]
+NotebookDataLength[     47498,        833]
+NotebookOptionsPosition[     46753,        811]
+NotebookOutlinePosition[     47088,        826]
+CellTagsIndexPosition[     47045,        823]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -41,22 +41,28 @@ Cell[BoxData["\[IndentingNewLine]"], "Input",
    3.733722329450891*^9},ExpressionUUID->"711e3963-bc2f-44eb-b3c3-\
 67b5fa2e5555"],
 
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   RowBox[{"Hyperlink", "[", 
-    RowBox[{"\"\<Indietro\>\"", ",", "\"\<NewtonMethod.nb\>\""}], "]"}], " ", 
-   
-   RowBox[{"Import", "[", "\"\<home.png\>\"", "]"}]}], ";"}]], "Input",
- CellOpen->False,
- CellChangeTimes->{{3.733722279305385*^9, 3.7337223128799477`*^9}, {
-  3.7337232825205917`*^9, 
-  3.733723295333631*^9}},ExpressionUUID->"119e5b01-12a9-4fd5-af1a-\
-b466bcfb1b30"],
+Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{
-  TemplateBox[{"\"Indietro\"",{"NewtonMethod.nb", None},"NewtonMethod.nb"},
+  RowBox[{
+   RowBox[{
+    RowBox[{"Hyperlink", "[", 
+     RowBox[{
+     "\"\<Indietro\>\"", ",", " ", "\"\<LearningNewtonsMethod.nb\>\""}], 
+     "]"}], "*", 
+    RowBox[{"Import", "[", "\"\<Images/home.png\>\"", "]"}]}], ";"}], 
+  " "}]], "Input",
+ CellOpen->False,
+ CellChangeTimes->{{3.734669821398026*^9, 3.7346699161580467`*^9}},
+ FormatType->
+  "InputForm",ExpressionUUID->"83dff210-f1b1-41ea-9f00-fd769aafd82b"],
+
+Cell[BoxData[
+ RowBox[{
+  TemplateBox[{
+   "\"Indietro\"",{"LearningNewtonsMethod.nb", None},
+    "LearningNewtonsMethod.nb"},
    "HyperlinkDefault"], " ", 
   GraphicsBox[
    TagBox[RasterBox[CompressedData["
@@ -794,20 +800,16 @@ JEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEl6Uv8DZvMoTQ==
     BoxForm`ImageTag["Byte", ColorSpace -> "RGB", Interleaving -> True],
     Selectable->False],
    DefaultBaseStyle->"ImageGraphics",
-   ImageSize->{23.609375000000057`, Automatic},
+   ImageSize->{33.229166666665506`, Automatic},
    ImageSizeRaw->{1600, 1600},
-   PlotRange->{{0, 1600}, {0, 1600}}]}]], "Input",
- CellChangeTimes->{{3.733735961055593*^9, 3.7337359686381187`*^9}, 
-   3.734322004441324*^9, {3.734322053389594*^9, 3.734322056850896*^9}, {
-   3.734322341741231*^9, 
-   3.734322342448427*^9}},ExpressionUUID->"4f89c159-1017-477e-8b91-\
-2772c0fc40cc"]
+   PlotRange->{{0, 1600}, {0, 1600}}]}]], "Output",
+ CellChangeTimes->{
+  3.734669942137137*^9},ExpressionUUID->"c71c7397-7ab3-4c1b-b95e-\
+a0d91d7ccd2f"]
+}, Open  ]]
 }, Open  ]]
 },
-ScreenStyleEnvironment->"SlideShow",
-WindowSize->{Full, Full},
 WindowMargins->{{Automatic, 304}, {0, Automatic}},
-Magnification:>0.75 Inherited,
 FrontEndVersion->"11.2 for Mac OS X x86 (32-bit, 64-bit Kernel) (September \
 10, 2017)",
 StyleDefinitions->"Default.nb"
@@ -824,12 +826,14 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 221, 7, 138, "Section",ExpressionUUID->"ddf97e63-dfa8-4a55-929d-c72e4fb678f2"],
-Cell[804, 31, 198, 5, 36, "Input",ExpressionUUID->"667b6f8f-e280-448b-88fb-11ceb28d20f4"],
-Cell[1005, 38, 195, 3, 61, "Input",ExpressionUUID->"711e3963-bc2f-44eb-b3c3-67b5fa2e5555"],
-Cell[1203, 43, 416, 11, 19, "Input",ExpressionUUID->"119e5b01-12a9-4fd5-af1a-b466bcfb1b30",
+Cell[580, 22, 221, 7, 105, "Section",ExpressionUUID->"ddf97e63-dfa8-4a55-929d-c72e4fb678f2"],
+Cell[804, 31, 198, 5, 30, "Input",ExpressionUUID->"667b6f8f-e280-448b-88fb-11ceb28d20f4"],
+Cell[1005, 38, 195, 3, 52, "Input",ExpressionUUID->"711e3963-bc2f-44eb-b3c3-67b5fa2e5555"],
+Cell[CellGroupData[{
+Cell[1225, 45, 443, 13, 19, "Input",ExpressionUUID->"83dff210-f1b1-41ea-9f00-fd769aafd82b",
  CellOpen->False],
-Cell[1622, 56, 45175, 747, 40, "Input",ExpressionUUID->"4f89c159-1017-477e-8b91-2772c0fc40cc"]
+Cell[1671, 60, 45054, 747, 52, "Output",ExpressionUUID->"c71c7397-7ab3-4c1b-b95e-a0d91d7ccd2f"]
+}, Open  ]]
 }, Open  ]]
 }
 ]
