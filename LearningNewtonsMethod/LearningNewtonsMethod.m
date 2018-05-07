@@ -174,10 +174,9 @@ RootExampleGraphic[] :=
 
 BisectionAnimated[] :=
     Module[ {a,b,m,steps,f},
-        f[x_] :=
-            x^6 - x - 1;
-        a = -5;
-        b = 5;
+        f[x_] := Sin[x];
+        a = Pi/4;
+        b = (3/2)Pi;
         m = (a + b)/2;
         steps = Reap[
             While[ Abs[f[m]] > 0.001, 
@@ -189,14 +188,15 @@ BisectionAnimated[] :=
                 ]
             ]
             [[2, 1]];
-        Animate[Plot[f[x], {x, -2.5, -0.5},
+        Animate[Plot[f[x], {x, 0, 2 Pi},
           Epilog -> {
           	Directive[{Thick, Red, Dashed}], 
             InfiniteLine[{steps[[i]], 0}, {0, 1}],
             Red, 
-            PointSize[0.03],
+            PointSize[0.02],
             Point@{steps[[i]], f@steps[[i]]}
-          }], 
+          },
+          ImageSize->Large], 
           {i, 1, Length[steps], 1}]
     ];
     
