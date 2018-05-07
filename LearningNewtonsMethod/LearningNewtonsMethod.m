@@ -1,3 +1,5 @@
+(* ::Package:: *)
+
 (* Wolfram Language Package *)
 
 (* Created by the Wolfram Workbench 07-May-2018 *)
@@ -8,8 +10,9 @@ BeginPackage["LearningNewtonsMethod`"]
 (* Exported symbols added here with SymbolName::usage *) 
 NewtonInteractive::usage = "Usalo";
 Calcolatrice::usage = "Usalo";
-ConvertImageToFullyScaledNinePatch::usage = "Convert an image to 9-patch";
-SetBackground::usage = "Set notebook background image";
+ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
+RootExampleGraphic::usage = "Shows a example plot about root concept";
+BisectionAnimated::usage = "Animated BIsection method";
 
 Begin["`Private`"]
 
@@ -29,7 +32,8 @@ NewtonInteractive[] :=
         {{x0, 0.3, Subscript["x", "0"]}, 0.01, 6.11, Appearance -> "Labeled"},
         ControllerLinking -> True,
         Initialization:>{
-            newton[funzioneFinale_,x0_,a_,b_,n_] :=x\
+            newton[funzioneFinale_,x0_,a_,b_,n_] :=
+                x\
                 Module[ {list = NestList[ #1 - funzioneFinale[#1]/Derivative[1][funzioneFinale][#1] & ,x0, n]},
                     Column[{
                         TraditionalForm[Text[Style[Row[{HoldForm[Subscript[{Subscript["x", "k"]}, "k" = 0]^n], " = ", list}], 14]]],
@@ -65,6 +69,44 @@ NewtonInteractive[] :=
                 funzioneFinale6[x_] :=
                     x^2*Log[x] - 1
         }];
+
+    (*NewtonInteractive[]:=
+        Manipulate[
+            newton[input,N[x0], 0, 2*Pi, iteration],
+            {{input,Null,"function"},{InputField[Dynamic[func],String]},ControlType -> InputField},
+            {{iteration, 0, "n"}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
+            {{x0, 0.2, Subscript["x", "0"]}, 0.01, 6.11, Appearance -> "Labeled"},
+            ControllerLinking -> True,
+            Initialization:>{
+                newton[input_,x0_,a_,b_,n_] :=
+                    Module[
+                        {
+                        list = NestList[ #1 - funzioneFinale[#1]/funzioneFinale'[#1] & ,x0, n]
+                        },
+                        funzioneFinale[x_] := Sin[x];
+ 
+                        Column[{
+                            TraditionalForm[Text[Style[Row[{HoldForm[Subscript[{Subscript["x", "k"]}, "k" = 0]^n], " = ", list}], 14]]],
+                            Plot[
+                                funzioneFinale[x], {x, a, b},
+                                PlotRange -> All,
+                                AxesLabel -> {Style["x", 16], Style["y", 16]},
+                                PlotStyle -> Thickness[0.006],
+                                Epilog -> {
+                                    {Red, Thickness[0.002],
+                                        Arrowheads[0.03],
+                                        Arrow[Most[Flatten[({{#1, 0}, {#1, funzioneFinale[#1]}} & ) /@ list, 1]]]},
+                                    {PointSize[0.015],
+                                        Point[{x0, 0}]}
+                                },
+                                ImageSize -> {600, 325}
+                                ]},
+                        Center]
+                    ],
+                    Attributes[Derivative] = {NHoldAll, ReadProtected},
+                    Attributes[Subscript] = {NHoldRest}, Subscript[w, opt] = {2.706, 3.686},
+                    Attributes[PlotRange] = {ReadProtected}
+            }];*)
 
 (* Simply plot a pretty calculator way to write function *)
 Calcolatrice[] :=
@@ -112,6 +154,52 @@ Calcolatrice[] :=
     ];
 
 
+RootExampleGraphic[] :=
+    Module[ {},
+        Legended[
+            Plot[
+                x^6 - 1221,
+                {x, 0, 6},
+                PlotStyle -> 
+                Directive[RGBColor[0.84`, 0.`, 0.1`], AbsoluteThickness[1.415`]],
+                PlotTheme -> "Classic",
+                ImageSize -> Large,
+                PlotRange -> {-1221, 1221},
+                LabelStyle -> {GrayLevel[0]},
+                AxesLabel -> {Style["x", 16], Style["y", 16]}
+            ],
+            Placed[Style[HoldForm[Global`f["x"] = "x"^6 - 1221]], {Right, Top}]
+        ]
+    ];
+
+BisectionAnimated[] :=
+    Module[ {a,b,m,steps,f},
+        f[x_] :=
+            x^6 - x - 1;
+        a = -5;
+        b = 5;
+        m = (a + b)/2;
+        steps = Reap[
+            While[ Abs[f[m]] > 0.001, 
+                Sow[m] If[ f[m]*f[a] < 0,
+                           b = m,
+                           a = m
+                       ];
+                m = (a + b)/2
+                ]
+            ]
+            [[2, 1]];
+        Animate[Plot[f[x], {x, -2.5, -0.5},
+          Epilog -> {
+          	Directive[{Thick, Red, Dashed}], 
+            InfiniteLine[{steps[[i]], 0}, {0, 1}],
+            Red, 
+            PointSize[0.03],
+            Point@{steps[[i]], f@steps[[i]]}
+          }], 
+          {i, 1, Length[steps], 1}]
+    ];
+    
 (* helper function that converts an image to a nine-patch image to be used as background*)
 ConvertImageToFullyScaledNinePatch[img_] :=
     Module[ {paddedImage = ImagePad[img,1,Black] },
@@ -121,9 +209,9 @@ ConvertImageToFullyScaledNinePatch[img_] :=
     ];
 
 (* SetBackground[img_] :=
-		SetOptions[SelectedNotebook[], 
- 		System`BackgroundAppearance -> ConvertImageToFullyScaledNinePatch[img_]]; *)
- 	
+        SetOptions[SelectedNotebook[], 
+         System`BackgroundAppearance -> ConvertImageToFullyScaledNinePatch[img_]];*)
+     
 End[]
 
 EndPackage[]
