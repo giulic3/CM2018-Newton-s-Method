@@ -2,6 +2,8 @@
 
 (* Created by the Wolfram Workbench 07-May-2018 *)
 
+(* Copyright *)
+
 BeginPackage["LearningNewtonsMethod`"]
 (* Exported symbols added here with SymbolName::usage *) 
 NewtonInteractive::usage = "Usalo";
@@ -118,9 +120,9 @@ ConvertImageToFullyScaledNinePatch[img_] :=
             Flatten[Outer[List,{0,#1},{0,#2}]&@@ImageDimensions[paddedImage],1] -> White]
     ];
 
-SetBackground[img_] :=
+(* SetBackground[img_] :=
 		SetOptions[SelectedNotebook[], 
- 		System`BackgroundAppearance -> ConvertImageToFullyScaledNinePatch[img_]];
+ 		System`BackgroundAppearance -> ConvertImageToFullyScaledNinePatch[img_]]; *)
  	
 End[]
 
