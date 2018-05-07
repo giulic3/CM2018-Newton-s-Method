@@ -6,7 +6,8 @@ BeginPackage["LearningNewtonsMethod`"]
 (* Exported symbols added here with SymbolName::usage *) 
 NewtonInteractive::usage = "Usalo";
 Calcolatrice::usage = "Usalo";
-ConvertImageToFullyScaledNinePatch::usage = "Usalo";
+ConvertImageToFullyScaledNinePatch::usage = "Convert an image to 9-patch";
+SetBackground::usage = "Set notebook background image";
 
 Begin["`Private`"]
 
@@ -26,7 +27,7 @@ NewtonInteractive[] :=
         {{x0, 0.3, Subscript["x", "0"]}, 0.01, 6.11, Appearance -> "Labeled"},
         ControllerLinking -> True,
         Initialization:>{
-            newton[funzioneFinale_,x0_,a_,b_,n_] :=
+            newton[funzioneFinale_,x0_,a_,b_,n_] :=x\
                 Module[ {list = NestList[ #1 - funzioneFinale[#1]/Derivative[1][funzioneFinale][#1] & ,x0, n]},
                     Column[{
                         TraditionalForm[Text[Style[Row[{HoldForm[Subscript[{Subscript["x", "k"]}, "k" = 0]^n], " = ", list}], 14]]],
@@ -117,6 +118,10 @@ ConvertImageToFullyScaledNinePatch[img_] :=
             Flatten[Outer[List,{0,#1},{0,#2}]&@@ImageDimensions[paddedImage],1] -> White]
     ];
 
+SetBackground[img_] :=
+		SetOptions[SelectedNotebook[], 
+ 		System`BackgroundAppearance -> ConvertImageToFullyScaledNinePatch[img_]];
+ 	
 End[]
 
 EndPackage[]
