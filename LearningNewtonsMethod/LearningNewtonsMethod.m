@@ -210,47 +210,43 @@ SecantAnimated[] :=
  		
 		 ControllerLinking -> True,
 		 Initialization :> {
-		   
 		   secantSteps[steps_, {x0_, x1_}] :=
 		    Module[
 		     (* Protected Variable *)
-		     {poly, pl, xValues},
+		     {poly, xValues},
 		     (* Initialization of protected variable *)
 		     
 		     poly[x_] := x^4 - 2;
-		     pl =
-		      Plot[
-		       poly[x], {x, 0, 3},
-		       PlotStyle -> {Gray},
-		       PlotRange -> {{0, 3}, {-3, 10}}
-		       ];
-		       
 		     xValues = 
 		      N[NestList[{#1[[1]] - 
 		           poly[#1[[1]]]*((#1[[1]] - #1[[2]])/(poly[#1[[1]]] - 
 		                poly[#1[[2]]])), #1[[1]]} &, {x1, x0}, steps]];
-		                
-		     (* Shows graphic and lines *)
-		     
-			     Show[{
-			       pl,
-			       Graphics[{
-			         {PointSize[0.01], (Point[{#1, 0}] &) /@ Flatten[xValues]},
+		     Plot[
+		       poly[x], {x, 0, 3},
+		       PlotRange -> {{0, 2}, {-3, 10}},
+		       Epilog -> {
+		       	xValues = 
+			      N[NestList[{#1[[1]] - 
+			           poly[#1[[1]]]*((#1[[1]] - #1[[2]])/(poly[#1[[1]]] - 
+			                poly[#1[[2]]])), #1[[1]]} &, {x1, x0}, steps]];
+		       	{PointSize[0.01], (Point[{#1, 0}] &) /@ Flatten[xValues]},
 			         {Thickness[0.002], 
 			          MapIndexed[{ Hue[0.76*(#2[[1]]/\[Lambda])], 
 			             Line[{  {#1[[1]], poly[#1[[1]]]},  {#1[[2]], 
 			                poly[#1[[2]]]}  }]} &, xValues  ]},
 			         {Thickness[0.002], Black, 
 			          Line[({{#1, 0}, {#1, poly[#1]}} &) /@ Flatten[xValues]]}
-			         }]
-			       },
-			      Axes -> True,
-			      PlotRange -> All,
-			      ImageSize -> {500, 300}
-			      ]
+		       },
+		       Axes -> True,
+		       ImageSize -> {500, 300},
+		       AxesLabel -> {Style["x", 16], Style["y", 16]}
+		     ]
+		       
 		     ]
 		   }
-		 ]
+		 ];
+
+
 (* helper function that converts an image to a nine-patch image to be used as background*)
 ConvertImageToFullyScaledNinePatch[img_] :=
     Module[ {paddedImage = ImagePad[img,1,Black] },
