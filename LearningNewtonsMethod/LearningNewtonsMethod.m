@@ -247,6 +247,43 @@ SecantAnimated[] :=
 		 ];
 
 
+(* these two functions show cases/examples in which the Newton's method fails *)
+(* xlog(x)-1*)
+FirstExample[]:=
+	Module[{},
+		f[x_]=x Log[x]-1//N;
+		list = NestList[(#-f[#]/f'[#])&,0.1,3];
+		Plot[{x Log[x]-1},{x,-3,3}, 
+			PlotLegends->"f(x) = xlog(x)-1",
+			Epilog->{
+				PointSize[Large],
+				Point[{list[[1]],0}],
+				Point[{list[[2]],0}],
+				Text[DisplayForm@RowBox[{Subscript[x,0]}],{0.3,0.3}],
+				Text[DisplayForm@RowBox[{Subscript[x,1]}],{-0.6,0.3}],
+				Directive[{Thick,Red,Dashed}],
+				InfiniteLine[{{list[[1]],0},{list[[1]],1}}],
+				InfiniteLine[{{list[[2]],0},{list[[2]],1}}],
+				ImageSize->Large
+			}
+		]
+	]
+(* cos(x) *)
+SecondExample[]:=
+		Module[{},
+			Plot[
+				{Cos[x], y=1},{x,-Pi,Pi}, 
+				PlotRange->{-1.5,1.5},
+				PlotLegends->{"f(x) = cos(x)","f(x) = 1"},
+				Epilog->{
+					PointSize[Large],
+					Point[{0,1}],
+					Text[DisplayForm@RowBox[{Subscript[x,0]}],{0.3,1.2}]
+				}
+			]
+		]
+
+
 (* helper function that converts an image to a nine-patch image to be used as background*)
 ConvertImageToFullyScaledNinePatch[img_] :=
     Module[ {paddedImage = ImagePad[img,1,Black] },
