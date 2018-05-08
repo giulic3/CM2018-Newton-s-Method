@@ -13,6 +13,9 @@ Calcolatrice::usage = "Usalo";
 ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
 RootExampleGraphic::usage = "Shows a example plot about root concept";
 BisectionAnimated::usage = "Animated BIsection method";
+SecantAnimated::usage = "Animated Secant Method";
+
+i::usage = "";
 
 Begin["`Private`"]
 
@@ -33,7 +36,6 @@ NewtonInteractive[] :=
         ControllerLinking -> True,
         Initialization:>{
             newton[funzioneFinale_,x0_,a_,b_,n_] :=
-                x\
                 Module[ {list = NestList[ #1 - funzioneFinale[#1]/Derivative[1][funzioneFinale][#1] & ,x0, n]},
                     Column[{
                         TraditionalForm[Text[Style[Row[{HoldForm[Subscript[{Subscript["x", "k"]}, "k" = 0]^n], " = ", list}], 14]]],
@@ -200,6 +202,55 @@ BisectionAnimated[] :=
           {i, 1, Length[steps], 1}]
     ];
     
+    
+SecantAnimated[] := 
+	Manipulate[
+ 		secantSteps[ \[Lambda], {0.4, 1.8}],
+ 		{{\[Lambda],1,"steps"}, 1, 6,1},
+ 		
+		 ControllerLinking -> True,
+		 Initialization :> {
+		   
+		   secantSteps[steps_, {x0_, x1_}] :=
+		    Module[
+		     (* Protected Variable *)
+		     {poly, pl, xValues},
+		     (* Initialization of protected variable *)
+		     
+		     poly[x_] := x^4 - 2;
+		     pl =
+		      Plot[
+		       poly[x], {x, 0, 3},
+		       PlotStyle -> {Gray},
+		       PlotRange -> {{0, 3}, {-3, 10}}
+		       ];
+		       
+		     xValues = 
+		      N[NestList[{#1[[1]] - 
+		           poly[#1[[1]]]*((#1[[1]] - #1[[2]])/(poly[#1[[1]]] - 
+		                poly[#1[[2]]])), #1[[1]]} &, {x1, x0}, steps]];
+		                
+		     (* Shows graphic and lines *)
+		     
+			     Show[{
+			       pl,
+			       Graphics[{
+			         {PointSize[0.01], (Point[{#1, 0}] &) /@ Flatten[xValues]},
+			         {Thickness[0.002], 
+			          MapIndexed[{ Hue[0.76*(#2[[1]]/\[Lambda])], 
+			             Line[{  {#1[[1]], poly[#1[[1]]]},  {#1[[2]], 
+			                poly[#1[[2]]]}  }]} &, xValues  ]},
+			         {Thickness[0.002], Black, 
+			          Line[({{#1, 0}, {#1, poly[#1]}} &) /@ Flatten[xValues]]}
+			         }]
+			       },
+			      Axes -> True,
+			      PlotRange -> All,
+			      ImageSize -> {500, 300}
+			      ]
+		     ]
+		   }
+		 ]
 (* helper function that converts an image to a nine-patch image to be used as background*)
 ConvertImageToFullyScaledNinePatch[img_] :=
     Module[ {paddedImage = ImagePad[img,1,Black] },
