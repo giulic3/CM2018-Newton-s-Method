@@ -8,12 +8,16 @@
 
 BeginPackage["LearningNewtonsMethod`"]
 (* Exported symbols added here with SymbolName::usage *) 
+
 NewtonInteractive::usage = "Usalo";
 Calcolatrice::usage = "Usalo";
 ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
 RootExampleGraphic::usage = "Shows a example plot about root concept";
 BisectionAnimated::usage = "Animated BIsection method";
 SecantAnimated::usage = "Animated Secant Method";
+NewtonAnimated::usage = "Animated Newton Method";
+FirstExample::usage = "";
+SecondExample::usage = "";
 
 i::usage = "";
 
@@ -203,49 +207,70 @@ BisectionAnimated[] :=
     ];
     
     
-SecantAnimated[] := 
-	Manipulate[
- 		secantSteps[ \[Lambda], {0.4, 1.8}],
- 		{{\[Lambda],1,"steps"}, 1, 6,1},
- 		
-		 ControllerLinking -> True,
-		 Initialization :> {
-		   secantSteps[steps_, {x0_, x1_}] :=
-		    Module[
-		     (* Protected Variable *)
-		     {poly, xValues},
-		     (* Initialization of protected variable *)
-		     
-		     poly[x_] := x^4 - 2;
-		     xValues = 
-		      N[NestList[{#1[[1]] - 
-		           poly[#1[[1]]]*((#1[[1]] - #1[[2]])/(poly[#1[[1]]] - 
-		                poly[#1[[2]]])), #1[[1]]} &, {x1, x0}, steps]];
-		     Plot[
-		       poly[x], {x, 0, 3},
-		       PlotRange -> {{0, 2}, {-3, 10}},
-		       Epilog -> {
-		       	xValues = 
-			      N[NestList[{#1[[1]] - 
-			           poly[#1[[1]]]*((#1[[1]] - #1[[2]])/(poly[#1[[1]]] - 
-			                poly[#1[[2]]])), #1[[1]]} &, {x1, x0}, steps]];
-		       	{PointSize[0.01], (Point[{#1, 0}] &) /@ Flatten[xValues]},
-			         {Thickness[0.002], 
-			          MapIndexed[{ Hue[0.76*(#2[[1]]/\[Lambda])], 
-			             Line[{  {#1[[1]], poly[#1[[1]]]},  {#1[[2]], 
-			                poly[#1[[2]]]}  }]} &, xValues  ]},
-			         {Thickness[0.002], Black, 
-			          Line[({{#1, 0}, {#1, poly[#1]}} &) /@ Flatten[xValues]]}
-		       },
-		       Axes -> True,
-		       ImageSize -> {500, 300},
-		       AxesLabel -> {Style["x", 16], Style["y", 16]}
-		     ]
-		       
-		     ]
-		   }
-		 ];
+SecantAnimated[] :=
+    Module[
+	     (* Protected Variable *)
+	     {poly, xValues,x0,x1},
+	     (* Initialization of protected variable *)
+	     x0 = 0.4;
+	     x1 = 1.8;
+	     poly[x_] := x^4 - 2;
+	     
+	     Animate[
+		    Plot[
+		        poly[x], {x, 0, 3},
+		        PlotRange -> {{0, 2}, {-3, 10}},
+		     	Epilog -> {
+		       	 	xValues = 
+			      		N[NestList[
+			      		{
+			      			#1[[1]],
+			      			#1[[1]] - poly[#1[[1]]]*((#1[[1]] - #1[[2]]) / (poly[#1[[1]]] -  poly[#1[[2]]]))
+			      		} &,
+			      		{x1, x0},
+			      		i
+			      	]];
+		       		{PointSize[0.01], (Point[{#1, 0}] &) /@ Flatten[xValues]},
+			    	{Thickness[0.002], 
+		          		MapIndexed[{ Hue[0.76*(#2[[1]]/6)], 
+		             		Line[{  {#1[[1]], poly[#1[[1]]]},  {#1[[2]], 
+		                	poly[#1[[2]]]}  }]} &, xValues  ]},
+		         	{Thickness[0.002], Black, 
+		          		Line[({{#1, 0}, {#1, poly[#1]}} &) /@ Flatten[xValues]]}
+		     	},
+		       	Axes -> True,
+		       	ImageSize -> {500, 300},
+		       	AxesLabel -> {Style["x", 16], Style["y", 16]}
+		    ],
+		    {i,1,6,1}
+	     ]       
+    ];
 
+NewtonAnimated[] :=
+	Module[
+		{list,funz,x0},
+		x0=0.30;
+		funz[x_] = x^2-7;
+		
+		Animate[
+			Plot[
+				list = NestList[ #1 - funz[#1]/Derivative[1][funz][#1] & ,x0, i];
+		        funz[x], {x, 0, 12},
+		        PlotRange -> All,
+		        AxesLabel -> {Style["x", 16], Style["y", 16]},
+		        PlotStyle -> Thickness[0.006],
+		        Epilog -> {
+		            {Red,Thickness[0.002],
+		                Arrowheads[0.03],
+		                Arrow[Most[Flatten[({{#1, 0}, {#1, funz[#1]}} & ) /@ list, 1]]]},
+		            {PointSize[0.015],
+		                Point[{x0, 0}]}
+		        },
+		        ImageSize -> {600, 325}
+	        ],
+	        {i,1,5,1}
+		]
+	];
 
 (* these two functions show cases/examples in which the Newton's method fails *)
 (* xlog(x)-1*)
@@ -268,6 +293,7 @@ FirstExample[]:=
 			}
 		]
 	]
+	
 (* cos(x) *)
 SecondExample[]:=
 		Module[{},
