@@ -254,30 +254,32 @@ SecantAnimated[] :=
 
 NewtonAnimated[] :=
 	Module[
-		{list,funz,x0},
-		x0=0.30;
-		funz[x_] = x^2-7;
+		{list, funz, x0},
+		x0 = 0.30;
+		funz[x_] = x^2 - 7;
 		
 		Animate[
 			Plot[
-				list = NestList[ #1 - funz[#1]/Derivative[1][funz][#1] & ,x0, i];
-		        funz[x], {x, 0, 12},
-		        PlotRange -> All,
-		        AxesLabel -> {Style["x", 16], Style["y", 16]},
-		        PlotStyle -> Thickness[0.006],
-		        Prolog -> {
-		        	Background -> Null
-		        },
-		        Epilog -> {
-		            {Red,Thickness[0.002],
-		                Arrowheads[0.03],
-		                Arrow[Most[Flatten[({{#1, 0}, {#1, funz[#1]}} & ) /@ list, 1]]]},
-		            {PointSize[0.015],
-		                Point[{x0, 0}]}
-		        },
-		        ImageSize -> {800,500}		        
-	        ],
-	        {i,1,5,1}
+				list = NestList[#1 - funz[#1]/Derivative[1][funz][#1] &, x0, i];
+				funz[x], {x, 0, 12}, PlotRange -> All,
+				AxesLabel -> {Style["x", 16], Style["y", 16]},
+				PlotStyle -> Thickness[0.006],
+				Epilog -> {
+					{
+						PointSize[0.01], 
+						Point[({#1, 0}) & /@ list], 
+						Text[DisplayForm@RowBox[{Subscript["x", i - 1]}], {list[[i]], -10}]
+					},
+					{
+						Red,
+						Thickness[0.002], 
+						Arrowheads[0.03],
+						Arrow[Most[Flatten[({{#1, 0}, {#1, funz[#1]}} &) /@ list, 1]]]
+					}
+				},
+				ImageSize -> {800, 500}
+			],
+			{i, 1, 5, 1}
 		]
 	];
 
