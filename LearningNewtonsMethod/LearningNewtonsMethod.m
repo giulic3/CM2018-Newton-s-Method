@@ -55,7 +55,7 @@ NewtonInteractive[] :=
                                 {PointSize[0.015],
                                     Point[{x0, 0}]}
                             },
-                            ImageSize -> {600, 325}
+                            ImageSize -> {800,500}
                             ]},
                     Center]
                 ],
@@ -169,7 +169,7 @@ RootExampleGraphic[] :=
                 PlotStyle -> 
                 Directive[RGBColor[0.84`, 0.`, 0.1`], AbsoluteThickness[1.415`]],
                 PlotTheme -> "Classic",
-                ImageSize -> Large,
+                ImageSize -> {800,500},
                 PlotRange -> {-1221, 1221},
                 LabelStyle -> {GrayLevel[0]},
                 AxesLabel -> {Style["x", 16], Style["y", 16]}
@@ -179,31 +179,37 @@ RootExampleGraphic[] :=
     ];
 
 BisectionAnimated[] :=
-    Module[ {a,b,m,steps,f},
-        f[x_] := Sin[x];
-        a = Pi/4;
-        b = (3/2)Pi;
-        m = (a + b)/2;
-        steps = Reap[
-            While[ Abs[f[m]] > 0.001, 
-                Sow[m] If[ f[m]*f[a] < 0,
-                           b = m,
-                           a = m
-                       ];
-                m = (a + b)/2
-                ]
-            ]
-            [[2, 1]];
-        Animate[Plot[f[x], {x, 0, 2 Pi},
-          Epilog -> {
-          	Directive[{Thick, Red, Dashed}], 
-            InfiniteLine[{steps[[i]], 0}, {0, 1}],
-            Red, 
-            PointSize[0.02],
-            Point@{steps[[i]], f@steps[[i]]}
-          },
-          ImageSize->Large], 
-          {i, 1, Length[steps], 1}]
+    Module[ 
+    	{a,b,m,steps,f},
+	    f[x_] := Sin[x];
+	    a = Pi/4;
+	    b = (3/2)Pi;
+	    m = (a + b)/2;
+	    steps = 
+		    Reap[
+		        While[ Abs[f[m]] > 0.001, 
+		            Sow[m] If[ f[m]*f[a] < 0,
+		                       b = m,
+		                       a = m
+		                   ];
+		            m = (a + b)/2
+		            ]
+		        ][[2, 1]];
+	        
+	    Animate[
+	    	Plot[
+	    		f[x], {x, 0, 2 Pi},
+		        Epilog -> {
+	          		Directive[{Thick, Red, Dashed}], 
+		            InfiniteLine[{steps[[i]], 0}, {0, 1}],
+		            Red, 
+		            PointSize[0.02],
+		            Point@{steps[[i]], f@steps[[i]]}
+		        },
+	          	ImageSize->{800,500}
+	    	], 
+	      	{i, 1, Length[steps], 1}
+	    ]
     ];
     
     
@@ -239,7 +245,7 @@ SecantAnimated[] :=
 		          		Line[({{#1, 0}, {#1, poly[#1]}} &) /@ Flatten[xValues]]}
 		     	},
 		       	Axes -> True,
-		       	ImageSize -> {500, 300},
+		       	ImageSize -> {800,500},
 		       	AxesLabel -> {Style["x", 16], Style["y", 16]}
 		    ],
 		    {i,1,6,1}
@@ -259,6 +265,9 @@ NewtonAnimated[] :=
 		        PlotRange -> All,
 		        AxesLabel -> {Style["x", 16], Style["y", 16]},
 		        PlotStyle -> Thickness[0.006],
+		        Prolog -> {
+		        	Background -> Null
+		        },
 		        Epilog -> {
 		            {Red,Thickness[0.002],
 		                Arrowheads[0.03],
@@ -266,7 +275,7 @@ NewtonAnimated[] :=
 		            {PointSize[0.015],
 		                Point[{x0, 0}]}
 		        },
-		        ImageSize -> {600, 325}
+		        ImageSize -> {800,500}		        
 	        ],
 	        {i,1,5,1}
 		]
@@ -284,13 +293,14 @@ FirstExample[]:=
 				PointSize[Large],
 				Point[{list[[1]],0}],
 				Point[{list[[2]],0}],
-				Text[DisplayForm@RowBox[{Subscript[x,0]}],{0.3,0.3}],
-				Text[DisplayForm@RowBox[{Subscript[x,1]}],{-0.6,0.3}],
+				Text[DisplayForm@RowBox[{Subscript["x","0"]}],{0.3,0.3}],
+				Text[DisplayForm@RowBox[{Subscript["x","1"]}],{-0.6,0.3}],
 				Directive[{Thick,Red,Dashed}],
 				InfiniteLine[{{list[[1]],0},{list[[1]],1}}],
 				InfiniteLine[{{list[[2]],0},{list[[2]],1}}],
 				ImageSize->Large
-			}
+			},
+			ImageSize -> {800,500}
 		]
 	]
 	
@@ -304,8 +314,9 @@ SecondExample[]:=
 				Epilog->{
 					PointSize[Large],
 					Point[{0,1}],
-					Text[DisplayForm@RowBox[{Subscript[x,0]}],{0.3,1.2}]
-				}
+					Text[DisplayForm@RowBox[{Subscript["x","0"]}],{0.3,1.2}]
+				},
+				ImageSize -> {800,500}
 			]
 		]
 
