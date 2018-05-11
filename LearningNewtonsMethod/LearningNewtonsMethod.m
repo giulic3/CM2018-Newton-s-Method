@@ -9,9 +9,9 @@
 BeginPackage["LearningNewtonsMethod`"]
 (* Exported symbols added here with SymbolName::usage *) 
 
-NewtonInteractive::usage = "Usalo";
-Calcolatrice::usage = "Usalo";
-ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
+NewtonInteractive::usage = "NewtonInteractive[]";
+Calcolatrice::usage = "Calcolatrice[]";
+ConvertImageToFullyScaledNinePatch::usage = "ConvertImageToFullyScaledNinePatch[img] Set notebook background image";
 RootExampleGraphic::usage = "Shows a example plot about root concept";
 BisectionAnimated::usage = "Animated BIsection method";
 SecantAnimated::usage = "Animated Secant Method";
@@ -323,6 +323,8 @@ SecondExample[]:=
 		]
 
 
+
+
 (* helper function that converts an image to a nine-patch image to be used as background*)
 ConvertImageToFullyScaledNinePatch[img_] :=
     Module[ {paddedImage = ImagePad[img,1,Black] },
@@ -337,5 +339,48 @@ ConvertImageToFullyScaledNinePatch[img_] :=
      
 End[]
 
+Esercizio[funzione_, a_, b_] :=
+	Module[
+		{calculator,plot,testoRow1,testoRow2,buttonNew},
+	  	f[x_] = ToExpression[ToString[funzione]];
+	  	
+		calculator = Calcolatrice[];
+		plot = 
+			Plot[
+				f[x], {x, a, b},
+				ImageSize -> Large
+			];
+		testoRow1 = "Calcolare un'approssimazione dello zero usando il Metodo di Newton,";
+		testoRow2 = "con due iterazioni, partendo dalla prima approssimazione data";
+		buttonNew = 
+			Button[
+				TextCell["Nuovo Esercizio", FontSize -> 20],
+				ImageSize -> 120
+			];
+		  
+		Column[{
+			Row[{
+				" ",
+				Column[{
+					Row[{TextCell[testoRow1, "Text", FontSize -> 28]}],
+					Row[{TextCell[testoRow2, "Text", FontSize -> 28]}]
+				}],
+		  		buttonNew
+		  	}, "                         "],
+			Row[{
+				Column[{plot}],
+			  	"               ",
+			  	Column[{
+			    	Row[{TextCell["Stai lavorando sulla funzione: ", "Text", FontSize -> 30], TextCell[f["x"], "Text", FontSize -> 30]}],
+			        Row[{calculator}]
+			   	}, Spacings -> 5]
+			}]
+		}, 
+		Spacings -> 4,
+		Frame -> True
+		]
+	];
+
 EndPackage[]
+
 
