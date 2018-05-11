@@ -115,46 +115,48 @@ NewtonInteractive[] :=
             }];*)
 
 (* Simply plot a pretty calculator way to write function *)
-Calcolatrice[] :=
-    Module[ {},
-        funzione = "";
-        funzioneFinale[x_] = "";
-        buttonVuoto = "";
-        buttonSin = Button["sin",funzione = funzione<>"sin"];
-        buttonCos = Button["cos",funzione = funzione<>"cos"];
-        buttonLog = Button["Log",funzione = funzione<>"Log"];
-        buttonTan = Button["tan",funzione = funzione<>"tan"];
-        buttonLn = Button["ln",funzione = funzione<>"ln"];
-        button1 = Button[" 1 ",funzione = funzione<>"1"];
-        button2 = Button[" 2 ",funzione = funzione<>"2"];
-        button3 = Button[" 3 ",funzione = funzione<>"3"];
-        buttonFINE = Button["FINE",funzioneFinale[x_] = ToExpression[funzione,TraditionalForm]];
-        buttonAzzera = Button["Azzera",{funzione = "",funzioneFinale[x_] = ""}];
-        buttonx = Button["x",funzione = funzione<>"x"];
-        buttonLpar = Button["(",funzione = funzione<>"("];
-        buttonRpar = Button[")",funzione = funzione<>")"];
-        buttonPi = Button["\[Product]",funzione = funzione<>"Pi"];
-        buttonElev = Button["^",funzione = funzione<>"^"];
-        buttonNepero = Button["\[ScriptE]",funzione = funzione<>"nonloso"];
-        button4 = Button["4",funzione = funzione<>"4"];
-        button5 = Button["5",funzione = funzione<>"5"];
-        button6 = Button["6",funzione = funzione<>"6"];
-        buttonVirgola = Button[",",funzione = funzione<>","];
-        buttonPlus = Button["+",funzione = funzione<>"+"];
-        buttonTimes = Button["*",funzione = funzione<>"*"];
-        buttonMinus = Button["-",funzione = funzione<>"-"];
-        buttonDivide = Button["/",funzione = funzione<>"/"];
-        buttonSqrt = Button["Sqrt",funzione = funzione<>"Sqrt"];
-        button7 = Button["7",funzione = funzione<>"7"];
-        button8 = Button["8",funzione = funzione<>"8"];
-        button9 = Button["9",funzione = funzione<>"9"];
-        button0 = Button["0",funzione = funzione<>"0"];
+Calculator[] :=
+    Module[ {buttonOptions = {ImageSize->Full, Background->White}},
+        f = "";
+        finalFunction[x_] = "";
+        buttonEmpty = "";
+        buttonSin = Button["sin",f = f<>"sin", buttonOptions];
+        buttonCos = Button["cos",f = f<>"cos", buttonOptions];
+        buttonLog = Button["log",f = f<>"log", buttonOptions];
+        buttonTan = Button["tan",f = f<>"tan", buttonOptions];
+        buttonLn = Button["ln",f = f<>"ln", buttonOptions];
+        button1 = Button[" 1 ",f = f<>"1", buttonOptions];
+        button2 = Button[" 2 ",f = f<>"2", buttonOptions];
+        button3 = Button[" 3 ",f = f<>"3", buttonOptions];
+        buttonEnd = Button["=",finalFunction[x_] =N[ToExpression[f,TraditionalForm],2], buttonOptions];
+        buttonAllClear = Button["AC",{f = "",finalFunction[x_] = ""}, buttonOptions];
+   buttonClearEntry = Button["CE",{f = StringDrop[f,-1]}, buttonOptions];
+        buttonLpar = Button["(",f = f<>"(", buttonOptions];
+        buttonRpar = Button[")",f = f<>")", buttonOptions];
+        buttonPi = Button["\[Product]",f = f<>"Pi", buttonOptions];
+        buttonElev = Button["^",f = f<>"^", buttonOptions];
+   buttonSquare = Button["\!\(\*SuperscriptBox[\(x\), \(2\)]\)",f=f<>"^2", buttonOptions];
+        buttonNepero = Button["\[ScriptE]",f = f<> "\[ExponentialE]", buttonOptions];
+        button4 = Button["4",f = f<>"4", buttonOptions];
+        button5 = Button["5",f = f<>"5", buttonOptions];
+        button6 = Button["6",f = f<>"6", buttonOptions];
+        buttonComma = Button[",",f = f<>",", buttonOptions];
+        buttonPlus = Button["+",f = f<>"+", buttonOptions];
+        buttonTimes = Button["\[Times]",f = f<>"*", buttonOptions];
+        buttonMinus = Button["-",f = f<>"-", buttonOptions];
+        buttonDivide = Button["\[Divide]",f = f<>"/", buttonOptions];
+        buttonSqrt = Button["\[Sqrt]",f = f<>"sqrt", buttonOptions];
+        button7 = Button["7",f = f<>"7", buttonOptions];
+        button8 = Button["8",f = f<>"8", buttonOptions];
+        button9 = Button["9",f = f<>"9", buttonOptions];
+        button0 = Button["0",f = f<>"0", buttonOptions];
         Grid[
-        {
-            {buttonVuoto,buttonSin,buttonCos,buttonLog,buttonTan,buttonLn,button1,button2,button3,buttonFINE,buttonAzzera,buttonVuoto,Dynamic[funzione]},
-            {buttonx,buttonLpar,buttonRpar,buttonPi,buttonElev,buttonNepero,button4,button5,button6,buttonVirgola,buttonVuoto,buttonVuoto},
-            {buttonVuoto,buttonPlus,buttonTimes,buttonMinus,buttonDivide,buttonSqrt,button7,button8,button9,button0,buttonVuoto,buttonVuoto,Dynamic[funzioneFinale["x"]]}
-        },
+{
+{button7, button8, button9, buttonDivide, buttonEmpty, buttonEmpty, buttonSin, buttonCos, buttonTan,buttonEmpty, buttonEmpty, buttonClearEntry},
+{button4, button5, button6, buttonTimes,buttonEmpty, buttonEmpty, buttonLn, buttonLog, buttonSquare,buttonEmpty, buttonEmpty, buttonAllClear},
+{button1, button2, button3, buttonMinus,buttonEmpty, buttonEmpty, buttonPi, buttonNepero, buttonElev,buttonEmpty, buttonEmpty,buttonEmpty,buttonEmpty, Dynamic[f]},
+{buttonComma, button0, buttonEnd, buttonPlus,buttonEmpty, buttonEmpty, buttonLpar, buttonRpar, buttonSqrt, buttonEmpty, buttonEmpty, buttonEmpty, buttonEmpty, Dynamic[finalFunction["x"]]}
+},
         Alignment->Center
         ]
     ];
