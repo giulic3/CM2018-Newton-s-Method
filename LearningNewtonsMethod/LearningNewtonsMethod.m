@@ -9,6 +9,7 @@
 BeginPackage["LearningNewtonsMethod`"]
 (* Exported symbols added here with SymbolName::usage *) 
 
+ReadInputFile::usage = "Usalo";
 NewtonInteractive::usage = "Usalo";
 Calcolatrice::usage = "Usalo";
 ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
@@ -22,6 +23,15 @@ SecondExample::usage = "";
 i::usage = "";
 
 Begin["`Private`"]
+ 
+(* Function that reads expressions from file *)
+ReadInputFile[] :=
+    Module[{expressions},
+        expressions = Import["inputExp"];
+        For[i = 0, i < Length[expressions], i++, 
+             Print[ToExpression[expressions[[i]]]];
+        ]
+    ];
 
 (* Function that shows an interactive manipulate *)
 NewtonInteractive[] :=
@@ -334,7 +344,7 @@ ConvertImageToFullyScaledNinePatch[img_] :=
 (* SetBackground[img_] :=
         SetOptions[SelectedNotebook[], 
          System`BackgroundAppearance -> ConvertImageToFullyScaledNinePatch[img_]];*)
-     
+                         
 End[]
 
 EndPackage[]
