@@ -18,7 +18,7 @@ SecantAnimated::usage = "Animated Secant Method";
 NewtonAnimated::usage = "Animated Newton Method";
 FirstExample::usage = "";
 SecondExample::usage = "";
-
+Calculator::usage = "";
 i::usage = "";
 
 Begin["`Private`"]
@@ -341,24 +341,21 @@ ConvertImageToFullyScaledNinePatch[img_] :=
      
 End[]
 
-Esercizio[funzione_, a_, b_] :=
+Esercizio[funzione_, a_, b_,x0_] :=
 	Module[
-		{calculator,plot,testoRow1,testoRow2,buttonNew,fun},
-	  	fun[x_] = ToExpression[ToString[funzione]];
+		{calculator,plot,testoRow1,testoRow2,buttonNew},
+	  	fun[x_] := ToExpression[funzione];
 	  	
-		calculator = Calcolatrice[];
+		calculator = Calculator[];	
 		plot = 
 			Plot[
 				fun[x], {x, a, b},
 				ImageSize -> Large
 			];
 		testoRow1 = "Calcolare un'approssimazione dello zero usando il Metodo di Newton,";
-		testoRow2 = "con due iterazioni, partendo dalla prima approssimazione data";
+		testoRow2 = "con due iterazioni, 	 partendo dalla prima approssimazione data";
 		buttonNew = 
-			Button[
-				TextCell["Nuovo Esercizio", FontSize -> 20],
-				ImageSize -> 120
-			];
+			Button[Style["Nuovo Esercizio", FontSize -> 20], ImageSize -> 150];
 		  
 		Column[{
 			Row[{
@@ -374,9 +371,21 @@ Esercizio[funzione_, a_, b_] :=
 			  	"               ",
 			  	Column[{
 			    	Row[{TextCell["Stai lavorando sulla funzione:", "Text", FontSize -> 30]}],
-			    	Row[{TextCell["  f(x) = ", "Text", FontSize -> 30], TextCell[TraditionalForm[fun["x"]], "Text", FontSize -> 30]}],
-			        Row[{calculator}]
-			   	}, Spacings -> 5]
+			    	Row[{
+			    		TextCell["    f(x) = ", "Text", FontSize -> 30], 
+			    		TextCell[TraditionalForm[fun[x]], "Text", FontSize -> 30](*,
+			    		TextCell["     f(", "Text", FontSize -> 30], TextCell[ToString[x0], "Text", FontSize -> 30], TextCell[ ") = ", "Text", FontSize -> 30],
+			    		TextCell[TraditionalForm[fun[x]/.x->x0], "Text", FontSize -> 30] *)
+			    		
+			    	}],
+			        Row[{calculator}],
+			        Row[{
+			       		TextCell["Inserisci il risultato: ", "Text", FontSize -> 30], 
+			    		InputField[Dynamic[Risultato],Number,ImageSize->100],
+			    		"  ",
+			    		Button[Style["Verifica", FontSize -> 20], ImageSize -> 150]
+			       	}]
+			   	}, Spacings -> 3]
 			}]
 		}, 
 		Spacings -> 4,
