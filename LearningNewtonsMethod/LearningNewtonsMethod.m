@@ -9,9 +9,16 @@
 BeginPackage["LearningNewtonsMethod`"]
 (* Exported symbols added here with SymbolName::usage *) 
 
+<<<<<<< HEAD
+ReadInputFile::usage = "Usalo";
+NewtonInteractive::usage = "Usalo";
+Calcolatrice::usage = "Usalo";
+ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
+=======
 NewtonInteractive::usage = "NewtonInteractive[]";
 Calcolatrice::usage = "Calcolatrice[]";
 ConvertImageToFullyScaledNinePatch::usage = "ConvertImageToFullyScaledNinePatch[img] Set notebook background image";
+>>>>>>> 57be622726cd207d1bc7b0e220c608dd18f136bd
 RootExampleGraphic::usage = "Shows a example plot about root concept";
 BisectionAnimated::usage = "Animated BIsection method";
 SecantAnimated::usage = "Animated Secant Method";
@@ -22,6 +29,15 @@ Calculator::usage = "";
 i::usage = "";
 
 Begin["`Private`"]
+ 
+(* Function that reads expressions from file *)
+ReadInputFile[] :=
+    Module[{expressions},
+        expressions = Import["inputExp"];
+        For[i = 0, i < Length[expressions], i++, 
+             Print[ToExpression[expressions[[i]]]];
+        ]
+    ];
 
 (* Function that shows an interactive manipulate *)
 NewtonInteractive[] :=
@@ -338,7 +354,7 @@ ConvertImageToFullyScaledNinePatch[img_] :=
 (* SetBackground[img_] :=
         SetOptions[SelectedNotebook[], 
          System`BackgroundAppearance -> ConvertImageToFullyScaledNinePatch[img_]];*)
-     
+                         
 End[]
 
 Esercizio[funzione_, a_, b_,x0_] :=
