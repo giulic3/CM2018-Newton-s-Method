@@ -341,13 +341,13 @@ End[]
 
 Esercizio[funzione_, a_, b_] :=
 	Module[
-		{calculator,plot,testoRow1,testoRow2,buttonNew},
-	  	f[x_] = ToExpression[ToString[funzione]];
+		{calculator,plot,testoRow1,testoRow2,buttonNew,fun},
+	  	fun[x_] = ToExpression[ToString[funzione]];
 	  	
 		calculator = Calcolatrice[];
 		plot = 
 			Plot[
-				f[x], {x, a, b},
+				fun[x], {x, a, b},
 				ImageSize -> Large
 			];
 		testoRow1 = "Calcolare un'approssimazione dello zero usando il Metodo di Newton,";
@@ -371,7 +371,8 @@ Esercizio[funzione_, a_, b_] :=
 				Column[{plot}],
 			  	"               ",
 			  	Column[{
-			    	Row[{TextCell["Stai lavorando sulla funzione: ", "Text", FontSize -> 30], TextCell[f["x"], "Text", FontSize -> 30]}],
+			    	Row[{TextCell["Stai lavorando sulla funzione:", "Text", FontSize -> 30]}],
+			    	Row[{TextCell["  f(x) = ", "Text", FontSize -> 30], TextCell[TraditionalForm[fun["x"]], "Text", FontSize -> 30]}],
 			        Row[{calculator}]
 			   	}, Spacings -> 5]
 			}]
