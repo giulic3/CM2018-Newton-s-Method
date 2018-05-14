@@ -361,42 +361,80 @@ Esercizio[funzione_, a_, b_,x0_] :=
 		plot = 
 			Plot[
 				fun[x], {x, a, b},
+				PlotStyle -> Thickness[0.006],
+				Epilog->{
+					PointSize[Large],
+					Point[{x0,0}](*	,
+					Text[DisplayForm@RowBox[{Subscript["x","0"]}], {x0, -0.20}] *)
+				},
 				ImageSize -> Large
 			];
 		testoRow1 = "Calcolare un'approssimazione dello zero usando il Metodo di Newton,";
 		testoRow2 = "con due iterazioni, 	 partendo dalla prima approssimazione data";
-		buttonNew = 
-			Button[Style["Nuovo Esercizio", FontSize -> 20], ImageSize -> 150];
-		  
+		buttonNew = Button[Style["Nuovo Esercizio", FontSize -> 20], ImageSize -> 150];  
+		Off[FindRoot::cvmit];
+		Iter2Result = FindRoot[fun[x], {x, 3}, Method -> "Newton", MaxIterations -> 2, WorkingPrecision -> 3][[1]][[2]];
 		Column[{
-			Row[{
-				" ",
+			Row[{"   ",
 				Column[{
-					Row[{TextCell[testoRow1, "Text", FontSize -> 28]}],
-					Row[{TextCell[testoRow2, "Text", FontSize -> 28]}]
+					Row[{
+						" ",
+						Column[{
+							Row[{TextCell[testoRow1, "Text", FontSize -> 28]}],
+							Row[{TextCell[testoRow2, "Text", FontSize -> 28]}]
+						}],
+				  		buttonNew
+				  	}, "                         "],
+					Row[{
+						Column[{plot}],
+					  	"               ",
+					  	Column[{
+					  		Row[{}],
+					    	Row[{
+					    		TextCell["Funzione Data:", "Text", FontSize -> 30],
+					    		TextCell["    f(x) = ", "Text", FontSize -> 30,FontColor->Blue], 
+					    		TextCell[TraditionalForm[fun[x]], "Text", FontSize -> 30,FontColor->Blue]}],
+					    	Row[{
+					    		TextCell["Prima approssimazione data:", "Text", FontSize -> 30], 
+					    		TextCell["    ", "Text", FontSize -> 30,FontColor->Blue],
+					    		TextCell[Subscript["x","0"],FontSize -> 30,FontColor->Blue],
+					    		TextCell[" = ", "Text", FontSize -> 30,FontColor->Blue],
+					    		TextCell[x0,FontSize->30,FontColor->Blue]
+					    		
+					    	}],
+					        Row[{calculator}],
+					        Row[{
+					       		TextCell["Inserisci il risultato: ", "Text", FontSize -> 30], 
+					    		InputField[Dynamic[Risultato],Number,ImageSize->100],
+					    		"  ",
+					    		Button[Style["Verifica", FontSize -> 20],
+					    			{
+					    				If[ToString[Risultato] == ToString[Iter2Result],
+					    					CreateDialog[{
+					    						Column[{
+						    						TextCell["Complimenti!", FontSize -> 25],
+						    						TextCell[\[HappySmiley], FontSize -> 200, FontColor -> Green],
+						    						TextCell["Hai risolto l'esercizio correttamente!", FontSize -> 25],
+						    						DefaultButton[]
+					    						},Alignment->Center]
+					    					},WindowTitle->"Corretto"],
+					    					CreateDialog[{
+					    						Column[{
+						    						TextCell["Errore!", FontSize -> 25],
+						    						TextCell[\[WarningSign], FontSize -> 200, FontColor -> Red],
+						    						TextCell["Riprova e stai più attento", FontSize -> 25],
+						    						DefaultButton[]
+					    						},Alignment->Center]
+					    					},WindowTitle->"Sbagliato"]
+					    				]
+					    			},
+					    			 ImageSize -> 150]
+					       	}],
+					       	Row[{Iter2Result,"     !!! Da togliere !!!"}]
+					   	}, Spacings -> 3]
+					}]
 				}],
-		  		buttonNew
-		  	}, "                         "],
-			Row[{
-				Column[{plot}],
-			  	"               ",
-			  	Column[{
-			    	Row[{TextCell["Stai lavorando sulla funzione:", "Text", FontSize -> 30]}],
-			    	Row[{
-			    		TextCell["    f(x) = ", "Text", FontSize -> 30], 
-			    		TextCell[TraditionalForm[fun[x]], "Text", FontSize -> 30](*,
-			    		TextCell["     f(", "Text", FontSize -> 30], TextCell[ToString[x0], "Text", FontSize -> 30], TextCell[ ") = ", "Text", FontSize -> 30],
-			    		TextCell[TraditionalForm[fun[x]/.x->x0], "Text", FontSize -> 30] *)
-			    		
-			    	}],
-			        Row[{calculator}],
-			        Row[{
-			       		TextCell["Inserisci il risultato: ", "Text", FontSize -> 30], 
-			    		InputField[Dynamic[Risultato],Number,ImageSize->100],
-			    		"  ",
-			    		Button[Style["Verifica", FontSize -> 20], ImageSize -> 150]
-			       	}]
-			   	}, Spacings -> 3]
+				"   "
 			}]
 		}, 
 		Spacings -> 4,
