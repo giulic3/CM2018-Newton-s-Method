@@ -15,7 +15,8 @@ NewtonInteractive::usage = "Usalo";
 Calcolatrice::usage = "Usalo";
 ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
 RootExampleGraphic::usage = "Shows a example plot about root concept";
-BisectionAnimated::usage = "Animated BIsection method";
+BisectionInteractive::usage = "Interactive Bisection method";
+BisectionAnimated::usage = "Animated Bisection method";
 SecantAnimated::usage = "Animated Secant Method";
 NewtonAnimated::usage = "Animated Newton Method";
 FirstExample::usage = "";
@@ -209,7 +210,7 @@ RootExampleGraphic[] :=
             Plot[
                 x^6 - 1221,
                 {x, 0, 6},
-                PlotStyle -> 
+                PlotStyle ->
                 Directive[RGBColor[0.84`, 0.`, 0.1`], AbsoluteThickness[1.415`]],
                 PlotTheme -> "Classic",
                 ImageSize -> {800,500},
@@ -221,16 +222,49 @@ RootExampleGraphic[] :=
         ]
     ];
 
+BisectionInteractive[] :=
+    Manipulate[
+               Show[{Plot[f[x], {x, 0, 2.5},
+                          PlotStyle -> {{Thickness[0.005]}, {Thickness[0.001]}, {Thickness[
+                                                                                           0.001]}, {Thickness[0.001]}, {Thickness[0.001]}},
+                          Evaluate[plotoptions], Filling -> {1 -> Axis},
+                          PlotLabel -> pl[f, {aP[[1]], bP[[1]]}, nn]],
+        Graphics[{Red, Line /@ intervalle[f, {aP[[1]], bP[[1]]}, nn]}],
+        Graphics[{Dashed, vertline /@ linie[f, {aP[[1]], bP[[1]]}, nn]}]},
+                    ImageSize -> {500, 375}],
+               {{aP, {0.5, 0}}, {0, 0}, {2.5, 0}, ControlType -> Locator,
+                   Appearance ->
+                   Style["|", 20, Bold, RGBColor[1, 0, 0]]}, {{bP, {2, 0}}, {0,
+                       0}, {2.5, 0}, ControlType -> Locator,
+                       Appearance -> Style["|", 20, Bold, RGBColor[1, 0, 0]]}, {{nn, 1,
+                           "Iterazione"}, 1, 12, 1, Appearance -> "Labeled"},
+               TrackedSymbols -> Manipulate, ControllerLinking -> True,
+               Initialization :> {plotoptions = {PlotRange -> {{0, 2.5}, {-1, 1}},
+        PlotRangePadding -> 0.25, AspectRatio -> Automatic,
+        ImageSize -> 400}, Attributes[PlotRange] = {ReadProtected},
+                   pl[f$_, {a$_, b$_}] :=
+                   If[f$[a$]*f$[b$] <= 0,
+                      Row[{"Intervallo considerato: [", linie[f, {a, b}, n][[1]],
+                       ",", linie[f, {a, b}, n][[2]], "]"}]],
+                   linie[f_, {a_, b_}, 1] = {Min[a, b], Max[a, b]},
+                   bisec[f_, {a_, b_}] :=
+                   If[f[a]*f[b] <= 0,
+                      If[f[(a + b)/2]*f[a] <= 0, {a, (a + b)/2},
+                         If[f[(a + b)/2]*f[b] < 0, {(a + b)/2, b}]], {a, b}],
+                   f[x_] := (x^4 - 2)}
+    ]
+]
+                
 BisectionAnimated[] :=
-    Module[ 
+    Module[
     	{a,b,m,steps,f},
 	    f[x_] := Sin[x];
 	    a = Pi/4;
 	    b = (3/2)Pi;
 	    m = (a + b)/2;
-	    steps = 
+	    steps =
 		    Reap[
-		        While[ Abs[f[m]] > 0.001, 
+		        While[ Abs[f[m]] > 0.001,
 		            Sow[m] If[ f[m]*f[a] < 0,
 		                       b = m,
 		                       a = m
@@ -243,14 +277,14 @@ BisectionAnimated[] :=
 	    	Plot[
 	    		f[x], {x, 0, 2 Pi},
 		        Epilog -> {
-	          		Directive[{Thick, Red, Dashed}], 
+	          		Directive[{Thick, Red, Dashed}],
 		            InfiniteLine[{steps[[i]], 0}, {0, 1}],
-		            Red, 
+		            Red,
 		            PointSize[0.02],
 		            Point@{steps[[i]], f@steps[[i]]}
 		        },
 	          	ImageSize->{800,500}
-	    	], 
+	    	],
 	      	{i, 1, Length[steps], 1}
 	    ]
     ];
@@ -270,7 +304,7 @@ SecantAnimated[] :=
 		        poly[x], {x, 0, 3},
 		        PlotRange -> {{0, 2}, {-3, 10}},
 		     	Epilog -> {
-		       	 	xValues = 
+		       	 	xValues =
 			      		N[NestList[
 			      		{
 			      			#1[[1]],
@@ -280,11 +314,11 @@ SecantAnimated[] :=
 			      		i
 			      	]];
 		       		{PointSize[0.01], (Point[{#1, 0}] &) /@ Flatten[xValues]},
-			    	{Thickness[0.002], 
-		          		MapIndexed[{ Hue[0.76*(#2[[1]]/6)], 
-		             		Line[{  {#1[[1]], poly[#1[[1]]]},  {#1[[2]], 
+			    	{Thickness[0.002],
+		          		MapIndexed[{ Hue[0.76*(#2[[1]]/6)],
+		             		Line[{  {#1[[1]], poly[#1[[1]]]},  {#1[[2]],
 		                	poly[#1[[2]]]}  }]} &, xValues  ]},
-		         	{Thickness[0.002], Black, 
+		         	{Thickness[0.002], Black,
 		          		Line[({{#1, 0}, {#1, poly[#1]}} &) /@ Flatten[xValues]]}
 		     	},
 		       	Axes -> True,
@@ -292,7 +326,7 @@ SecantAnimated[] :=
 		       	AxesLabel -> {Style["x", 16], Style["y", 16]}
 		    ],
 		    {i,1,6,1}
-	     ]       
+	     ]
     ];
 
 NewtonAnimated[] :=
@@ -309,13 +343,13 @@ NewtonAnimated[] :=
 				PlotStyle -> Thickness[0.006],
 				Epilog -> {
 					{
-						PointSize[0.01], 
-						Point[({#1, 0}) & /@ list], 
+						PointSize[0.01],
+						Point[({#1, 0}) & /@ list],
 						Text[DisplayForm@RowBox[{Subscript["x", i - 1]}], {list[[i]], -10}]
 					},
 					{
 						Red,
-						Thickness[0.002], 
+						Thickness[0.002],
 						Arrowheads[0.03],
 						Arrow[Most[Flatten[({{#1, 0}, {#1, funz[#1]}} &) /@ list, 1]]]
 					}
@@ -332,7 +366,7 @@ FirstExample[]:=
 	Module[{},
 		f[x_]=x Log[x]-1//N;
 		list = NestList[(#-f[#]/f'[#])&,0.1,3];
-		Plot[{x Log[x]-1},{x,-3,3}, 
+		Plot[{x Log[x]-1},{x,-3,3},
 			PlotLegends->"f(x) = xlog(x)-1",
 			Epilog->{
 				PointSize[Large],
@@ -353,7 +387,7 @@ FirstExample[]:=
 SecondExample[]:=
 		Module[{},
 			Plot[
-				{Cos[x], y=1},{x,-Pi,Pi}, 
+				{Cos[x], y=1},{x,-Pi,Pi},
 				PlotRange->{-1.5,1.5},
 				PlotLegends->{"f(x) = cos(x)","f(x) = 1"},
 				Epilog->{
@@ -377,7 +411,7 @@ ConvertImageToFullyScaledNinePatch[img_] :=
     ];
 
 (* SetBackground[img_] :=
-        SetOptions[SelectedNotebook[], 
+        SetOptions[SelectedNotebook[],
          System`BackgroundAppearance -> ConvertImageToFullyScaledNinePatch[img_]];*)
                          
 End[]
@@ -387,8 +421,8 @@ Esercizio[funzione_, a_, b_,x0_] :=
 		{calculator,plot,testoRow1,testoRow2,buttonNew},
 	  	fun[x_] := ToExpression[funzione];
 	  	
-		calculator = Calculator[];	
-		plot = 
+		calculator = Calculator[];
+		plot =
 			Plot[
 				fun[x], {x, a, b},
 				PlotStyle -> Thickness[0.006],
@@ -401,7 +435,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
 			];
 		testoRow1 = "Calcolare un'approssimazione dello zero usando il Metodo di Newton,";
 		testoRow2 = "con due iterazioni, 	 partendo dalla prima approssimazione data";
-		buttonNew = Button[Style["Nuovo Esercizio", FontSize -> 20], ImageSize -> 150];  
+		buttonNew = Button[Style["Nuovo Esercizio", FontSize -> 20], ImageSize -> 150];
 		Off[FindRoot::cvmit];
 		Iter2Result = FindRoot[fun[x], {x, 3}, Method -> "Newton", MaxIterations -> 2, WorkingPrecision -> 3][[1]][[2]];
 		Column[{
@@ -421,10 +455,10 @@ Esercizio[funzione_, a_, b_,x0_] :=
 					  		Row[{}],
 					    	Row[{
 					    		TextCell["Funzione Data:", "Text", FontSize -> 30],
-					    		TextCell["    f(x) = ", "Text", FontSize -> 30,FontColor->Blue], 
+					    		TextCell["    f(x) = ", "Text", FontSize -> 30,FontColor->Blue],
 					    		TextCell[TraditionalForm[fun[x]], "Text", FontSize -> 30,FontColor->Blue]}],
 					    	Row[{
-					    		TextCell["Prima approssimazione data:", "Text", FontSize -> 30], 
+					    		TextCell["Prima approssimazione data:", "Text", FontSize -> 30],
 					    		TextCell["    ", "Text", FontSize -> 30,FontColor->Blue],
 					    		TextCell[Subscript["x","0"],FontSize -> 30,FontColor->Blue],
 					    		TextCell[" = ", "Text", FontSize -> 30,FontColor->Blue],
@@ -433,7 +467,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
 					    	}],
 					        Row[{calculator}],
 					        Row[{
-					       		TextCell["Inserisci il risultato: ", "Text", FontSize -> 30], 
+					       		TextCell["Inserisci il risultato: ", "Text", FontSize -> 30],
 					    		InputField[Dynamic[Risultato],Number,ImageSize->100],
 					    		"  ",
 					    		Button[Style["Verifica", FontSize -> 20],
@@ -465,7 +499,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
 				}],
 				"   "
 			}]
-		}, 
+		},
 		Spacings -> 4,
 		Frame -> True
 		]
