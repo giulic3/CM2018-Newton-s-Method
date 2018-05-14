@@ -34,13 +34,33 @@ ReadInputFile[] :=
              (*Print[ToExpression[expressions[[i]]]];*)
              esp = Append[esp,expressions[[i]]];
             ];
-        list = esp[[4]];
-        func = ToString[list[[1]]];
-        a = list[[2]];
-        b = list[[3]];
-        x0 = list[[4]];
-           
-        Esercizio[func,a,b,x0]
+        
+        i = 1;
+        func = ToString[esp[[i]][[1]]];
+        a = esp[[i]][[2]];
+        b = esp[[i]][[3]];
+        x0 = esp[[i]][[4]];
+        
+        d = Esercizio[func,a,b,x0];
+        
+        Column[{
+	        Row[{
+	        	Button[
+		        	Style["Nuovo Esercizio", FontSize -> 25],
+		        	d = Esercizio[
+		        		ToString[esp[[1 + Mod[++i, Length[esp]]]][[1]]],
+		        		esp[[1 + Mod[++i, Length[esp]]]][[2]],
+		        		esp[[1 + Mod[++i, Length[esp]]]][[3]],
+		        		esp[[1 + Mod[++i, Length[esp]]]][[4]]
+		        	],
+		        	ImageSize -> 200
+		        ]
+	        }],
+	        Row[{
+	        	Dynamic[d]
+	        }]
+        }]
+       
     ];
  
 
@@ -392,8 +412,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
 						Column[{
 							Row[{TextCell[testoRow1, "Text", FontSize -> 28]}],
 							Row[{TextCell[testoRow2, "Text", FontSize -> 28]}]
-						}],
-				  		buttonNew
+						}]
 				  	}, "                         "],
 					Row[{
 						Column[{plot}],
