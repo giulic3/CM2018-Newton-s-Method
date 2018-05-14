@@ -27,12 +27,22 @@ Begin["`Private`"]
  
 (* Function that reads expressions from file *)
 ReadInputFile[] :=
-    Module[{expressions},
+    Module[{expressions,esp,func,a,b,x0},
+        esp = {};
         expressions = Import["inputExp"];
-        For[i = 0, i < Length[expressions], i++, 
-             Print[ToExpression[expressions[[i]]]];
-        ]
+        For[i = 1, i <= Length[expressions], i++,
+             (*Print[ToExpression[expressions[[i]]]];*)
+             esp = Append[esp,expressions[[i]]];
+            ];
+        list = esp[[4]];
+        func = ToString[list[[1]]];
+        a = list[[2]];
+        b = list[[3]];
+        x0 = list[[4]];
+           
+        Esercizio[func,a,b,x0]
     ];
+ 
 
 (* Function that shows an interactive manipulate *)
 NewtonInteractive[] :=
