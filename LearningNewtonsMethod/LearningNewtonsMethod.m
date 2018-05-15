@@ -224,37 +224,38 @@ RootExampleGraphic[] :=
 
 BisectionInteractive[] :=
     Manipulate[
-               Show[{Plot[f[x], {x, 0, 2.5},
-                          PlotStyle -> {{Thickness[0.005]}, {Thickness[0.001]}, {Thickness[
-                                                                                           0.001]}, {Thickness[0.001]}, {Thickness[0.001]}},
-                          Evaluate[plotoptions], Filling -> {1 -> Axis},
-                          PlotLabel -> pl[f, {aP[[1]], bP[[1]]}, nn]],
-        Graphics[{Red, Line /@ intervalle[f, {aP[[1]], bP[[1]]}, nn]}],
-        Graphics[{Dashed, vertline /@ linie[f, {aP[[1]], bP[[1]]}, nn]}]},
-                    ImageSize -> {500, 375}],
-               {{aP, {0.5, 0}}, {0, 0}, {2.5, 0}, ControlType -> Locator,
-                   Appearance ->
-                   Style["|", 20, Bold, RGBColor[1, 0, 0]]}, {{bP, {2, 0}}, {0,
-                       0}, {2.5, 0}, ControlType -> Locator,
-                       Appearance -> Style["|", 20, Bold, RGBColor[1, 0, 0]]}, {{nn, 1,
-                           "Iterazione"}, 1, 12, 1, Appearance -> "Labeled"},
-               TrackedSymbols -> Manipulate, ControllerLinking -> True,
-               Initialization :> {plotoptions = {PlotRange -> {{0, 2.5}, {-1, 1}},
-        PlotRangePadding -> 0.25, AspectRatio -> Automatic,
-        ImageSize -> 400}, Attributes[PlotRange] = {ReadProtected},
-                   pl[f$_, {a$_, b$_}] :=
-                   If[f$[a$]*f$[b$] <= 0,
-                      Row[{"Intervallo considerato: [", linie[f, {a, b}, n][[1]],
-                       ",", linie[f, {a, b}, n][[2]], "]"}]],
-                   linie[f_, {a_, b_}, 1] = {Min[a, b], Max[a, b]},
-                   bisec[f_, {a_, b_}] :=
-                   If[f[a]*f[b] <= 0,
-                      If[f[(a + b)/2]*f[a] <= 0, {a, (a + b)/2},
-                         If[f[(a + b)/2]*f[b] < 0, {(a + b)/2, b}]], {a, b}],
-                   f[x_] := (x^4 - 2)}
-    ]
+           Show[{ Plot[
+                    quad[x], {x, 0, 2.5},
+                    PlotStyle -> {{Thickness[0.005]}, {Thickness[0.001]}, {Thickness[0.001]}, {Thickness[0.001]}, {Thickness[0.001]}},
+                    Evaluate[plotoptions], Filling -> {1 -> Axis},
+                    PlotLabel -> pl[f, {aP[[1]], bP[[1]]}, nn]
+                  ],
+                  Graphics[{Red, Line /@ intervalle[f, {aP[[1]], bP[[1]]}, nn]}],
+                  Graphics[{Dashed, vertline /@ linie[f, {aP[[1]], bP[[1]]}, nn]}]}, ImageSize -> {500, 375}
+           ],
+           {{f, quad,""},{quad->"\!\(\*SuperscriptBox[\(x\), \(4\)]\)-2"}, ControlType -> None},
+           {{aP, {0.5, 0}}, {0, 0}, {2.5, 0}, ControlType -> Locator, Appearance -> Style["|", 20, Bold, RGBColor[1, 0, 0]]},
+           {{bP, {2, 0}}, {0,0}, {2.5, 0}, ControlType -> Locator, Appearance -> Style["|", 20, Bold, RGBColor[1, 0, 0]]},
+           {{nn, 1,"Iterazione"}, 1, 12, 1, Appearance -> "Labeled"},
+           TrackedSymbols -> Manipulate, ControllerLinking -> True,
+           Initialization:>{
+               plotoptions={PlotRange->{{0,2.5},{-1,1}},PlotRangePadding->0.25, AspectRatio->Automatic,ImageSize->400},
+               Attributes[PlotRange]={ReadProtected},
+               pl[f_,{a_,b_},n_]:=If[f[a]*f[b]<=0,
+                    Row[{"Intervallo: [",linie[f,{a,b},n][[1]],", ",linie[f,{a,b},n][[2]],"]"}],
+                    Row[{"Errore"}]],
+               linie[f_,{a_,b_},1]={Min[a,b],Max[a,b]},linie[f_,{a_,b_},n_]:=
+               If[f[a]*f[b]<=0,bisec[f,linie[f,{a,b},n-1]],{a,b}],linie[f$_,1]={0,2},linie[f_,n_]:=bisec[f,linie[f,n-1]],bisec[f_,{a_,b_}]:=
+               If[f[a]*f[b]<=0,If[f[(a+b)/2]*f[a]<=0,{a,(a+b)/2},If[f[(a+b)/2]*f[b]<0,{(a+b)/2,b}]],{a,b}],Attributes[f$]={Temporary},Attributes[a$]=
+               {Temporary},Attributes[b$]={Temporary},FE`nn$$141=7,intervalle[f_,{a_,b_},nn_]:=
+               Table[{{linie[f,{a,b},i][[1]],-(i/30)},{linie[f,{a,b},i][[2]],-(i/30)}},{i,1,nn}],
+               intervalle[f_,nn_]:=Table[{{linie[f,i][[1]],-(i/50)},{linie[f,i][[2]],-(i/50)}},{i,1,nn}],
+               vertline[a_]:=Line[{{a,-1},{a,1}}], quad[x_] := (x^4 - 2)
+           }
 ]
-                
+         
+                 
+                                         
 BisectionAnimated[] :=
     Module[
     	{a,b,m,steps,f},
@@ -485,7 +486,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
 					    						Column[{
 						    						TextCell["Errore!", FontSize -> 25],
 						    						TextCell[\[WarningSign], FontSize -> 200, FontColor -> Red],
-						    						TextCell["Riprova e stai più attento", FontSize -> 25],
+						    						TextCell["Riprova e stai pi\[UGrave] attento", FontSize -> 25],
 						    						DefaultButton[]
 					    						},Alignment->Center]
 					    					},WindowTitle->"Sbagliato"]
