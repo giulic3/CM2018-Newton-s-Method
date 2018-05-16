@@ -10,6 +10,9 @@ BeginPackage["LearningNewtonsMethod`"]
 (* Exported symbols added here with SymbolName::usage *) 
 
 
+GoForward::usage = "Usalo";
+GoBack::usage = "Usalo";
+GoHomepage::usage = "Usalo";
 ReadInputFile::usage = "Usalo";
 NewtonInteractive::usage = "Usalo";
 Calcolatrice::usage = "Usalo";
@@ -25,7 +28,24 @@ Calculator::usage = "";
 i::usage = "";
 
 Begin["`Private`"]
+(* Function that links a slide with the next *)
+GoForward[nextSlide_, bool_] :=
+	Module[{},
+		If[bool== Boole[True],Hyperlink[Import["Images/forward.png"], {EvaluationNotebook[], ToString[nextSlide]}, ImageSize->{100,100}],Import["Images/forwardgrey.png",ImageSize->{100,100}]]
+	];
  
+(* Function that links a slide with the next *)
+GoBack[prevSlide_, bool_] :=
+	Module[{},
+		If[bool== Boole[True],Hyperlink[Import["Images/back.png"], {EvaluationNotebook[], ToString[prevSlide]},ImageSize->{100,100}],Import["Images/backgrey.png",ImageSize->{100,100}]]
+	];
+	
+(* Function that links a slide with the homepage *)
+GoHomepage[homeSlide_] :=
+	Module[{},
+		Hyperlink[Import["Images/home.png", ImageSize->{100,100}], {EvaluationNotebook[], ToString[homeSlide]}]
+	];
+	
 (* Function that reads expressions from file *)
 ReadInputFile[] :=
     Module[{expressions,esp,func,a,b,x0},
