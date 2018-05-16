@@ -22,6 +22,7 @@ NewtonAnimated::usage = "Animated Newton Method";
 FirstExample::usage = "";
 SecondExample::usage = "";
 Calculator::usage = "";
+MethodsComparison::usage ="Show convergence to solution using three different methods";
 i::usage = "";
 
 Begin["`Private`"]
@@ -543,6 +544,83 @@ Esercizio[funzione_, a_, b_,x0_] :=
 		Frame -> True
 		]
 	];
+
+MethodsComparison[]:=
+	Module[{a,b,n,f},
+		Clear[f];
+		f[x_]:=Sin[x];
+		(* intervallo iniziale *)
+		a = 2.5;
+		b= 1.4Pi;
+		(* numero massimo di iterazioni *)
+		n = 10;
+		bisectionRoots = 
+			N[NestList[
+				If[f[#[[1]]]*f[(#[[1]]+#[[2]])/2]<0,
+				{#[[1]],(#[[1]]+#[[2]])/2},
+				{(#[[1]]+#[[2]])/2,#[[2]]}] &,
+				{a,b},
+				n
+			]];
+		(* costruisco una lista annidata di coppie {xi-1, xi}, i due estremi su cui lavora secanti *)
+		(* a, b - f(b)(b-a)/(f(b)-f(a)) *)
+		secantRoots = 
+			N[NestList[
+			{#[[1]],#[[2]]-f[#[[2]]](#[[2]]-#[[1]])/(f[#[[2]]]-f[#[[1]]])} &,
+			{a,b},
+			n]];
+		newtonRoots = NestList[ #1 - f[#1]/Derivative[1][f][#1] &, a, n];
+		Manipulate[
+			Row[{
+			(* bisezione *)
+				Column[{
+					Plot[f[x],{x,1.5,4.5},
+						Epilog -> {
+	          Directive[{Thick, Gray, Dashed}],
+		            InfiniteLine[{(bisectionRoots[[i]][[1]]+bisectionRoots[[i]][[2]])/2, 0}, {0, 1}],
+					{
+					Red,
+					PointSize[.015],
+					Point[{(bisectionRoots[[i]][[1]]+bisectionRoots[[i]][[2]])/2,0}]
+					}
+		        },
+ ImageSize->500,
+PlotLabel->"Bisezione"]," "
+TextCell[Row[{Subscript[x,i]," = ",(bisectionRoots[[i]][[1]]+bisectionRoots[[i]][[2]])/2},Alignment->Center],"Text",TextAlignment->Center,CellBaseline->Center, CellSize->{500,50}]}],
+(* secanti *)
+Column[{
+		Plot[f[x],{x,1.5,4.5},
+Epilog -> {
+	          	Directive[{Thick, Gray, Dashed}],
+		            InfiniteLine[{secantRoots[[i]][[2]], 0}, {0, 1}],
+{
+Red,
+PointSize[.015],
+Point[{secantRoots[[i]][[2]],0}]
+}
+		        },
+ ImageSize->500,
+PlotLabel->"Secanti"]," "
+TextCell[Row[{Subscript[x,i]," = ",secantRoots[[i]][[2]]},Alignment->Center],"Text",TextAlignment->Center,CellBaseline->Bottom, CellSize->{500,50}]}],
+(* tangenti *)
+Column[{
+Plot[f[x],{x,1.5,4.5}, 
+Epilog -> {
+	          	Directive[{Thick, Gray, Dashed}],
+		            InfiniteLine[{newtonRoots[[i]], 0}, {0, 1}],
+{
+Red,
+PointSize[.015],
+Point[{newtonRoots[[i]],0}]
+}
+		        },
+ImageSize->500,
+PlotLabel->"Newton"],
+TextCell[Row[{Subscript[x,i]," = ", newtonRoots[[i]]},Alignment->Center],"Text", TextAlignment->Center, CellBaseline->Bottom,CellSize->{500,50}]
+}]}],
+(* slider *)
+{i,1,10,1,Appearance->{"Open","Labeled"}}
+]];
 
 EndPackage[]
 
