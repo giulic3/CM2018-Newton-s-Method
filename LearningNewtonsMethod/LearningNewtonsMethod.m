@@ -27,6 +27,7 @@ SecondExample::usage = "";
 Calculator::usage = "";
 MethodsComparison::usage = "Show convergence to solution using three different methods";
 i::usage = "";
+SecantInteractive::usage = "Interactively show step of iteration in the secant method";
 
 Begin["`Private`"]
 (* Function that links a slide with the next *)
@@ -402,6 +403,51 @@ NewtonAnimated[] :=
             ],
             {i, 1, 5, 1}
         ]
+    ];
+    
+    SecantInteractive[] :=
+Module[{},
+	Manipulate[
+Secant[iteration],
+  {{iteration,0, "Numero di iterazioni: "},{0,1,2,3,4,5,6},ControlType->SetterBar},
+Initialization:>{
+Secant[i_] :=
+Module[{xValues,x0,x1,f},
+x0= 0.4;
+x1 = 1.8;
+f[x_] := x^4 - 2;
+xValues =
+			NestList[{
+				#[[1]],
+				#[[1]] - f[#[[1]]]*((#[[1]] - #[[2]]) / (f[#[[1]]] -  f[#[[2]]]))
+			} &,
+			 {x1, x0},
+			   i
+			];
+ Plot[
+		        f[x], {x, 0, 3},
+		        PlotRange -> {{0, 2}, {-3, 10}},
+		     	Epilog -> {
+			{PointSize[0.01], 
+			(Point[{#1, 0}] &) /@ Flatten[xValues]
+		},
+		{Thickness[0.002],
+		   MapIndexed[{ Hue[0.76*(#2[[1]]/6)],
+		   Line[{
+{#1[[1]], f[#[[1]]]},
+  {#1[[2]], f[#1[[2]]]}  }]} &, xValues  ]
+	},
+		         	{Thickness[0.002], Black,
+		          		Line[({{#1, 0}, {#1, f[#1]}} &) /@ Flatten[xValues]]}
+		     	},
+		       	Axes -> True,
+		       	ImageSize -> {800,500},
+		       	AxesLabel -> {Style["x", 16], Style["y", 16]}
+		    ]
+
+]
+}
+]	   
     ];
 
 (* these two functions show cases/examples in which the Newton's method fails *)
