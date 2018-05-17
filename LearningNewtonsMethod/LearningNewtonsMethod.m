@@ -98,61 +98,77 @@ ReadInputFile[] :=
 
 (* Function that shows an interactive manipulate *)
 NewtonInteractive[] :=
-    Module[ {},
+    Module[ 
+    	{newton,listaIntervalli,listaFunzioni},
+    	
+    	listaIntervalli={
+    		{0, 2*Pi},
+    		{0, 2*Pi},
+    		{0, 6},
+    		{0, 6},
+    		{0, 2*Pi},
+    		{0, 6},
+    		{0, 50}
+    	};
+    	listaFunzioni={
+    		TraditionalForm[Cos[x]],
+    		TraditionalForm[Sin[x]],
+    		TraditionalForm[-7 + x^2],
+    		TraditionalForm[-1 + x - 3*x^2 + x^3],
+    		TraditionalForm[Sin[x]*Cos[x]],
+    		TraditionalForm[-1 + x^2*Log2[x]]
+    	};
         Manipulate[
-            newton[input,N[x0], 0, 2*Pi, iteration],
-            {{input, funzioneFinale1, "Funzione: "}, {
-                funzioneFinale1 -> TraditionalForm[Cos["x"]],
-                funzioneFinale2 -> TraditionalForm[Sin["x"]],
-                funzioneFinale3 -> TraditionalForm[-7 + "x"^2],
-                funzioneFinale4 -> TraditionalForm[-1 + "x" - 3*"x"^2 + "x"^3],
-                funzioneFinale5 -> TraditionalForm[Sin["x"]*Cos["x"]],
-                funzioneFinale6 -> TraditionalForm[-1 + "x"^2*Log2["x"]],
-                funzioneFinale7 -> TraditionalForm[E^("x"^5-"x"^4+"x"^3-"x"^2+"x")-2]
-                }, ControlType -> PopupMenu},
-            {{iteration, 0, "Numero di Iterazioni: "}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
-            {{x0, 0.3, Subscript["x", "0"]}, 0.01, 6.11, Appearance -> "Labeled"},
-            ControllerLinking -> True,
+        	
+            newton[input,N[x0], -100, 100, n],
+            
+            {{input,listaFunzioni[[1]], "Funzione: "}, 
+                listaFunzioni,
+                ControlType -> PopupMenu},
+            {{n, 0, "Numero di Iterazioni: "}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
+            {{x0, 0.3, Subscript["x", "0"]}, 0.01, 50, Appearance -> "Labeled"},
+            
             Initialization:>{
-                newton[funzioneFinale_,x0_,a_,b_,n_] :=
-                    Module[ {list},
-                        list = NestList[ #1 - funzioneFinale[#1]/Derivative[1][funzioneFinale][#1] & ,x0, n];
+                newton[input_,x0_,a_,b_,n_] :=
+                	
+                    Module[ 
+                    	{list,funzioneFinale,listArrow},
+                    	
+                    	funzioneFinale = ToExpression[ToString[input]];
+                        list = NestList[ (#1 - ((funzioneFinale/.x->#1)/(D[funzioneFinale,x]/.x->#1))) & ,x0, n];
+                        
+                        Clear[listArrow];
+                        listArrow = {{list[[1]],0}};
+                        For[i=1,i<=n,i++,
+                    		listArrow = Append[listArrow,{list[[i]],funzioneFinale/.x->list[[i]]}];
+                    		listArrow = Append[listArrow,{list[[i+1]],0}];
+                    	];
+                    	
                         Column[{
-                            TraditionalForm[Text[Style[Row[{HoldForm[Subscript[{Subscript["x", "k"]}, "k" = 0]^n], " = ", list}], 14]]],
+                            Row[{TextCell[HoldForm[Subscript[{Subscript["x", "k"]}, "k" = 0]^n],FontSize->17],TextCell[ " = ",FontSize->17], TextCell[list,FontSize->17]}],
                             Plot[
-                                funzioneFinale[x], {x, a, b},
+                                funzioneFinale, {x, a, b},
                                 PlotRange -> All,
                                 AxesLabel -> {Style["x", 16], Style["y", 16]},
                                 PlotStyle -> Thickness[0.006],
                                 Epilog -> {
-                                    {Red, Thickness[0.002],
-                                        Arrowheads[0.03],
-                                        Arrow[Most[Flatten[({{#1, 0}, {#1, funzioneFinale[#1]}} & ) /@ list, 1]]]},
-                                    {PointSize[0.015],
-                                        Point[{x0, 0}]}
+                                    {
+                                    	Red, 
+                                    	Thickness[0.002],
+                                        
+                                        If[n>0,Line[{listArrow}]]
+                                    },
+                                    {
+                                    	PointSize[0.015],
+                                        Point[{list[[i]], 0}]
+                                    }
                                 },
                                 ImageSize -> {800,500}
-                                ]},
-                        Center]
-                    ],
-                    Attributes[Derivative] = {NHoldAll, ReadProtected},
-                    Attributes[Subscript] = {NHoldRest}, Subscript[w, opt] = {2.706, 3.686},
-                    Attributes[PlotRange] = {ReadProtected},
-                    funzioneFinale1[x_] :=
-                        Cos[x],
-                    funzioneFinale2[x_] :=
-                        Sin[x],
-                    funzioneFinale3[x_] :=
-                        x^2 - 7,
-                    funzioneFinale4[x_] :=
-                        x^3 - 3*x^2 + x - 1,
-                    funzioneFinale5[x_] :=
-                        Sin[x]*Cos[x],
-                    funzioneFinale6[x_] :=
-                        x^2*Log[x] - 1,
-                    funzioneFinale7[x_] :=
-                        E^(x^5-x^4+x^3-x^2+x)-2
-            }]
+                          	]
+                        }]
+                    ]
+            	}
+            ]
     ];
 
 (* Simply plot a pretty calculator way to write function *)
@@ -255,8 +271,6 @@ BisectionInteractive[] :=
 	    	{{aP, {0.5, 0}}, {0, 0}, {2.5, 0}, ControlType -> Locator, Appearance -> Style["|", 20, Bold, RGBColor[1, 0, 0]]},
 	        {{bP, {2, 0}}, {0,0}, {2.5, 0}, ControlType -> Locator, Appearance -> Style["|", 20, Bold, RGBColor[1, 0, 0]]},
 	        {{nn, 1,"Iterazione"}, 1, 12, 1, Appearance -> "Labeled"},
-	        TrackedSymbols -> Manipulate,
-	        ControllerLinking -> True,
 	        Initialization:>{
 	          	plotoptions = {PlotRange->{{0,2.5},{-1,1}},PlotRangePadding->0.25, AspectRatio->Automatic,ImageSize->{800,500}},
 	            Attributes[PlotRange] = {ReadProtected},
@@ -283,10 +297,6 @@ BisectionInteractive[] :=
 	                  		],
 	                  		{a,b}
 	              		],
-	              		(*Attributes[f$] = {Temporary},
-	              		Attributes[a$] = {Temporary},
-	              		Attributes[b$] = {Temporary},*)
-	              		FE`nn$$141 = 7,
 	              		intervalle[f_,{a_,b_},nn_] := 
 	              			Table[
 	              				{
