@@ -1,80 +1,86 @@
 (* ::Package:: *)
 
 (* Wolfram Language Package *)
-
 (* Created by the Wolfram Workbench 07-May-2018 *)
-
 (* Copyright *)
+
+(* Made by: Anna Avena (INF), Giulia Cantini (INF), Roberto Ferraro (MAT), Nicola Mainetti (MAT), Matteo Sanfelici (INF) *)
 
 BeginPackage["LearningNewtonsMethod`"]
 (* Exported symbols added here with SymbolName::usage *) 
 
 
-GoForward::usage = "Usalo";
-GoBack::usage = "Usalo";
-GoHomepage::usage = "Usalo";
-ReadInputFile::usage = "Usalo";
-NewtonInteractive::usage = "Usalo";
-Calcolatrice::usage = "Usalo";
+GoForward::usage = "Allows user to go to the next slide";
+GoBack::usage = "Allows user to go back to the previous slide ";
+GoHomepage::usage = "Return to the homepage";
+ReadInputFile::usage = "Reads expressions from 'inputExp' file";
+NewtonInteractive::usage = "Animated Newtom Method";
 ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
 RootExampleGraphic::usage = "Shows a example plot about root concept";
-BisectionInteractive::usage = "Interactive Bisection method";
-BisectionAnimated::usage = "Animated Bisection method";
+BisectionInteractive::usage = "Interactive Bisection Method";
+BisectionAnimated::usage = "Animated Bisection Method";
 SecantAnimated::usage = "Animated Secant Method";
 NewtonAnimated::usage = "Animated Newton Method";
-FirstExample::usage = "";
-SecondExample::usage = "";
-Calculator::usage = "";
+FirstExample::usage = "Shows the cases in which the Newton's method fails ";
+SecondExample::usage = "Shows the cases in which the Newton's method fails";
+Calculator::usage = "Shows a scientific calculator that allows user to write functions";
 MethodsComparison::usage = "Show convergence to solution using three different methods";
-i::usage = "";
+i::usage = "Global variable used for the exercises part";
 SecantInteractive::usage = "Interactively show step of iteration in the secant method";
 
 Begin["`Private`"]
-(* Function that links a slide with the next *)
+
+(* Function that links a slide with the next,
+gets in input the Cell Tag of the slide to be linked 
+and a boolean value that indicates if the link must be abled or disabled *)
 GoForward[nextSlide_, bool_] :=
     Module[ {},
-        If[ bool== Boole[True],
+        If[ bool== Boole[True], (* check on the boolean value *)
             Hyperlink[Import["Images/forward.png"], {EvaluationNotebook[], ToString[nextSlide]}, ImageSize->{100,100}],
             Import["Images/forwardgrey.png",ImageSize->{100,100}]
         ]
     ];
  
-(* Function that links a slide with the next *)
+(* Function that links a slide with the previous,
+gets in input the Cell Tag of the slide to be linked 
+and a boolean value that indicates if the link must be abled or disabled *)
 GoBack[prevSlide_, bool_] :=
     Module[ {},
-        If[ bool== Boole[True],
+        If[ bool== Boole[True], (* check on the boolean value *)
             Hyperlink[Import["Images/back.png"], {EvaluationNotebook[], ToString[prevSlide]},ImageSize->{100,100}],
             Import["Images/backgrey.png",ImageSize->{100,100}]
         ]
     ];
     
-(* Function that links a slide with the homepage *)
+(* Function that links a slide with the homepage, gets in input the Cell Tag of the main slide *)
 GoHomepage[homeSlide_] :=
     Module[ {},
         Hyperlink[Import["Images/home.png", ImageSize->{100,100}], {EvaluationNotebook[], ToString[homeSlide]}]
     ];
     
-(* Function that reads expressions from file *)
+(* Function that reads expressions from 'inputExp' file *)
+(* The file contains N rows composed in this way:
+function, initial interval point, final interval point, point of the first iteration *)
 ReadInputFile[] :=
-    Module[ {expressions,esp,func,a,b,x0,d},
-        esp = {};
+    Module[ {expressions,esp,func,a,b,x0,d}, (* local variables *)
+        esp = {}; (* array that will contain all the expressions and other attributes mentioned above *)
         expressions = Import["inputExp"];
         For[i = 1, i <= Length[expressions], i++,
-             (*Print[ToExpression[expressions[[i]]]];*)
-             esp = Append[esp,expressions[[i]]];
+             (* Appends every row contained in the file to esp array *)
+             esp = Append[esp,expressions[[i]]]; 
             ];
         i = 1;
-        func = ToString[esp[[i]][[1]]];
-        a = esp[[i]][[2]];
-        b = esp[[i]][[3]];
-        x0 = esp[[i++]][[4]];
-        d = Esercizio[func,a,b,x0];
+        func = ToString[esp[[i]][[1]]]; (* gets the first parameter of exp that corresponds to the function *)
+        a = esp[[i]][[2]]; (* gets the second parameter of exp that corresponds to the initial interval point *)
+        b = esp[[i]][[3]]; (* gets the second parameter of exp that corresponds to the final interval point *)
+        x0 = esp[[i++]][[4]]; (* gets the third parameter of exp that corresponds to the point of the first iteration *)
+        d = Esercizio[func,a,b,x0]; (* Shows the first exercise *)
         Column[{
             Row[{
-                Button[
+                Button[ (* Button that allows user to change exercise *)
                     Style["Nuovo Esercizio", FontSize -> 25],
-                    {d = Esercizio[
-                        ToString[esp[[1 + Mod[i, Length[esp]]]][[1]]],
+                    {d = Esercizio[ (* sets input parameters that are passed to Esercizio function *)
+                        ToString[esp[[1 + Mod[i, Length[esp]]]][[1]]], 
                         esp[[1 + Mod[i, Length[esp]]]][[2]],
                         esp[[1 + Mod[i, Length[esp]]]][[3]],
                         esp[[1 + Mod[i++, Length[esp]]]][[4]]
@@ -84,7 +90,7 @@ ReadInputFile[] :=
                 ]
             }],
             Row[{
-                Dynamic[d]
+                Dynamic[d] (* Display the exercise *)
             }]
         }]
     ];
@@ -151,7 +157,7 @@ NewtonInteractive[] :=
 
 (* Simply plot a pretty calculator way to write function *)
 Calculator[] :=
-    Module[ 
+    Module[  (* local variables *)
     	{buttonOptions = {ImageSize->Full, Background->White},
 		f,finalFunction,buttonEmpty,buttonSin,buttonCos,buttonLog,
 		buttonTan,buttonLn,button1,button2,button3,buttonEnd,
@@ -159,9 +165,9 @@ Calculator[] :=
 		buttonPi,buttonElev,buttonSquare,buttonNepero,button4,
 		button5,button6,buttonComma,buttonPlus,buttonTimes,
 		buttonMinus,buttonDivide,buttonSqrt,button7,button8,button9,button0},
-			
-		f = "";
-        finalFunction[x_] = "";
+		(* buttons definition *)	
+		f = ""; (* function that has been composed *)
+        finalFunction[x_] = ""; (* result *)
         buttonEmpty = "";
         buttonSin = Button["sin",f = f<>"sin", buttonOptions];
         buttonCos = Button["cos",f = f<>"cos", buttonOptions];
@@ -194,7 +200,7 @@ Calculator[] :=
         button9 = Button["9",f = f<>"9", buttonOptions];
         button0 = Button["0",f = f<>"0", buttonOptions];
         
-        Grid[
+        Grid[ (* button arrangement on screen *) 
 	        {
 		        {button7, button8, button9, buttonDivide, buttonEmpty, buttonEmpty, buttonSin, buttonCos, buttonTan,buttonEmpty, buttonEmpty, buttonClearEntry},
 		        {button4, button5, button6, buttonTimes,buttonEmpty, buttonEmpty, buttonLn, buttonLog, buttonSquare,buttonEmpty, buttonEmpty, buttonAllClear},
@@ -500,7 +506,9 @@ ConvertImageToFullyScaledNinePatch[img_] :=
 (* SetBackground[img_] :=
         SetOptions[SelectedNotebook[],
          System`BackgroundAppearance -> ConvertImageToFullyScaledNinePatch[img_]];*)
-        
+         
+(* Function that calculate the value of f(x) for a specific given x 
+and display it on screen *)        
 AddIteration[i_,fun_,x0_] :=
     Module[ {xn},
         xn = Null;
@@ -510,7 +518,7 @@ AddIteration[i_,fun_,x0_] :=
               TextCell["=", FontSize -> 25],
               InputField[Dynamic[xn], BaseStyle->FontSize->25, ImageSize -> 130],
               TextCell["-", FontSize -> 25],
-              FractionBox[
+              FractionBox[ (* area that allows to insert the value of f(x) and f'(x) *)
                 RowBox[{
                       TextCell["f(", FontSize -> 25],
                       InputField[Dynamic[xn], BaseStyle->FontSize->25, ImageSize -> 130],
@@ -518,7 +526,7 @@ AddIteration[i_,fun_,x0_] :=
                     RowBox[{TextCell["f'(", FontSize -> 25],
                       InputField[Dynamic[xn], BaseStyle->FontSize->25, ImageSize -> 130],
                       TextCell[")", FontSize -> 25]}]
-            ] // DisplayForm,
+            ] // DisplayForm, (* shows calculations on screen *) 
               TextCell["  ->  ", FontSize -> 25],
               TextCell[ Subscript["x", i], FontSize -> 25, FontColor->Blue],
               TextCell["=", FontSize -> 25, FontColor->Blue],
@@ -531,59 +539,64 @@ AddIteration[i_,fun_,x0_] :=
                    
 End[]
 
+(* Function that manage the exercise area,
+gets in input the function, the initial interval point, the final interval point and 
+the first point from which start the iteration *)
 Esercizio[funzione_, a_, b_,x0_] :=
     Module[ {calculator,plot,testoRow1,testoRow2,buttonNew,fun,i,IterationList,Iter2Result,Risultato},
-        fun = ToExpression[funzione];
+        fun = ToExpression[funzione]; (* the current function *)
         calculator = Calculator[];
+        (* plot the current function *)
         plot = 
             Plot[
                 fun, {x, a, b},
                 PlotStyle -> Thickness[0.006],
                 Epilog->{
-                    PointSize[Large],
+                    PointSize[Large], (* plots the point of the first iteration *)
                     Point[{x0,0}](*    ,
                     Text[DisplayForm@RowBox[{Subscript["x","0"]}], {x0, -0.20}] *)
                 },
                 ImageSize -> Large
             ];
+        (* exercise's text *) 
         testoRow1 = "Calcolare un'approssimazione dello zero usando il Metodo di Newton,";
         testoRow2 = "con due iterazioni, 	 partendo dalla prima approssimazione data";
         buttonNew = Button[Style["Nuovo Esercizio", FontSize -> 20], ImageSize -> 150];
         Off[FindRoot::cvmit];
         i = 1;
         (*Iter2Result = FindRoot[fun, {x, Rationalize[x0]}, Method -> "Newton", MaxIterations -> , WorkingPrecision -> 3][[1]][[2]]    ;*)
-        Iter2Result = NestList[
+        Iter2Result = NestList[ (* calculate the second iteration result *) 
             N[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))] &, x0, i+1];
         Print[Dynamic[Iter2Result]];
-        IterationList = {AddIteration[i,fun,x0]};
+        IterationList = {AddIteration[i,fun,x0]}; (* manage all the exercise area *)
         Column[{
             Row[{"   ",
                 Column[{
                     Row[{
                         " ",
                         Column[{
-                            Row[{TextCell[testoRow1, "Text", FontSize -> 28]}],
-                            Row[{TextCell[testoRow2, "Text", FontSize -> 28]}]
+                            Row[{TextCell[testoRow1, "Text", FontSize -> 28]}], (* text exercise *)
+                            Row[{TextCell[testoRow2, "Text", FontSize -> 28]}] (* text exercise *)
                         }]
                       }, "                         "],
                     Row[{
-                        Column[{plot}],
+                        Column[{plot}], (* plot the current function *)
                           "               ",
                           Column[{
                               Row[{}],
                             Row[{
-                                TextCell["Funzione Data:", "Text", FontSize -> 30],
+                                TextCell["Funzione Data:", "Text", FontSize -> 30], 
                                 TextCell["    f(x) = ", "Text", FontSize -> 30,FontColor->Blue], 
-                                TextCell[TraditionalForm[fun], "Text", FontSize -> 30,FontColor->Blue]}],
+                                TextCell[TraditionalForm[fun], "Text", FontSize -> 30,FontColor->Blue]}],  (* function *)
                             Row[{
-                                TextCell["Prima approssimazione data:", "Text", FontSize -> 30],
-                                TextCell["    ", "Text", FontSize -> 30,FontColor->Blue],
+                                TextCell["Prima approssimazione data:", "Text", FontSize -> 30], 
+                                TextCell["    ", "Text", FontSize -> 30,FontColor->Blue], 
                                 TextCell[Subscript["x","0"],FontSize -> 30,FontColor->Blue],
                                 TextCell[" = ", "Text", FontSize -> 30,FontColor->Blue],
-                                TextCell[x0,FontSize->30,FontColor->Blue]
+                                TextCell[x0,FontSize->30,FontColor->Blue] (* first iteration point *)
                                 
                             }],
-                            Dynamic[Column@IterationList],
+                            Dynamic[Column@IterationList], (* add new iteration *)
                             Button[
                                 Style["Aggiungi Iterazione", FontSize -> 20], 
                                 {
@@ -592,15 +605,15 @@ Esercizio[funzione_, a_, b_,x0_] :=
                                         NestList[N[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))] &, x0, i+1]
                                 }, ImageSize->200],
                             (*Row[{calculator}],*)
-                            Row[{
+                            Row[{ (* in this section is verified the result inserted by the user *)
                                    TextCell["Inserisci il risultato: ", "Text", FontSize -> 30], 
                                 InputField[Dynamic[Risultato], String, BaseStyle->FontSize->25, ImageSize->150],
                                 "  ",
                                 Print[Dynamic[Iter2Result[[i+1]]]];
                                 Button[Style["Verifica", FontSize -> 20],
                                     {
-                                        If[ ToString[Risultato] == ToString[Iter2Result[[i+1]]],
-                                            CreateDialog[{
+                                        If[ ToString[Risultato] == ToString[Iter2Result[[i+1]]], (* verification of the entered value *) 
+                                            CreateDialog[{ (* if correct *)
                                                 Column[{
                                                     TextCell["Complimenti!", FontSize -> 25],
                                                     TextCell[\[HappySmiley], FontSize -> 200, FontColor -> Green],
@@ -608,7 +621,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
                                                     DefaultButton[]
                                                 },Alignment->Center]
                                             },WindowTitle->"Corretto"],
-                                            CreateDialog[{
+                                            CreateDialog[{ (* if wrong *)
                                                 Column[{
                                                     TextCell["Errore!", FontSize -> 25],
                                                     TextCell[\[WarningSign], FontSize -> 200, FontColor -> Red],
@@ -631,17 +644,18 @@ Esercizio[funzione_, a_, b_,x0_] :=
         ]
     ];
 
+(* Function that compares the bisection, secant and Newton's methods *)
 MethodsComparison[] :=
     Module[ {a,b,n,f},
         Clear[f];
         f[x_] :=
             Sin[x];
-        (* intervallo iniziale *)
+        (* initial interval *)
         a = 2.5;
         b = 1.4Pi;
-        (* numero massimo di iterazioni *)
+        (* maximum number of iterations *)
         n = 10;
-        bisectionRoots = 
+        bisectionRoots = (* initial root of the bisection method *)
             N[NestList[
                 If[ f[#[[1]]]*f[(#[[1]]+#[[2]])/2]<0,
                     {#[[1]],(#[[1]]+#[[2]])/2},
@@ -652,19 +666,20 @@ MethodsComparison[] :=
             ]];
         (* costruisco una lista annidata di coppie {xi-1, xi}, i due estremi su cui lavora secanti *)
         (* a, b - f(b)(b-a)/(f(b)-f(a)) *)
-        secantRoots = 
+        secantRoots = (* initial root of the bsecant method *)
             N[NestList[
             {#[[1]],#[[2]]-f[#[[2]]](#[[2]]-#[[1]])/(f[#[[2]]]-f[#[[1]]])} &,
             {a,b},
             n]];
-        newtonRoots = NestList[ #1 - f[#1]/Derivative[1][f][#1] &, a, n];
+        newtonRoots = NestList[ #1 - f[#1]/Derivative[1][f][#1] &, a, n]; (* initial root of the Newton's method *)
         Manipulate[
             Row[{
-            (* bisezione *)
+            (* bisection *)
                 Column[{
                     Plot[f[x],{x,1.5,4.5},
                         Epilog -> {
               Directive[{Thick, Gray, Dashed}],
+              (* calculation and plot of the subsequent roots for the bisection method *)
                     InfiniteLine[{(bisectionRoots[[i]][[1]]+bisectionRoots[[i]][[2]])/2, 0}, {0, 1}],
                     {
                     Red,
@@ -673,13 +688,15 @@ MethodsComparison[] :=
                     }
                 },
         ImageSize->500,
-        PlotLabel->"Bisezione"]," "
+        PlotLabel->"Bisezione"]," ",
+        (* display the current root value for the bisection method *)
         TextCell[Row[{Subscript[x,i]," = ",(bisectionRoots[[i]][[1]]+bisectionRoots[[i]][[2]])/2},Alignment->Center],"Text",TextAlignment->Center,CellBaseline->Center, CellSize->{500,50}]}],
-        (* secanti *)
+        (* secant *)
         Column[{
         Plot[f[x],{x,1.5,4.5},
         Epilog -> {
                   Directive[{Thick, Gray, Dashed}],
+                  (* calculation and plot of the subsequent roots for the secant method *)
                     InfiniteLine[{secantRoots[[i]][[2]], 0}, {0, 1}],
         {
         Red,
@@ -688,13 +705,15 @@ MethodsComparison[] :=
         }
                 },
         ImageSize->500,
-        PlotLabel->"Secanti"]," "
+        PlotLabel->"Secanti"]," ",
+        (* display the current root value for the secanti method *)
         TextCell[Row[{Subscript[x,i]," = ",secantRoots[[i]][[2]]},Alignment->Center],"Text",TextAlignment->Center,CellBaseline->Bottom, CellSize->{500,50}]}],
-        (* tangenti *)
+        (* Newton *)
         Column[{
         Plot[f[x],{x,1.5,4.5}, 
         Epilog -> {
                   Directive[{Thick, Gray, Dashed}],
+                  (* calculation and plot of the subsequent roots for the bNewton'a method *)
                     InfiniteLine[{newtonRoots[[i]], 0}, {0, 1}],
         {
         Red,
@@ -704,9 +723,10 @@ MethodsComparison[] :=
                 },
         ImageSize->500,
         PlotLabel->"Newton"],
+        (* display the current root value for the Newton's method *)
         TextCell[Row[{Subscript[x,i]," = ", newtonRoots[[i]]},Alignment->Center],"Text", TextAlignment->Center, CellBaseline->Bottom,CellSize->{500,50}]
         }]}],
-        (* slider *)
+        (* slider that shows the iteration steps *)
         {i,1,10,1,Appearance->{"Open","Labeled"}}
         ]
     ];
