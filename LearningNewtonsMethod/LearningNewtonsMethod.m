@@ -62,7 +62,7 @@ GoHomepage[homeSlide_] :=
 (* The file contains N rows composed in this way:
 function, initial interval point, final interval point, point of the first iteration *)
 ReadInputFile[] :=
-    Module[ {expressions,esp,func,a,b,x0,d}, (* local variables *)
+    DynamicModule[ {expressions,esp,func,a,b,x0,d,i}, (* local variables *)
         esp = {}; (* array that will contain all the expressions and other attributes mentioned above *)
         expressions = Import["inputExp"];
         For[i = 1, i <= Length[expressions], i++,
@@ -98,8 +98,8 @@ ReadInputFile[] :=
 
 (* Function that shows an interactive manipulate *)
 NewtonInteractive[] :=
-    Module[ 
-    	{newton,passInput,listaIntervalli,listaFunzioni,selectedInput,aa,bb,interv},
+    DynamicModule[ 
+    	{passInput,listaIntervalli,listaFunzioni,inputt},
     	
     	listaIntervalli={
     		{0, 2*3.14},
@@ -120,30 +120,28 @@ NewtonInteractive[] :=
     	};
     	
         Manipulate[
-            passInput[input],            
-            {{input,listaFunzioni[[1]], TextCell["  Funzione: ",FontSize->17]},
+            passInput[inputt],            
+            {{inputt,listaFunzioni[[1]], TextCell["  Funzione: ",FontSize->17]},
             	listaFunzioni,
                 ControlType -> PopupMenu},
 		        Initialization:>{
 		        	passInput[input_]:= 
-		        	     Module[ {},
+		        	     DynamicModule[ {newton,selectedInput,aa,bb,interv,xx0,nn},
 				        	selectedInput = Position[listaFunzioni,input][[1]];   
 				        	interv = listaIntervalli[[ selectedInput ]];
 				        	aa = interv[[1]][[1]];
 				        	bb = interv[[1]][[2]];
 				        	
 							Manipulate[
-								newton[input,N[x0], aa, bb, n],
-					            {{n, 0, TextCell["Numero di Iterazioni: ",FontSize->17]}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
-					           	{{x0, aa+0.01, TextCell[Subscript["x", "0"],FontSize->30]}, aa+0.01, bb-0.01, Appearance -> "Labeled"},
+								newton[input,N[xx0], aa, bb, nn],
+					            {{nn, 0, TextCell["Numero di Iterazioni: ",FontSize->17]}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
+					           	{{xx0, aa+0.01, TextCell[Subscript["x", "0"],FontSize->30]}, aa+0.01, bb-0.01, Appearance -> "Labeled"},
 					            
 					            Initialization:>{
 					                newton[inputFun_,x0_,a_,b_,n_] :=
 					                	
-					                    Module[ 
-					                    	{list,funzioneFinale,listArrow},
-					                    	(*Print[a];
-					                    	Print[b];*)
+					                    DynamicModule[ 
+					                    	{list,funzioneFinale,listArrow,i},
 					                    	funzioneFinale = ToExpression[ToString[inputFun]];
 					                        list = NestList[ (#1 - ((funzioneFinale/.x->#1)/(D[funzioneFinale,x]/.x->#1))) & ,x0, n];
 					                        
@@ -272,74 +270,104 @@ RootExampleGraphic[] :=
     ];
 
 BisectionInteractive[] :=
-	Manipulate[
-	 	BisezMethod[f, a, b, step],
-	 	{{f, TraditionalForm[x^2 - 1], TextCell["Funzione: ",FontSize->17]}, {TraditionalForm[x^2 - 1]}, ControlType -> PopupMenu},
-	 	{{a, 0.5, TextCell["a: ",FontSize->17]}, 0.01, 2.49, 0.01, Appearance -> "Labeled"},
-	 	{{b, 2, TextCell["b: ",FontSize->17]}, 0.01, 2.49, 0.01, Appearance -> "Labeled"},
-	 	{{step, 1, TextCell["Iterazione: ",FontSize->17]}, 1, 12, 1, Appearance -> "Labeled"},
-	 
-		 Initialization :> {
-		 	BisezMethod[ffx_, aa_, bb_, nn_] :=
-		    
-		    	Module[
-		    		{line, bisec, intervals, vertline, fx},
-		     		
-		     		fx = ToExpression[ToString[ffx]];
-		     		
-		     		line[f_,{a_,b_},1] := {Min[aa, bb], Max[aa, bb]};
-		     		
-		     		line[f_,{a_,b_},n_] :=
-					  	If[ (f/.x->a) * (f/.x->b) <= 0,
-					    	bisec[f, line[f,{a,b},n -1]],
-					       	{a, b}
-					    ];
-				  	
-				  	bisec[f_,{a_, b_}] :=
-				   		If[(f/.x->a)*(f/.x->b) <= 0,
-				       		If[(f/.x->((a + b)/2)) * (f/.x->a) <= 0,
-				        		{a, (a + b)/2},
-				        		If[(f/.x->((a + b)/2)) * (f/.x->b) < 0,
-				         			{(a + b)/2, b}
-				         		]
-				        	],
-				       		{a, b}
-				      	];
-				     
-				    intervals[f_,{a_,b_},step_] :=
-				      	Table[
-				       		{
-				        		{line[f,{a,b},i][[1]], -(i/30)},
-				        		{line[f,{a,b},i][[2]], -(i/30)}
-			        		},
-				       		{i, 1, step}
-				       	];
-		     
-		     		vertline[a_] := Line[{{a, -1}, {a, 1}}];
-		     
-				   	If[(fx /. x -> aa)*(fx /. x -> bb) <= 0,
-				      	Row[{"Intervallo: [", line[fx, {aa, bb}, nn][[1]], ", ", line[fx, {aa, bb}, nn][[2]], "]"}],
-				      	Row[{"Errore"}]
-				   	];
-		     
-				  	Plot[
-				      	fx, {x, 0, 2.5},
-				      	PlotRange -> {-1, 2},
-				      	ImageSize -> {800, 500} ,
-				      	Epilog -> {
-				        	{Red, Line /@ intervals[fx, {aa, bb}, nn]},
-				        	{Dashed, vertline /@ line[fx, {aa, bb}, nn]}
-				        }
-				  	]
-		     	]
- 		},
-		        Paneled->False
-		        
- 	];
+	DynamicModule[
+		{listFunctions,listIntervals,passf,ff},
+		
+		listIntervals={
+			{0,2.5},
+			{(1/2*3.14),(1.5*3.14)}
+		};
+		
+		listFunctions={
+			TraditionalForm[x^2 - 1],
+			TraditionalForm[Sin[x]]
+		};
+		Manipulate[
+			
+			passf[ff],
+			{{ff, TraditionalForm[x^2 - 1], TextCell["Funzione: ",FontSize->17]}, listFunctions, ControlType -> PopupMenu},
+			
+			Initialization :> {
+				passf[fun_]:=
+					DynamicModule[
+						{ax,bx,stepx,BisezMethod,selectedInput,interv,interva,intervb},
+						selectedInput = Position[listFunctions,ff][[1]];   
+				        interv = listIntervals[[ selectedInput ]];
+				        interva = interv[[1]][[1]];
+				        intervb = interv[[1]][[2]];
+						Manipulate[
+							
+						 	BisezMethod[fun, ax, bx, stepx],
+						 	
+						 	{{ax, ((interva+intervb)*0.33), TextCell["a: ",FontSize->17]}, (interva+0.01), (intervb-0.01), 0.01, Appearance -> "Labeled"},
+						 	{{bx, ((intervb+interva)*0.66), TextCell["b: ",FontSize->17]}, (interva+0.01), (intervb-0.01), 0.01, Appearance -> "Labeled"},
+						 	{{stepx, 1, TextCell["Iterazione: ",FontSize->17]}, 1, 12, 1, Appearance -> "Labeled"},
+						 
+							 Initialization :> {
+							 	BisezMethod[ffx_, aa_, bb_, nn_] :=
+							    
+							    	Module[
+							    		{line, bisec, intervals, vertline, fx},
+							     		
+							     		fx = ToExpression[ToString[ffx]];
+							     		
+							     		line[f_,{a_,b_},1] := {Min[aa, bb], Max[aa, bb]};
+							     		
+							     		line[f_,{a_,b_},n_] :=
+										  	If[ (f/.x->a) * (f/.x->b) <= 0,
+										    	bisec[f, line[f,{a,b},n -1]],
+										       	{a, b}
+										    ];
+									  	
+									  	bisec[f_,{a_, b_}] :=
+									   		If[(f/.x->a)*(f/.x->b) <= 0,
+									       		If[(f/.x->((a + b)/2)) * (f/.x->a) <= 0,
+									        		{a, (a + b)/2},
+									        		If[(f/.x->((a + b)/2)) * (f/.x->b) < 0,
+									         			{(a + b)/2, b}
+									         		]
+									        	],
+									       		{a, b}
+									      	];
+									     
+									    intervals[f_,{a_,b_},step_] :=
+									      	Table[
+									       		{
+									        		{line[f,{a,b},i][[1]], -(i/30)},
+									        		{line[f,{a,b},i][[2]], -(i/30)}
+								        		},
+									       		{i, 1, step}
+									       	];
+							     
+							     		vertline[a_] := Line[{{a, -1}, {a, 1}}];
+							     
+									   	If[(fx /. x -> aa)*(fx /. x -> bb) <= 0,
+									      	Row[{"Intervallo: [", line[fx, {aa, bb}, nn][[1]], ", ", line[fx, {aa, bb}, nn][[2]], "]"}],
+									      	Row[{"Errore"}]
+									   	];
+							     
+									  	Plot[
+									      	fx, {x, interva, intervb},
+									      	PlotRange -> All,
+									      	ImageSize -> {800, 500} ,
+									      	Epilog -> {
+									        	{Red, Line /@ intervals[fx, {aa, bb}, nn]},
+									        	{Dashed, vertline /@ line[fx, {aa, bb}, nn]}
+									        }
+									  	]
+							     	]
+					 		},
+							Paneled->False
+					 	]
+					]
+				},
+				Paneled->False
+		]
+	 ];
                  
                                          
 BisectionAnimated[] :=
-    Module[ {a,b,m,steps,f},
+    DynamicModule[ {a,b,m,steps,f},
         f[x_] :=
             Sin[x];
         a = Pi/4;
@@ -373,7 +401,7 @@ BisectionAnimated[] :=
     
     
 SecantAnimated[] :=
-    Module[
+    DynamicModule[
          (* Protected Variable *) {poly, xValues,x0,x1},
          (* Initialization of protected variable *)
         x0 = 0.4;
@@ -411,7 +439,7 @@ SecantAnimated[] :=
     ];
 
 NewtonAnimated[] :=
-    Module[ {list, funz, x0},
+    DynamicModule[ {list, funz, x0},
         x0 = 0.30;
         funz[x_] = x^2 - 7;
         Animate[
@@ -439,55 +467,60 @@ NewtonAnimated[] :=
         ]
     ];
     
-    SecantInteractive[] :=
-Module[{},
-	Manipulate[
-Secant[iteration],
-  {{iteration,0, "Numero di iterazioni: "},{0,1,2,3,4,5,6},ControlType->SetterBar},
-Initialization:>{
-Secant[i_] :=
-Module[{xValues,x0,x1,f},
-x0= 0.4;
-x1 = 1.8;
-f[x_] := x^4 - 2;
-xValues =
-			NestList[{
-				#[[1]],
-				#[[1]] - f[#[[1]]]*((#[[1]] - #[[2]]) / (f[#[[1]]] -  f[#[[2]]]))
-			} &,
-			 {x1, x0},
-			   i
-			];
- Plot[
-		        f[x], {x, 0, 3},
-		        PlotRange -> {{0, 2}, {-3, 10}},
-		     	Epilog -> {
-			{PointSize[0.01], 
-			(Point[{#1, 0}] &) /@ Flatten[xValues]
-		},
-		{Thickness[0.002],
-		   MapIndexed[{ Hue[0.76*(#2[[1]]/6)],
-		   Line[{
-{#1[[1]], f[#[[1]]]},
-  {#1[[2]], f[#1[[2]]]}  }]} &, xValues  ]
-	},
-		         	{Thickness[0.002], Black,
-		          		Line[({{#1, 0}, {#1, f[#1]}} &) /@ Flatten[xValues]]}
-		     	},
-		       	Axes -> True,
-		       	ImageSize -> {800,500},
-		       	AxesLabel -> {Style["x", 16], Style["y", 16]}
-		    ]
-
-]
-}
-]	   
+SecantInteractive[] :=
+	Module[{Secant,iteration},
+		Manipulate[
+			Secant[iteration],
+			{{iteration,0, "Numero di iterazioni: "},{0,1,2,3,4,5,6},ControlType->SetterBar},
+			
+			Initialization:>{
+				Secant[i_] :=
+					Module[
+						{xValues,x0,x1,f},
+						x0= 0.4;
+						x1 = 1.8;
+						f[x_] := x^4 - 2;
+						xValues =
+							NestList[{
+								#[[1]],
+								#[[1]] - f[#[[1]]]*((#[[1]] - #[[2]]) / (f[#[[1]]] -  f[#[[2]]]))
+							} &,
+							{x1, x0},
+							i];
+					 	Plot[
+							f[x], {x, 0, 3},
+							PlotRange -> {{0, 2}, {-3, 10}},
+							Epilog -> {
+								{
+									PointSize[0.01], 
+									(Point[{#1, 0}] &) /@ Flatten[xValues]
+								},
+								{
+									Thickness[0.002],
+								   	MapIndexed[{ 
+								   		Hue[0.76*(#2[[1]]/6)],
+								   		Line[{
+											{#1[[1]], f[#[[1]]]},
+											{#1[[2]], f[#1[[2]]]} 
+										}]
+									} &,
+									xValues]
+								},
+					         	{Thickness[0.002], Black, Line[({{#1, 0}, {#1, f[#1]}} &) /@ Flatten[xValues]]}
+						   	},
+						   	Axes -> True,
+					    	ImageSize -> {800,500},
+						    AxesLabel -> {Style["x", 16], Style["y", 16]}
+						]
+					]
+			}
+		]	   
     ];
 
 (* these two functions show cases/examples in which the Newton's method fails *)
 (* xlog(x)-1*)
 FirstExample[] :=
-    Module[ {list,f},
+    DynamicModule[ {list,f},
         f[x_] = x Log[x]-1//N;
         list = NestList[(#-f[#]/f'[#])&,0.1,3];
         Plot[{x Log[x]-1},{x,-3,3},
@@ -564,114 +597,7 @@ AddIteration[i_,fun_,x0_] :=
               TextCell[Dynamic[N[(Rationalize[xn] - ((fun /. x->Rationalize[xn])/(D[fun, x]/.x->Rationalize[xn])))]], FontSize -> 25, FontColor->Blue]
         }]
     ];  
-                   
-End[]
-
-(* Function that manage the exercise area,
-gets in input the function, the initial interval point, the final interval point and 
-the first point from which start the iteration *)
-Esercizio[funzione_, a_, b_,x0_] :=
-    Module[ {calculator,plot,testoRow1,testoRow2,buttonNew,fun,i,IterationList,Iter2Result,Risultato},
-        fun = ToExpression[funzione]; (* the current function *)
-        calculator = Calculator[];
-        (* plot the current function *)
-        plot = 
-            Plot[
-                fun, {x, a, b},
-                PlotStyle -> Thickness[0.006],
-                Epilog->{
-                    PointSize[Large], (* plots the point of the first iteration *)
-                    Point[{x0,0}](*    ,
-                    Text[DisplayForm@RowBox[{Subscript["x","0"]}], {x0, -0.20}] *)
-                },
-                ImageSize -> Large
-            ];
-        (* exercise's text *) 
-        testoRow1 = "Calcolare un'approssimazione dello zero usando il Metodo di Newton,";
-        testoRow2 = "con due iterazioni, 	 partendo dalla prima approssimazione data";
-        buttonNew = Button[Style["Nuovo Esercizio", FontSize -> 20], ImageSize -> 150];
-        Off[FindRoot::cvmit];
-        i = 1;
-        (*Iter2Result = FindRoot[fun, {x, Rationalize[x0]}, Method -> "Newton", MaxIterations -> , WorkingPrecision -> 3][[1]][[2]]    ;*)
-        Iter2Result = NestList[ (* calculate the second iteration result *) 
-            N[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))] &, x0, i+1];
-        Print[Dynamic[Iter2Result]];
-        IterationList = {AddIteration[i,fun,x0]}; (* manage all the exercise area *)
-        Column[{
-            Row[{"   ",
-                Column[{
-                    Row[{
-                        " ",
-                        Column[{
-                            Row[{TextCell[testoRow1, "Text", FontSize -> 28]}], (* text exercise *)
-                            Row[{TextCell[testoRow2, "Text", FontSize -> 28]}] (* text exercise *)
-                        }]
-                      }, "                         "],
-                    Row[{
-                        Column[{plot}], (* plot the current function *)
-                          "               ",
-                          Column[{
-                              Row[{}],
-                            Row[{
-                                TextCell["Funzione Data:", "Text", FontSize -> 30], 
-                                TextCell["    f(x) = ", "Text", FontSize -> 30,FontColor->Blue], 
-                                TextCell[TraditionalForm[fun], "Text", FontSize -> 30,FontColor->Blue]}],  (* function *)
-                            Row[{
-                                TextCell["Prima approssimazione data:", "Text", FontSize -> 30], 
-                                TextCell["    ", "Text", FontSize -> 30,FontColor->Blue], 
-                                TextCell[Subscript["x","0"],FontSize -> 30,FontColor->Blue],
-                                TextCell[" = ", "Text", FontSize -> 30,FontColor->Blue],
-                                TextCell[x0,FontSize->30,FontColor->Blue] (* first iteration point *)
-                                
-                            }],
-                            Dynamic[Column@IterationList], (* add new iteration *)
-                            Button[
-                                Style["Aggiungi Iterazione", FontSize -> 20], 
-                                {
-                                    AppendTo[IterationList, AddIteration[++i,fun,x0]],
-                                    Iter2Result = 
-                                        NestList[N[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))] &, x0, i+1]
-                                }, ImageSize->200],
-                            (*Row[{calculator}],*)
-                            Row[{ (* in this section is verified the result inserted by the user *)
-                                   TextCell["Inserisci il risultato: ", "Text", FontSize -> 30], 
-                                InputField[Dynamic[Risultato], String, BaseStyle->FontSize->25, ImageSize->150],
-                                "  ",
-                                Print[Dynamic[Iter2Result[[i+1]]]];
-                                Button[Style["Verifica", FontSize -> 20],
-                                    {
-                                        If[ ToString[Risultato] == ToString[Iter2Result[[i+1]]], (* verification of the entered value *) 
-                                            CreateDialog[{ (* if correct *)
-                                                Column[{
-                                                    TextCell["Complimenti!", FontSize -> 25],
-                                                    TextCell[\[HappySmiley], FontSize -> 200, FontColor -> Green],
-                                                    TextCell["Hai risolto l'esercizio correttamente!", FontSize -> 25],
-                                                    DefaultButton[]
-                                                },Alignment->Center]
-                                            },WindowTitle->"Corretto"],
-                                            CreateDialog[{ (* if wrong *)
-                                                Column[{
-                                                    TextCell["Errore!", FontSize -> 25],
-                                                    TextCell[\[WarningSign], FontSize -> 200, FontColor -> Red],
-                                                    TextCell["Riprova e stai pi\[UGrave] attento", FontSize -> 25],
-                                                    DefaultButton[]
-                                                },Alignment->Center]
-                                            },WindowTitle->"Sbagliato"]
-                                        ]
-                                    },
-                                    ImageSize -> 150]
-                               }]
-                           }, Spacings -> 3]
-                    }]
-                }],
-                "   "
-            }]
-        },
-        Spacings -> 4,
-        Frame -> True
-        ]
-    ];
-
+    
 (* Function that compares the bisection, secant and Newton's methods *)
 MethodsComparison[] :=
     Module[ {a,b,n,f},
@@ -758,7 +684,114 @@ MethodsComparison[] :=
         {i,1,10,1,Appearance->{"Open","Labeled"}}
         ]
     ];
+                   
+End[]
 
+(* Function that manage the exercise area,
+gets in input the function, the initial interval point, the final interval point and 
+the first point from which start the iteration *)
+Esercizio[funzione_, a_, b_,x0_] :=
+    Module[ {calculator,plot,testoRow1,testoRow2,buttonNew,fun,i,IterationList,Iter2Result,Risultato},
+        fun = ToExpression[funzione]; (* the current function *)
+        calculator = Calculator[];
+        (* plot the current function *)
+        plot = 
+            Plot[
+                fun, {x, a, b},
+                PlotStyle -> Thickness[0.006],
+                Epilog->{
+                    PointSize[Large], (* plots the point of the first iteration *)
+                    Point[{x0,0}](*    ,
+                    Text[DisplayForm@RowBox[{Subscript["x","0"]}], {x0, -0.20}] *)
+                },
+                ImageSize -> Large
+            ];
+        (* exercise's text *) 
+        testoRow1 = "Calcolare un'approssimazione dello zero usando il Metodo di Newton,";
+        testoRow2 = "con due iterazioni, 	 partendo dalla prima approssimazione data";
+        buttonNew = Button[Style["Nuovo Esercizio", FontSize -> 20], ImageSize -> 150];
+        Off[FindRoot::cvmit];
+        i = 1;
+        (*Iter2Result = FindRoot[fun, {x, Rationalize[x0]}, Method -> "Newton", MaxIterations -> , WorkingPrecision -> 3][[1]][[2]]    ;*)
+        Iter2Result = NestList[ (* calculate the second iteration result *) 
+            N[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))] &, x0, i+1];
+        	Print[Dynamic[Iter2Result]];
+        IterationList = {AddIteration[i,fun,x0]}; (* manage all the exercise area *)
+        Column[{
+            Row[{"   ",
+                Column[{
+                    Row[{
+                        " ",
+                        Column[{
+                            Row[{TextCell[testoRow1, "Text", FontSize -> 28]}], (* text exercise *)
+                            Row[{TextCell[testoRow2, "Text", FontSize -> 28]}] (* text exercise *)
+                        }]
+                      }, "                         "],
+                    Row[{
+                        Column[{plot}], (* plot the current function *)
+                          "               ",
+                          Column[{
+                              Row[{}],
+                            Row[{
+                                TextCell["Funzione Data:", "Text", FontSize -> 30], 
+                                TextCell["    f(x) = ", "Text", FontSize -> 30,FontColor->Blue], 
+                                TextCell[TraditionalForm[fun], "Text", FontSize -> 30,FontColor->Blue]}],  (* function *)
+                            Row[{
+                                TextCell["Prima approssimazione data:", "Text", FontSize -> 30], 
+                                TextCell["    ", "Text", FontSize -> 30,FontColor->Blue], 
+                                TextCell[Subscript["x","0"],FontSize -> 30,FontColor->Blue],
+                                TextCell[" = ", "Text", FontSize -> 30,FontColor->Blue],
+                                TextCell[x0,FontSize->30,FontColor->Blue] (* first iteration point *)
+                                
+                            }],
+                            Dynamic[Column@IterationList], (* add new iteration *)
+                            Button[
+                                Style["Aggiungi Iterazione", FontSize -> 20], 
+                                {
+                                    AppendTo[IterationList, AddIteration[++i,fun,x0]],
+                                    Iter2Result = 
+                                        NestList[N[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))] &, x0, i+1]
+                                }, ImageSize->200],
+                            (*Row[{calculator}],*)
+                            Row[{ (* in this section is verified the result inserted by the user *)
+                                   TextCell["Inserisci il risultato: ", "Text", FontSize -> 30], 
+                                InputField[Dynamic[Risultato], String, BaseStyle->FontSize->25, ImageSize->150],
+                                "  ",
+                                Print[Dynamic[Iter2Result[[i+1]]]];
+                                Button[Style["Verifica", FontSize -> 20],
+                                    {
+                                        If[ ToString[Risultato] == ToString[Iter2Result[[i+1]]], (* verification of the entered value *) 
+                                            CreateDialog[{ (* if correct *)
+                                                Column[{
+                                                    TextCell["Complimenti!", FontSize -> 25],
+                                                    TextCell[\[HappySmiley], FontSize -> 200, FontColor -> Green],
+                                                    TextCell["Hai risolto l'esercizio correttamente!", FontSize -> 25],
+                                                    DefaultButton[]
+                                                },Alignment->Center]
+                                            },WindowTitle->"Corretto"],
+                                            CreateDialog[{ (* if wrong *)
+                                                Column[{
+                                                    TextCell["Errore!", FontSize -> 25],
+                                                    TextCell[\[WarningSign], FontSize -> 200, FontColor -> Red],
+                                                    TextCell["Riprova e stai pi\[UGrave] attento", FontSize -> 25],
+                                                    DefaultButton[]
+                                                },Alignment->Center]
+                                            },WindowTitle->"Sbagliato"]
+                                        ]
+                                    },
+                                    ImageSize -> 150]
+                               }]
+                           }, Spacings -> 3]
+                    }]
+                }],
+                "   "
+            }]
+        },
+        Spacings -> 4,
+        Frame -> True
+        ]
+    ];
+    
 EndPackage[]
 
 
