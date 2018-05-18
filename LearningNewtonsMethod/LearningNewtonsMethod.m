@@ -99,75 +99,93 @@ ReadInputFile[] :=
 (* Function that shows an interactive manipulate *)
 NewtonInteractive[] :=
     Module[ 
-    	{newton,listaIntervalli,listaFunzioni},
+    	{newton,passInput,listaIntervalli,listaFunzioni,selectedInput,aa,bb,interv},
     	
     	listaIntervalli={
-    		{0, 2*Pi},
-    		{0, 2*Pi},
+    		{0, 2*3.14},
+    		{0, 2*3.14},
+    		{-4, 8},
     		{0, 6},
-    		{0, 6},
-    		{0, 2*Pi},
-    		{0, 6},
-    		{0, 50}
+    		{0, 2*3.14},
+    		{-3, 6}
     	};
+    	
     	listaFunzioni={
     		TraditionalForm[Cos[x]],
     		TraditionalForm[Sin[x]],
-    		TraditionalForm[-7 + x^2],
-    		TraditionalForm[-1 + x - 3*x^2 + x^3],
+    		TraditionalForm[-9 + (x-2)^2],
+    		TraditionalForm[-4 + x - 3*(x)^2 + (x)^3],
     		TraditionalForm[Sin[x]*Cos[x]],
     		TraditionalForm[-1 + x^2*Log2[x]]
     	};
+    	
         Manipulate[
-        	
-            newton[input,N[x0], -100, 100, n],
-            
-            {{input,listaFunzioni[[1]], "Funzione: "}, 
-                listaFunzioni,
+            passInput[input],            
+            {{input,listaFunzioni[[1]], TextCell["  Funzione: ",FontSize->17]},
+            	listaFunzioni,
                 ControlType -> PopupMenu},
-            {{n, 0, "Numero di Iterazioni: "}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
-            {{x0, 0.3, Subscript["x", "0"]}, 0.01, 50, Appearance -> "Labeled"},
-            
-            Initialization:>{
-                newton[input_,x0_,a_,b_,n_] :=
-                	
-                    Module[ 
-                    	{list,funzioneFinale,listArrow},
-                    	
-                    	funzioneFinale = ToExpression[ToString[input]];
-                        list = NestList[ (#1 - ((funzioneFinale/.x->#1)/(D[funzioneFinale,x]/.x->#1))) & ,x0, n];
-                        
-                        Clear[listArrow];
-                        listArrow = {{list[[1]],0}};
-                        For[i=1,i<=n,i++,
-                    		listArrow = Append[listArrow,{list[[i]],funzioneFinale/.x->list[[i]]}];
-                    		listArrow = Append[listArrow,{list[[i+1]],0}];
-                    	];
-                    	
-                        Column[{
-                            Row[{TextCell[HoldForm[Subscript[{Subscript["x", "k"]}, "k" = 0]^n],FontSize->17],TextCell[ " = ",FontSize->17], TextCell[list,FontSize->17]}],
-                            Plot[
-                                funzioneFinale, {x, a, b},
-                                PlotRange -> All,
-                                AxesLabel -> {Style["x", 16], Style["y", 16]},
-                                PlotStyle -> Thickness[0.006],
-                                Epilog -> {
-                                    {
-                                    	Red, 
-                                    	Thickness[0.002],
-                                        
-                                        If[n>0,Line[{listArrow}]]
-                                    },
-                                    {
-                                    	PointSize[0.015],
-                                        Point[{list[[i]], 0}]
-                                    }
-                                },
-                                ImageSize -> {800,500}
-                          	]
-                        }]
-                    ]
-            	}
+		        Initialization:>{
+		        	passInput[input_]:= 
+		        	     Module[ {},
+				        	selectedInput = Position[listaFunzioni,input][[1]];   
+				        	interv = listaIntervalli[[ selectedInput ]];
+				        	aa = interv[[1]][[1]];
+				        	bb = interv[[1]][[2]];
+				        	
+							Manipulate[
+								newton[input,N[x0], aa, bb, n],
+					            {{n, 0, TextCell["Numero di Iterazioni: ",FontSize->17]}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
+					           	{{x0, aa+0.01, TextCell[Subscript["x", "0"],FontSize->30]}, aa+0.01, bb-0.01, Appearance -> "Labeled"},
+					            
+					            Initialization:>{
+					                newton[inputFun_,x0_,a_,b_,n_] :=
+					                	
+					                    Module[ 
+					                    	{list,funzioneFinale,listArrow},
+					                    	(*Print[a];
+					                    	Print[b];*)
+					                    	funzioneFinale = ToExpression[ToString[inputFun]];
+					                        list = NestList[ (#1 - ((funzioneFinale/.x->#1)/(D[funzioneFinale,x]/.x->#1))) & ,x0, n];
+					                        
+					                        Clear[listArrow];
+					                        listArrow = {{list[[1]],0}};
+					                        For[i=1,i<=n,i++,
+					                    		listArrow = Append[listArrow,{list[[i]],funzioneFinale/.x->list[[i]]}];
+					                    		listArrow = Append[listArrow,{list[[i+1]],0}];
+					                    	];
+					                    	
+					                        Column[{
+					                            Row[{TextCell[HoldForm[Subscript[{Subscript["x", "k"]}, "k" = 0]^n],FontSize->17],TextCell[ " = ",FontSize->17], TextCell[list,FontSize->17]}],
+					                            Plot[
+					                                funzioneFinale, {x, aa, bb},
+					                                PlotRange -> {{aa,bb},Full},
+					                                AxesLabel -> {Style["x", 16], Style["y", 16]},
+					                                AxesOrigin ->{0,0},
+					                                PlotStyle -> Thickness[0.006],
+					                                
+					                                Epilog -> {
+					                                    {
+					                                    	Red, 
+					                                    	Thickness[0.002],
+					                                        
+					                                        If[n>0,Line[{listArrow}]]
+					                                    },
+					                                    {
+					                                    	PointSize[0.015],
+					                                        Point[{list[[i]], 0}]
+					                                    }
+					                                },
+					                                ImageSize -> {800,500}
+					                          	]
+					                        }]
+					            		]
+					                
+					            },
+		        				Paneled->False
+							]
+        			]	
+		        },
+		        Paneled->False
             ]
     ];
 
@@ -254,70 +272,70 @@ RootExampleGraphic[] :=
     ];
 
 BisectionInteractive[] :=
-	Module[{quad,plotoptions,pl,linie,bisec,intervalle,vertline},
-		Manipulate[
-	    	Show[{
-	    		Plot[
-	    			quad[x], {x, 0, 2.5},
-	                PlotStyle -> {{Thickness[0.005]}, {Thickness[0.001]}, {Thickness[0.001]}, {Thickness[0.001]}, {Thickness[0.001]}},
-	                Evaluate[plotoptions], Filling -> {1 -> Axis},
-	                PlotLabel -> pl[f, {aP[[1]], bP[[1]]}, nn]
-	            ],
-	            Graphics[{Red, Line /@ intervalle[f, {aP[[1]], bP[[1]]}, nn]}],
-	            Graphics[{Dashed, vertline /@ linie[f, {aP[[1]], bP[[1]]}, nn]}]}, 
-	            ImageSize->{800,500}
-	      	],
-	        {{f, quad,""},{quad->"\!\(\*SuperscriptBox[\(x\), \(4\)]\)-2"}, ControlType -> None},
-	    	{{aP, {0.5, 0}}, {0, 0}, {2.5, 0}, ControlType -> Locator, Appearance -> Style["|", 20, Bold, RGBColor[1, 0, 0]]},
-	        {{bP, {2, 0}}, {0,0}, {2.5, 0}, ControlType -> Locator, Appearance -> Style["|", 20, Bold, RGBColor[1, 0, 0]]},
-	        {{nn, 1,"Iterazione"}, 1, 12, 1, Appearance -> "Labeled"},
-	        Initialization:>{
-	          	plotoptions = {PlotRange->{{0,2.5},{-1,1}},PlotRangePadding->0.25, AspectRatio->Automatic,ImageSize->{800,500}},
-	            Attributes[PlotRange] = {ReadProtected},
-	        	pl[f_,{a_,b_},n_] :=
-				If[ f[a]*f[b]<=0,
-	                   Row[{"Intervallo: [",linie[f,{a,b},n][[1]],", ",linie[f,{a,b},n][[2]],"]"}],
-	                   Row[{"Errore"}]
-				],
-	            linie[f_,{a_,b_},1] = {Min[a,b],Max[a,b]},
-	           	linie[f_,{a_,b_},n_] :=
-	            	If[ f[a]*f[b]<=0,
-	                	bisec[f,linie[f,{a,b},n-1]],
-	                   	{a,b}
-	               	],
-	                linie[f$_,1] = {0,2},
-	                linie[f_,n_] := bisec[f,linie[f,n-1]],
-	                bisec[f_,{a_,b_}] :=
-	              		If[ f[a]*f[b]<=0,
-	                  		If[ f[(a+b)/2]*f[a]<=0,
-	                      		{a,(a+b)/2},
-	                  			If[ f[(a+b)/2]*f[b]<0,
-	                          		{(a+b)/2,b}
-	                      		]
-	                  		],
-	                  		{a,b}
-	              		],
-	              		intervalle[f_,{a_,b_},nn_] := 
-	              			Table[
-	              				{
-	              					{linie[f,{a,b},i][[1]],-(i/30)},
-	          						{linie[f,{a,b},i][[2]],-(i/30)}
-	          					},
-	          					{i,1,nn}
-	          				],               
-	                    intervalle[f_,nn_] :=
-	          				Table[
-	          					{
-	          						{linie[f,i][[1]],-(i/50)},
-	          						{linie[f,i][[2]],-(i/50)}
-	          					},
-	          					{i,1,nn}
-	          				],
-	                  	vertline[a_] := Line[{{a,-1},{a,1}}], 
-				       	quad[x_] := (x^4 - 2)
-			}    
-		]
-    ]; 
+	Manipulate[
+	 	BisezMethod[f, a, b, step],
+	 	{{f, TraditionalForm[x^2 - 1], TextCell["Funzione: ",FontSize->17]}, {TraditionalForm[x^2 - 1]}, ControlType -> PopupMenu},
+	 	{{a, 0.5, TextCell["a: ",FontSize->17]}, 0.01, 2.49, 0.01, Appearance -> "Labeled"},
+	 	{{b, 2, TextCell["b: ",FontSize->17]}, 0.01, 2.49, 0.01, Appearance -> "Labeled"},
+	 	{{step, 1, TextCell["Iterazione: ",FontSize->17]}, 1, 12, 1, Appearance -> "Labeled"},
+	 
+		 Initialization :> {
+		 	BisezMethod[ffx_, aa_, bb_, nn_] :=
+		    
+		    	Module[
+		    		{line, bisec, intervals, vertline, fx},
+		     		
+		     		fx = ToExpression[ToString[ffx]];
+		     		
+		     		line[f_,{a_,b_},1] := {Min[aa, bb], Max[aa, bb]};
+		     		
+		     		line[f_,{a_,b_},n_] :=
+					  	If[ (f/.x->a) * (f/.x->b) <= 0,
+					    	bisec[f, line[f,{a,b},n -1]],
+					       	{a, b}
+					    ];
+				  	
+				  	bisec[f_,{a_, b_}] :=
+				   		If[(f/.x->a)*(f/.x->b) <= 0,
+				       		If[(f/.x->((a + b)/2)) * (f/.x->a) <= 0,
+				        		{a, (a + b)/2},
+				        		If[(f/.x->((a + b)/2)) * (f/.x->b) < 0,
+				         			{(a + b)/2, b}
+				         		]
+				        	],
+				       		{a, b}
+				      	];
+				     
+				    intervals[f_,{a_,b_},step_] :=
+				      	Table[
+				       		{
+				        		{line[f,{a,b},i][[1]], -(i/30)},
+				        		{line[f,{a,b},i][[2]], -(i/30)}
+			        		},
+				       		{i, 1, step}
+				       	];
+		     
+		     		vertline[a_] := Line[{{a, -1}, {a, 1}}];
+		     
+				   	If[(fx /. x -> aa)*(fx /. x -> bb) <= 0,
+				      	Row[{"Intervallo: [", line[fx, {aa, bb}, nn][[1]], ", ", line[fx, {aa, bb}, nn][[2]], "]"}],
+				      	Row[{"Errore"}]
+				   	];
+		     
+				  	Plot[
+				      	fx, {x, 0, 2.5},
+				      	PlotRange -> {-1, 2},
+				      	ImageSize -> {800, 500} ,
+				      	Epilog -> {
+				        	{Red, Line /@ intervals[fx, {aa, bb}, nn]},
+				        	{Dashed, vertline /@ line[fx, {aa, bb}, nn]}
+				        }
+				  	]
+		     	]
+ 		},
+		        Paneled->False
+		        
+ 	];
                  
                                          
 BisectionAnimated[] :=
