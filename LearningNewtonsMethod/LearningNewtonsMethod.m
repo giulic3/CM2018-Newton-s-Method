@@ -96,11 +96,12 @@ ReadInputFile[] :=
     ];
  
 
+
 (* Function that shows an interactive manipulate *)
 NewtonInteractive[] :=
     DynamicModule[ 
-    	{passInput,listaIntervalli,listaFunzioni,inputt},
-    	
+    	{newton,passInput,listaIntervalli,listaFunzioni,selectedInput,aa,bb,interv},
+    	(* plotting interval for each function *)
     	listaIntervalli={
     		{0, 2*3.14},
     		{0, 2*3.14},
@@ -109,7 +110,7 @@ NewtonInteractive[] :=
     		{0, 2*3.14},
     		{-3, 6}
     	};
-    	
+    	(* list of functions that can be selected from the popup menu *)
     	listaFunzioni={
     		TraditionalForm[Cos[x]],
     		TraditionalForm[Sin[x]],
@@ -120,28 +121,33 @@ NewtonInteractive[] :=
     	};
     	
         Manipulate[
-            passInput[inputt],            
-            {{inputt,listaFunzioni[[1]], TextCell["  Funzione: ",FontSize->17]},
+            passInput[input],            
+            {{input,listaFunzioni[[1]], TextCell["  Funzione: ",FontSize->17]},
             	listaFunzioni,
                 ControlType -> PopupMenu},
 		        Initialization:>{
 		        	passInput[input_]:= 
-		        	     DynamicModule[ {newton,selectedInput,aa,bb,interv,xx0,nn},
+		        	     DynamicModule[ {},
+		        	        (* select the position (index) of the first occurence of input inside listaFunzioni *)
 				        	selectedInput = Position[listaFunzioni,input][[1]];   
+				        	(* select the corresponding plotting interval *)
 				        	interv = listaIntervalli[[ selectedInput ]];
+				        	(* aa and bb store bounds of the selected interval *)
 				        	aa = interv[[1]][[1]];
 				        	bb = interv[[1]][[2]];
 				        	
 							Manipulate[
-								newton[input,N[xx0], aa, bb, nn],
-					            {{nn, 0, TextCell["Numero di Iterazioni: ",FontSize->17]}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
-					           	{{xx0, aa+0.01, TextCell[Subscript["x", "0"],FontSize->30]}, aa+0.01, bb-0.01, Appearance -> "Labeled"},
+								newton[input, N[x0], aa, bb, n],
+					            {{n, 0, TextCell["Numero di Iterazioni: ",FontSize->17]}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
+					           	{{x0, aa+0.01, TextCell[Subscript["x", "0"],FontSize->30]}, aa+0.01, bb-0.01, Appearance -> "Labeled"},
 					            
 					            Initialization:>{
 					                newton[inputFun_,x0_,a_,b_,n_] :=
 					                	
-					                    DynamicModule[ 
-					                    	{list,funzioneFinale,listArrow,i},
+					                    Module[ 
+					                    	{list,funzioneFinale,listArrow},
+					                    	(*Print[a];
+					                    	Print[b];*)
 					                    	funzioneFinale = ToExpression[ToString[inputFun]];
 					                        list = NestList[ (#1 - ((funzioneFinale/.x->#1)/(D[funzioneFinale,x]/.x->#1))) & ,x0, n];
 					                        
@@ -467,55 +473,99 @@ NewtonAnimated[] :=
         ]
     ];
     
-SecantInteractive[] :=
-	Module[{Secant,iteration},
-		Manipulate[
-			Secant[iteration],
-			{{iteration,0, "Numero di iterazioni: "},{0,1,2,3,4,5,6},ControlType->SetterBar},
-			
-			Initialization:>{
-				Secant[i_] :=
-					Module[
-						{xValues,x0,x1,f},
-						x0= 0.4;
-						x1 = 1.8;
-						f[x_] := x^4 - 2;
-						xValues =
-							NestList[{
-								#[[1]],
-								#[[1]] - f[#[[1]]]*((#[[1]] - #[[2]]) / (f[#[[1]]] -  f[#[[2]]]))
-							} &,
-							{x1, x0},
-							i];
-					 	Plot[
-							f[x], {x, 0, 3},
-							PlotRange -> {{0, 2}, {-3, 10}},
-							Epilog -> {
-								{
-									PointSize[0.01], 
-									(Point[{#1, 0}] &) /@ Flatten[xValues]
-								},
-								{
-									Thickness[0.002],
-								   	MapIndexed[{ 
-								   		Hue[0.76*(#2[[1]]/6)],
-								   		Line[{
-											{#1[[1]], f[#[[1]]]},
-											{#1[[2]], f[#1[[2]]]} 
-										}]
-									} &,
-									xValues]
-								},
-					         	{Thickness[0.002], Black, Line[({{#1, 0}, {#1, f[#1]}} &) /@ Flatten[xValues]]}
-						   	},
-						   	Axes -> True,
-					    	ImageSize -> {800,500},
-						    AxesLabel -> {Style["x", 16], Style["y", 16]}
-						]
-					]
-			}
-		]	   
-    ];
+     (* TODO problema setterbar, l'iterazione 0 in realt\[AGrave] \[EGrave] la 1
+    non mi piace che gli slider a e b dipendano dai valori di plotting,
+    parte la ventola quando manipolo il grafico 
+      *)
+    SecantInteractive[] :=
+		DynamicModule[{Secant, passInput, intervalsList, functionsList, selectedInput, aa, bb, interval},
+		    
+		    intervalsList = {
+		      {0.4,1.8},
+		      {0,10},
+		      {-1,1.5},
+			  {(-1/4)Pi, Pi},
+			  {0.4,1.8}
+		    };
+		    
+		    functionsList = {
+		      TraditionalForm[x^4 - 2],
+		      TraditionalForm[(x/2)^2+2Sin[x]+Cos[x]-10],
+		      TraditionalForm[3x+Sin[x]-Exp[x]],
+		      TraditionalForm[Cos[x]],
+		      TraditionalForm[x-Sin[x]-(1/2)]            
+             };
+             
+			Manipulate[
+				passInput[input],
+				{{input, functionsList[[1]], TextCell["  Funzione: ", FontSize->17]},
+				functionsList,
+				ControlType->PopupMenu},
+				Initialization:> {
+					passInput[input_]:=
+						DynamicModule[ {},
+						selectedInput = Position[functionsList,input][[1]];
+						interval = intervalsList[[selectedInput]];
+						aa = interval[[1]][[1]];
+						bb = interval[[1]][[2]];
+						
+						Manipulate[
+						Secant[input,N[a],N[b],aa,bb,iteration],
+						{{iteration, 0, TextCell["Numero di Iterazioni: ", FontSize->17]}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
+					    {{a, aa+0.01, TextCell["a",FontSize->30]}, aa+0.01, bb-0.01, Appearance -> "Labeled"},
+					    {{b, aa+0.01, TextCell["b",FontSize->30]}, aa+0.01, bb-0.01, Appearance -> "Labeled"},
+					    
+				        Initialization:>{
+				        
+							Secant[inputFun_,x0_,x1_,a_,b_,i_] :=
+								Module[{xValues,finalFunction},
+								finalFunction = ToExpression[ToString[inputFun]];
+								xValues =
+					                NestList[{
+						                #[[1]],
+						                #[[1]] - (finalFunction/.x->#[[1]])*((#[[1]] - #[[2]]) / ((finalFunction/.x->#[[1]]) -  (finalFunction/.x->#[[2]])))
+						             } &,
+			                         {x1, x0},
+			                         i
+			                         ];
+			                         		  
+                    Plot[
+		                finalFunction, {x, aa, bb},
+		                PlotRange -> {{aa,bb},Full},
+		                AxesLabel -> {Style["x", 16], Style["y", 16]},
+					    AxesOrigin ->{0,0},		    
+					    PlotStyle -> Thickness[0.006],
+		     	       Epilog -> {
+			                {
+			                  PointSize[0.01], 
+			                  (Point[{#1, 0}] &) /@ Flatten[xValues]
+					        },
+					        {
+					         Thickness[0.002],
+		                     MapIndexed[
+		                     { Hue[0.76*(#2[[1]]/6)],
+		                       Line[{
+                                    {#1[[1]], finalFunction/.x->#[[1]]},
+                                    {#1[[2]], finalFunction/.x->#1[[2]]}  }]} &, 
+                               xValues
+                             ]
+	                        },
+		         	       {
+		         	         Thickness[0.002], Black,
+		          		    Line[({{#1, 0}, {#1, finalFunction/.x->#1}} &) /@ Flatten[xValues]]}
+		     	           },
+		       	         Axes -> True,
+		       	         ImageSize -> {800,500},
+		       	         AxesLabel -> {Style["x", 16], Style["y", 16]}
+		             ] (* end plot *)
+					] (* end module *)
+			}, (* end initialization *)
+			Paneled->False
+		](* end manipulate *)
+    ] (* end dynamic module *)
+    } (* end external initialization *)
+    ] (* end extern manipulate *)
+    ]; (* end extern dynamic module *)
 
 (* these two functions show cases/examples in which the Newton's method fails *)
 (* xlog(x)-1*)
