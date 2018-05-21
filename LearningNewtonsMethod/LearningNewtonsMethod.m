@@ -740,9 +740,9 @@ MethodsComparison[] :=
 
 AlgoNewton[] :=
     DynamicModule[
-				{x0, bb, cc, \[Tau]\[Tau], ff},
+				{aa, bb, cc, \[Tau]\[Tau], ff},
 
-				x0 = ToExpression["a"];
+				aa = ToExpression["a"];
 				bb = ToExpression["b"];
 				\[Tau]\[Tau] = ToExpression["\[Tau]"];
 				ff=Sin[x];
@@ -754,7 +754,7 @@ AlgoNewton[] :=
 								}],
 								Row[{
 										TextCell["Dato ", FontSize -> 25],
-										InputField[Dynamic[x0], ImageSize -> 200,	Alignment -> Center, BaseStyle -> FontSize -> 25],
+										InputField[Dynamic[aa], ImageSize -> 200,	Alignment -> Center, BaseStyle -> FontSize -> 25],
 										TextCell["-", FontSize -> 25],
 										InputField[Dynamic[bb], ImageSize -> 200,	Alignment -> Center,	BaseStyle -> FontSize -> 25],
 										TextCell["|", FontSize -> 40],
