@@ -14,7 +14,7 @@ GoForward::usage = "Allows user to go to the next slide";
 GoBack::usage = "Allows user to go back to the previous slide ";
 GoHomepage::usage = "Return to the homepage";
 ReadInputFile::usage = "Reads expressions from 'inputExp' file";
-NewtonInteractive::usage = "Animated Newtom Method";
+NewtonInteractive::usage = "Animated Newton Method";
 ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
 RootExampleGraphic::usage = "Shows a example plot about root concept";
 BisectionInteractive::usage = "Interactive Bisection Method";
@@ -27,6 +27,8 @@ Calculator::usage = "Shows a scientific calculator that allows user to write fun
 MethodsComparison::usage = "Show convergence to solution using three different methods";
 i::usage = "Global variable used for the exercises part";
 SecantInteractive::usage = "Interactively show step of iteration in the secant method";
+ShowDetails::usage = "ciao";
+Bolzano::usage = "Show root graph example step by step: press a button to advance";
 
 Begin["`Private`"]
 
@@ -43,7 +45,7 @@ GoForward[nextSlide_, bool_] :=
  
 (* Function that links a slide with the previous,
 gets in input the Cell Tag of the slide to be linked 
-and a boolean value that indicates if the link must be abled or disabled *)
+and a boolean value that indicates if the link must be enabled or disabled *)
 GoBack[prevSlide_, bool_] :=
     Module[ {},
         If[ bool== Boole[True], (* check on the boolean value *)
@@ -57,7 +59,175 @@ GoHomepage[homeSlide_] :=
     Module[ {},
         Hyperlink[Import["Images/home.png", ImageSize->{100,100}], {EvaluationNotebook[], ToString[homeSlide]}]
     ];
-    
+
+
+ShowDetails[] :=
+    Module[
+      {text = Null, buttonStatus = "Closed"},
+      NotebookWrite[EvaluationNotebook[],
+        Cell[BoxData@ToBoxes@Dynamic[text], "Text",
+          FontFamily -> Source Sans Pro, FontSize -> 36]];
+
+      Row[{
+      button = Button["Approfondimento 1",
+        If[Equal[buttonStatus, "Closed"],
+          (text =
+            ToString [
+              StringForm["Provate a considerare la funzione f(x) = `1`",
+                Superscript["x",
+                  "2"]]]; buttonStatus = "Open"),
+          (text = ""; buttonStatus = "Closed")
+        ]
+      ]
+      }]
+    ];
+
+(* Function that progressively introduces and explains Bolzano's Theorem *)
+Bolzano[] :=
+    Module[{
+      buttonStatus1 = "closed",
+      buttonStatus2 = "closed",
+      buttonStatus3 = "closed",
+      buttonStatus4 = "closed",
+      plot = "",
+      f,
+      x,
+      a,
+      b,
+      textCellStyle = {}
+    },
+
+      f[x_] := x^2-2;
+      a = 1;
+      b = 2;
+      textCellStyle = {FontSize->36, FontFamily->"Source Sans Pro"};
+
+      Row[{
+      Column[{
+        Row[{
+          TextCell["Notiamo che la ", textCellStyle],
+          TextCell["funzione f", textCellStyle, Blue],
+          TextCell["(x) = ", textCellStyle],
+          TextCell[TraditionalForm[ToExpression["x^2 - 2"]], textCellStyle],
+          TextCell[" è ", textCellStyle],
+          Button["continua",
+            If[
+              buttonStatus1 == "closed" ,
+              (buttonStatus1 = "open";
+              plot =
+                  Plot[x^2 - 2, {x, -2.5, 2.5},
+                    ImageSize -> {800, 500},
+                    Filling -> Axis,
+                    FillingStyle -> {LightGreen, LightCyan}]
+              )
+            ]]
+        }],
+        Row[{}], (* linefeed *)
+        Row[{
+          TextCell[" e che f calcolata in a = 1 è ", textCellStyle],
+          Button["negativa",
+            If[
+              buttonStatus2 == "closed" && buttonStatus1 == "open",
+              ( buttonStatus2 = "open";
+              plot = Show[
+                plot,
+                Epilog -> {
+                  {
+                    PointSize[0.012],
+                    {
+                      Blue,
+                      Point[{a, f[a]}],
+                      Text[{a, f[a]}, Offset[{40, 10}, {a, f[a]}]]
+                    }
+                  }
+                }
+              ]
+              )
+            ]
+          ],
+          TextCell[" .", textCellStyle]
+        }],
+        Row[{}],
+        Row[{
+          TextCell["Inoltre notiamo che f calcolata in b = 2 è ", textCellStyle],
+          Button["positiva",
+            If[
+              buttonStatus3 == "closed" && buttonStatus1 == "open" && buttonStatus2 == "open",
+              (buttonStatus3 = "open";
+              plot = Show[
+                plot,
+                Epilog -> {
+                  {
+                    PointSize[0.012],
+                    {
+                      Blue,
+                      Point[{a, f[a]}],
+                      Text[{a, f[a]}, Offset[{40, 10}, {a, f[a]}]],
+                      Point[{b, f[b]}],
+                      Text[{b, f[b]}, Offset[{40, 10}, {b, f[b]}]]
+                    }
+                  }
+                }
+              ]
+              )
+            ]
+          ],
+          TextCell[" .", textCellStyle]
+        }],
+        Row[{}],
+        Row[{
+          TextCell["Ciò che abbiamo appena osservato sono le ipotesi del ", textCellStyle],
+          TextCell["Teorema di Bolzano.", textCellStyle, FontWeight->Bold]
+        }],
+        Row[{}],
+        Row[{
+        (* TODO riquadro colorato interattivo, holy shit. *)
+        }],
+        Row[{}],
+        Row[{
+          TextCell["Quindi possiamo esser certi che tra ", textCellStyle],
+          TextCell["1", textCellStyle, Green],
+          TextCell[" e ", textCellStyle],
+          TextCell["2", textCellStyle, Green],
+          TextCell[" è compreso un suo ", textCellStyle],
+          Button["zero",
+            If[
+              buttonStatus4 == "closed" && buttonStatus1 == "open" && buttonStatus2 == "open" && buttonStatus3 == "open",
+              (buttonStatus4 = "open";
+              plot = Show[
+                plot,
+                Epilog -> {
+                  PointSize[0.012],
+
+                  {
+                    Blue,
+                    Point[{a, f[a]}],
+                    Text[{a, f[a]}, Offset[{40, 10}, {a, f[a]}]],
+                    Point[{b, f[b]}],
+                    Text[{b, f[b]}, Offset[{40, 10}, {b, f[b]}]]
+                  },
+                  {
+                    Red,
+                    Point[{Sqrt[2], 0}],
+                    Text[{Sqrt[2], 0}, Offset[{40, 10}, {Sqrt[2], 0}]]
+                  }
+                }
+              ])
+            ], Background->Red
+          ],
+          TextCell[" .", textCellStyle]
+        }],
+
+        Row[{}]
+      }], (* end column *)
+        Column[{
+          Dynamic[plot]
+        }]
+      }] (* end external row *)
+      ];
+
+
+
 (* Function that reads expressions from 'inputExp' file *)
 (* The file contains N rows composed in this way:
 function, initial interval point, final interval point, point of the first iteration *)
@@ -119,7 +289,8 @@ NewtonInteractive[] :=
     		TraditionalForm[Sin[x]*Cos[x]],
     		TraditionalForm[-1 + x^2*Log2[x]]
     	};
-    	
+
+
         Manipulate[
             passInput[input],            
             {{input,listaFunzioni[[1]], TextCell["  Funzione: ",FontSize->17]},
