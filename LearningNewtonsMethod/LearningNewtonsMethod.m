@@ -915,74 +915,135 @@ AlgoBisez[] :=
                        bb = ToExpression["b"];
                        \[Tau]\[Tau] = ToExpression["\[Tau]"];
                        ff = x^2 - 2;
-                       Manipulate[BisectionAlgorithm[aa, bb, \[Tau]\[Tau]],
+                       Manipulate[
+                                  BisectionAlgorithm[aa, bb, \[Tau]\[Tau]],
                                   Column[{
                            Row[{
                                TextCell["Sia f = ", FontSize -> 15],
-                               TextCell[Superscript[x, 2], FontSize -> 15],
-                               TextCell[" - 2", FontSize -> 15]
+                               TextCell[TraditionalForm[ff], FontSize -> 15]
                            }],
-                           Row[{TextCell["Finché \[VerticalSeparator] ", FontSize -> 15] ,
-                               InputField[Dynamic[a], FieldSize -> {2.5, 1},
+                           Row[{
+                               TextCell["Finché \[VerticalSeparator] ", FontSize -> 15] ,
+                               InputField[Dynamic[aa], ImageSize -> 100,
                                           BaseStyle -> FontSize -> 15],
                                TextCell[" - ", FontSize -> 15 ],
-                               InputField[Dynamic[b], FieldSize -> {2.5, 1},
+                               InputField[Dynamic[bb], ImageSize -> 100,
                                           BaseStyle -> FontSize -> 15],
                                TextCell["  \[VerticalSeparator]  >  ", "Subitem"],
-                               InputField[Dynamic[\[Tau]], FieldSize -> {2.5, 1},
+                               InputField[Dynamic[\[Tau]\[Tau]], ImageSize -> 100,
                                           BaseStyle -> FontSize -> 15]
                            }]}],
-                                  Initialization :> { BisectionAlgorithm[a_, b_, t_] := Module[{},
-                                                                                               Column[{
-                           Row[{
-                               TextCell[" c = ", FontSize -> 15],
-                               Column[{
-                                   FractionBox[
-                                               RowBox[{TextCell["a+b", FontSize -> 15]}],
-                                               RowBox[{TextCell["2", FontSize -> 15]}]
-                                               ] // DisplayForm
-                               }],
-                               Column[{
-                                   cVal = (N[ToExpression[a]] + N[ToExpression[b]])/2;
-                                   TextCell[" = ", FontSize -> 15]
-                               }],
-                               Column[{
-                                   TextCell[Dynamic[cVal], FontSize -> 20]
-                               }]
-                           }],
-                           Row[{TextCell["Se f(c) = 0 ho la soluzione", FontSize -> 15]}],
-                           Row[{
-                               TextCell[ " in questo caso f(c) = ", FontSize -> 15],
-                               Dynamic[
-                                       
-                                       fcVal = #1^2 - 2 & @@@ {N[
-                                                                 ToExpression[ToString[Dynamic[cVal]]]]};
-                                       
-                                       TextCell[ ToExpression[ToString[Dynamic[fcVal]]],
-                                                FontSize -> 15]]
-                           }],
-                           Row[{TextCell[ "Altrimenti ", FontSize -> 15]}],
-                           Row[{TextCell["Se segno("], Dynamic[cVal],
-                               TextCell[") = segno("], Dynamic[a],
-                               TextCell[")", FontSize -> 15]}],
-                           Row[{TextCell["a = c", FontSize -> 15]}],
-                           Row[{TextCell["Altrimenti", FontSize -> 15]}],
-                           Row[{TextCell["b = c", FontSize -> 15]}],
-                           Row[{Button["Aggiungi iterazione",
-                                       {If[Dynamic[a] > 0 && Dynamic[cVal] > 0, aa = cVal;
-                                           BisectionAlgorithm[aa, b, 1]; CreateWindow["if 1"],
-                                           bb = cVal; BisectionAlgorithm[a, bb, 1];
-                                           CreateWindow["if 2"]]
-                                       };]
-                           }]
-                           
-                       }]
-                                                                                               
-                                                                                               ]
+                                  Initialization :> {
+                                      BisectionAlgorithm[a_, b_, t_] := DynamicModule[
+                                                                                      {cVal, fcVal},
+                                                                                      a1 = N[ToExpression[a]];
+                                                                                      If[a != ToExpression["a"],
+                                                                                         a = a1
+                                                                                         ];
+                                                                                      b1 = N[ToExpression[b]];
+                                                                                      If[b != ToExpression["b"],
+                                                                                         b = b1
+                                                                                         ];
+                                                                                      If[t == ToString["\[Tau]"], "", ""];
+                                                                                      Column[{
+                                          Row[{
+                                              TextCell[" c = ", FontSize -> 15],
+                                              Column[{
+                                                  FractionBox[
+                                                              RowBox[{TextCell["a+b", FontSize -> 15]}],
+                                                              RowBox[{TextCell["2", FontSize -> 15]}]
+                                                              ] // DisplayForm
+                                              }],
+                                              Column[{
+                                                  
+                                                  If[ToString[a] != ToString["a"] &&
+                                                     ToString[b] != ToString["b"] &&
+                                                     ToString[t] != ToString["\[Tau]"],
+                                                     If[Abs[a - b] > ToExpression[ToString[t]],
+                                                        cVal1 = ((a + b)/2) // N, cVal = "";
+                                                        CreateDialog["Abbiamo raggiunto la tolleranza"]
+                                                        ],
+                                                     cVal1 = "";
+                                                     ];
+                                                  cVal = cVal1;
+                                                  TextCell[" = ", FontSize -> 15]
+                                              }],
+                                              Column[{
+                                                  TextCell[Dynamic[cVal], FontSize -> 20]
+                                              }]
+                                          }],
+                                          Row[{TextCell["Se f(c) = 0 ho la soluzione", FontSize -> 15]}],
+                                          If[
+                                             ToString[a] != ToString["a"] &&
+                                             ToString[b] != ToString["b"] &&
+                                             ToString[t] != ToString["\[Tau]"],
+                                             If[Abs[a - b] > ToExpression[ToString[t]],
+                                                Row[{
+                                                 TextCell[ " in questo caso f(c) = ", FontSize -> 15],
+                                                 Dynamic[
+                                                         fcVal = ff /. x -> cVal;
+                                                         
+                                                         TextCell[ ToExpression[ToString[Dynamic[fcVal]]],
+                                                                  FontSize -> 15]]
+                                             }], TextCell[""]
+                                                ],
+                                             TextCell[""]
+                                             ],
+                                          Row[{TextCell[ "Altrimenti ", FontSize -> 15]}],
+                                          If[ToString[cVal] != ToString[""],
+                                             
+                                             Row[{
+                                              TextCell["Se segno(", FontSize -> 15],
+                                              Dynamic[cVal],
+                                              TextCell[") = segno(", FontSize -> 15],
+                                              Dynamic[a],
+                                              TextCell[")", FontSize -> 15]
+                                          }],
+                                             Row[{
+                                              TextCell["Se segno(c) = segno(", FontSize -> 15],
+                                              Dynamic[a],
+                                              TextCell[")", FontSize -> 15]
+                                          }]
+                                             
+                                             ],
+                                          Row[{TextCell["a = c", FontSize -> 15]}],
+                                          Row[{TextCell["Altrimenti", FontSize -> 15]}],
+                                          Row[{TextCell["b = c", FontSize -> 15]}],
+                                          Row[{
+                                              Button[
+                                                     "Itera",
+                                                     If[ToString[cVal] == ToString[""], cVal = 90, ""];
+                                                     
+                                                     If[ Abs[a - b] >= ToExpression[ToString[t]],
+                                                        If[(ff /. x -> a)*(ff /. x -> cVal) >= 0,
+                                                           {
+                                                               If[ToString[cVal] != ToString[""], aa = cVal, Break[]];
+                                                               bb = b;
+                                                               \[Tau]\[Tau] = t
+                                                               (*BisectionAlgorithm[aa,b,t];*)
+                                                               
+                                                           },
+                                                           {
+                                                               If[ToString[cVal] != ToString[""], bb = cVal, Break[]];
+                                                               aa = a;
+                                                               \[Tau]\[Tau] = t
+                                                               (* BisectionAlgorithm[a,bb,1];*)
+                                                               
+                                                           }
+                                                           ],
+                                                        
+                                                        CreateDialog["Tolleranza raggiunta!"]
+                                                        ]
+                                                     ]
+                                          }]
+                                          
+                                      }]
+                                                                                      
+                                                                                      ]
                                   }, Paneled -> False
                                   ]
                        ];
-AlgoTang[] :=
+AlgoSec[] :=
          DynamicModule[{aa, bb, cc, \[Tau]\[Tau], ff},
                        aa = ToExpression["a"];
                        bb = ToExpression["b"];
