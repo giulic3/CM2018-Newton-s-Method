@@ -26,6 +26,7 @@ SecondExample::usage = "Shows the cases in which the Newton's method fails";
 Calculator::usage = "Shows a scientific calculator that allows user to write functions";
 MethodsComparison::usage = "Show convergence to solution using three different methods";
 i::usage = "Global variable used for the exercises part";
+AlgoNewton::usage="";
 SecantInteractive::usage = "Interactively show step of iteration in the secant method";
 ShowDetails::usage = "ciao";
 Bolzano::usage = "Show root graph example step by step: press a button to advance";
@@ -1076,110 +1077,156 @@ AlgoTang[] :=
 
 AlgoNewton[] :=
     DynamicModule[
-				{aa, bb, cc, \[Tau]\[Tau], ff},
-
-				aa = ToExpression["a"];
-				bb = ToExpression["b"];
+				{xii, bb, cc, \[Tau]\[Tau], ff,ii},
+				ii=0;
+				xii = Subscript[x,ii];
 				\[Tau]\[Tau] = ToExpression["\[Tau]"];
-				ff=Sin[x];
+				ff=(x^2)-2;
 				Manipulate[
-						drawAlgo[aa, bb, \[Tau]\[Tau],ff],
+						drawAlgo[xii,\[Tau]\[Tau],ff,ii],
 						Column[{
 								Row[{
-										PopupMenu[Dynamic[ff],{Sin[x],((x^2)-2),Sin[Cos[x]]}]
+										TextCell[" Approssimazione ", FontSize -> 25],
+										InputField[Dynamic[xii], ImageSize -> 200,	Alignment -> Center, BaseStyle -> FontSize -> 25]
 								}],
+								Spacer[50],
 								Row[{
-										TextCell["Dato ", FontSize -> 25],
-										InputField[Dynamic[aa], ImageSize -> 200,	Alignment -> Center, BaseStyle -> FontSize -> 25],
-										TextCell["-", FontSize -> 25],
-										InputField[Dynamic[bb], ImageSize -> 200,	Alignment -> Center,	BaseStyle -> FontSize -> 25],
-										TextCell["|", FontSize -> 40],
-										TextCell[">", FontSize -> 25],
-										InputField[Dynamic[\[Tau]\[Tau]], ImageSize -> 100,	Alignment -> Center,	BaseStyle -> FontSize -> 25]
+										TextCell[" Tolleranza ", FontSize -> 25],
+										TextCell["\[Tau] ", FontSize -> 35],
+										InputField[Dynamic[\[Tau]\[Tau]], ImageSize -> 200,	Alignment -> Center,	BaseStyle -> FontSize -> 25]
 								}]
             }],
 						Initialization :> {
-								drawAlgo[a_, b_, \[Tau]_,f_] := Module[
-										{},
-										c="c";
-										Column[{
-												Row[{
-														TextCell["  c = a - ", FontSize -> 25],
-														FractionBox[
-																RowBox[{
-																	TextCell["f(a)", FontSize -> 25]
-																}],
-																RowBox[{
-																	TextCell["f'(a)", FontSize -> 25]
-																}]
-														] // DisplayForm,
-													(*TextCell[" = ", FontSize -> 25, FontColor -> Gray],
-														TextCell[Dynamic[a], FontSize -> 25],
-														TextCell[" - ", FontSize -> 25],
-														FractionBox[
-																RowBox[{
-																		TextCell["f(", FontSize -> 25],
-																		TextCell[Dynamic[a], FontSize -> 25],
-																		TextCell[")", FontSize -> 25]
-																}],
-																RowBox[{
-																		TextCell["f'(", FontSize -> 25],
-																		TextCell[Dynamic[a], FontSize -> 25],
-																		TextCell[")", FontSize -> 25]
-																}]
-														] // DisplayForm,*)
-														TextCell[" = ", FontSize -> 25],
-														TextCell[Dynamic[a], FontSize -> 25, FontColor -> Gray],
-														TextCell[" - ", FontSize -> 25, FontColor -> Gray],
-														FractionBox[
-																RowBox[{TextCell[Dynamic[TraditionalForm[(f /. x -> ToExpression[a])]], FontSize -> 25, FontColor -> Gray]}],
-																RowBox[{TextCell[
-																	Dynamic[
-																		TraditionalForm[(D[f, x] /. x -> ToExpression[a])]],
-																	FontSize -> 25, FontColor -> Gray]}]
-														] // DisplayForm,
-														TextCell[" = ", FontSize -> 25, FontColor -> Gray],
-														TextCell[Dynamic[
-																(N[ToExpression[a]] - ((f /. x -> N[ToExpression[a]])/(D[f, x] /.x -> N[ToExpression[a]]))) // N
-														], FontSize -> 25,FontColor -> Gray]
-												}],
-												Row[{
-														TextCell["  a = b", FontSize -> 25],
-														TextCell[" = ", FontSize -> 25, FontColor -> Gray],
-														TextCell[Dynamic[b], FontSize -> 25, FontColor -> Gray]}],
-												Spacer[50],
-												Row[{
-														TextCell["  b = c", FontSize -> 25],
-														TextCell[" = ", FontSize -> 25, FontColor -> Gray],
-														If[ToString[a] != "a",
-															c = (N[ToExpression[a]] - ((f /. x -> N[ToExpression[a]])/(D[f, x] /.x -> N[ToExpression[a]]))) // N,
-															c = ToExpression["c"]
-														];
-														TextCell[Dynamic[c], FontSize -> 25, FontColor -> Gray]
-												}],
-                      	Spacer[50],
-												Row[{
-													TextCell["Se f(b) = 0 ho trovato la soluzione",FontSize->25]
-												}],
-                      	Spacer[50],
-												Button[
-														TextCell["Reitera",FontSize->25],
-														{
-																If[(ff/.x->b) != 0,
-																		If[Abs[a-b]>\[Tau],
-																			{
-																					aa=b;
-																					bb=N[(N[ToExpression[a]] - ((f /. x -> N[ToExpression[a]])/(D[f, x] /.x -> N[ToExpression[a]])))];
-																					drawAlgo[aa,bb,\[Tau]\[Tau],ff]
-																			}
-																		],
-																		CreateDialog["Soluzione Trovata"]
-																]
-														},
-                          	ImageSize->120
-												]
+								drawAlgo[xi_,\[Tau]_,f_,i_]:= Module[
+										{xi1},
+										If[xi!=Subscript[x,0],
+												xi=N[ToExpression[xi]]
+										];
+                    Column[{
+                        Row[{
+                            TextCell["Per k = 0, 1, 2, ...", FontSize -> 25]
+                        }],
+                        Row[{
+                            Column[{
 
-										}]
+                                Row[{
+                                    TextCell["  1. Ho k = 0", FontSize -> 25]
+                                }],
+                                Row[{
+                                    TextCell["  2. ",FontSize -> 25],
+                                    TextCell[Subscript[x, "k+1"], FontSize -> 25],
+                                    TextCell[" = ", FontSize -> 25],
+                                    TextCell[Subscript[x, "k"], FontSize -> 25],
+                                    TextCell[" - ", FontSize -> 25],
+                                    FractionBox[
+                                        RowBox[{
+                                            TextCell["f(", FontSize -> 25],
+                                            TextCell[Subscript[x, "k"], FontSize -> 25],
+                                            TextCell[")", FontSize -> 25]
+                                        }],
+                                        RowBox[{
+                                            TextCell["f'(", FontSize -> 25],
+                                            TextCell[Subscript[x, "k"], FontSize -> 25],
+                                            TextCell[")", FontSize -> 25]
+                                        }]
+                                    ] // DisplayForm
+                                }],
+                                Row[{
+                                    TextCell["  3. Finchè ", FontSize -> 25],
+                                    TextCell["|", FontSize -> 30],
+                                    TextCell[Subscript[x,"k+1"], FontSize -> 25],
+                                    TextCell[ " - "],
+                                    TextCell[Subscript[x,"k"], FontSize -> 25],
+                                    TextCell["|",FontSize -> 30],
+                                    TextCell[" > ", FontSize -> 25],
+                                    TextCell["\[Tau]", FontSize -> 25, 	FontWeight->Bold]
+                                }],
+                                Spacer[50],
+                                Row[{
+                                    TextCell["       k = k + 1 ",FontSize->25]
+                                }],
+                                Row[{"  	",
+                                    Button[
+                                        TextCell["Reitera", FontSize -> 25],
+                                        {
+                                            xi1 = N[(xi - ((f /. x -> xi) / (D[f, x] /. x -> xi)))];
+                                            If[(ff /. x -> xi1) != 0,
+                                                If[Abs[xi - xi1] > \[Tau],
+                                                    {
+                                                        xia := ToExpression[xi1];
+                                                        xii = xia;
+                                                        ii = i+1;
+                                                    },
+                                                    CreateDialog[
+                                                        Column[{
+                                                            Row[{
+                                                                TextCell["Approssimazione ",FontSize -> 25]
+                                                            }],
+                                                            Row[{
+                                                                TextCell["con tolleranza ", FontSize -> 25],
+                                                                TextCell[\[Tau],FontSize -> 25]
+                                                            }],
+                                                            Row[{
+                                                                TextCell["Raggiunta",FontSize -> 25]
+                                                            }]
+                                                        },
+                                                            Alignment-> Center
+                                                        ]
+                                                    ]
+                                                ],
+                                                CreateDialog[TextCell["Soluzione Trovata", FontSize -> 25]]
+                                            ]
+                                        },
+                                        ImageSize -> 120
+                                    ]
+                                }]
+                            }],
+                            Column[{
+                                Spacer[50],
+                                Row[{
+                                    TextCell["    k = ", FontSize -> 25, FontColor -> Gray],
+                                    TextCell[i, FontSize -> 25, FontColor -> Gray]
+                                }],
+                                Spacer[50],
+                                Spacer[30],
+                                Row[{
+                                    TextCell["    cioè ", FontSize -> 25, FontColor -> Gray],
+                                    TextCell[Subscript[x,i+1],FontSize -> 25, FontColor -> Gray],
+                                    TextCell[" = ", FontSize -> 25, FontColor -> Gray],
+                                    TextCell[Dynamic[xi], FontSize -> 25, FontColor -> Gray],
+                                    TextCell[" - ", FontSize -> 25, FontColor -> Gray],
+                                    FractionBox[
+                                        RowBox[{TextCell[Dynamic[TraditionalForm[(f /. x -> xi)]], FontSize -> 25, FontColor -> Gray]}],
+                                        RowBox[{TextCell[
+                                            Dynamic[
+                                                TraditionalForm[(D[f, x] /. x -> xi)]],
+                                            FontSize -> 25, FontColor -> Gray]}]
+                                    ] // DisplayForm,
+                                    TextCell[" = ", FontSize -> 25, FontColor -> Gray],
+                                    TextCell[Dynamic[
+                                        (xi - ((f /. x -> xi) / (D[f, x] /. x -> xi))) // N
+                                    ], FontSize -> 25, FontColor -> Gray]
+                                }],
+                                Spacer[50],
+                                Row[{
+                                    TextCell["    cioè ", FontSize -> 25, FontColor ->Gray],
+                                    TextCell["|", FontSize -> 30, FontColor -> Grey],
+                                    xi1 = N[(xi - ((f /. x -> xi) / (D[f, x] /. x -> xi)))];
+                                    If[xi==Subscript[x,0],
+                                        xi1 = Subscript[x,1]
+                                    ];
+                                    TextCell[xi1, FontSize -> 25, FontColor -> Gray],
+                                    TextCell[ " - ", FontColor -> Grey],
+                                    TextCell[xi, FontSize -> 25, FontColor -> Gray],
+                                    TextCell["|", FontSize -> 30, FontColor -> Gray],
+                                    TextCell[" > ", FontSize -> 25, FontColor -> Gray],
+                                    TextCell[\[Tau], FontSize -> 25, FontColor -> Gray]
+                                }],
+                                Spacer[50]
+                            }]
+                        }]
+                    }]
+
 								]
 						},
 						Paneled -> False
