@@ -737,6 +737,172 @@ MethodsComparison[] :=
         {i,1,10,1,Appearance->{"Open","Labeled"}}
         ]
     ];
+         
+AlgoBisez[] :=
+         DynamicModule[{aa, bb, cc, \[Tau]\[Tau], ff},
+                       aa = ToExpression["a"];
+                       bb = ToExpression["b"];
+                       \[Tau]\[Tau] = ToExpression["\[Tau]"];
+                       ff = x^2 - 2;
+                       Manipulate[BisectionAlgorithm[aa, bb, \[Tau]\[Tau]],
+                                  Column[{
+                           Row[{
+                               TextCell["Sia f = ", FontSize -> 15],
+                               TextCell[Superscript[x, 2], FontSize -> 15],
+                               TextCell[" - 2", FontSize -> 15]
+                           }],
+                           Row[{TextCell["Finché \[VerticalSeparator] ", FontSize -> 15] ,
+                               InputField[Dynamic[a], FieldSize -> {2.5, 1},
+                                          BaseStyle -> FontSize -> 15],
+                               TextCell[" - ", FontSize -> 15 ],
+                               InputField[Dynamic[b], FieldSize -> {2.5, 1},
+                                          BaseStyle -> FontSize -> 15],
+                               TextCell["  \[VerticalSeparator]  >  ", "Subitem"],
+                               InputField[Dynamic[\[Tau]], FieldSize -> {2.5, 1},
+                                          BaseStyle -> FontSize -> 15]
+                           }]}],
+                                  Initialization :> { BisectionAlgorithm[a_, b_, t_] := Module[{},
+                                                                                               Column[{
+                           Row[{
+                               TextCell[" c = ", FontSize -> 15],
+                               Column[{
+                                   FractionBox[
+                                               RowBox[{TextCell["a+b", FontSize -> 15]}],
+                                               RowBox[{TextCell["2", FontSize -> 15]}]
+                                               ] // DisplayForm
+                               }],
+                               Column[{
+                                   cVal = (N[ToExpression[a]] + N[ToExpression[b]])/2;
+                                   TextCell[" = ", FontSize -> 15]
+                               }],
+                               Column[{
+                                   TextCell[Dynamic[cVal], FontSize -> 20]
+                               }]
+                           }],
+                           Row[{TextCell["Se f(c) = 0 ho la soluzione", FontSize -> 15]}],
+                           Row[{
+                               TextCell[ " in questo caso f(c) = ", FontSize -> 15],
+                               Dynamic[
+                                       
+                                       fcVal = #1^2 - 2 & @@@ {N[
+                                                                 ToExpression[ToString[Dynamic[cVal]]]]};
+                                       
+                                       TextCell[ ToExpression[ToString[Dynamic[fcVal]]],
+                                                FontSize -> 15]]
+                           }],
+                           Row[{TextCell[ "Altrimenti ", FontSize -> 15]}],
+                           Row[{TextCell["Se segno("], Dynamic[cVal],
+                               TextCell[") = segno("], Dynamic[a],
+                               TextCell[")", FontSize -> 15]}],
+                           Row[{TextCell["a = c", FontSize -> 15]}],
+                           Row[{TextCell["Altrimenti", FontSize -> 15]}],
+                           Row[{TextCell["b = c", FontSize -> 15]}],
+                           Row[{Button["Aggiungi iterazione",
+                                       {If[Dynamic[a] > 0 && Dynamic[cVal] > 0, aa = cVal;
+                                           BisectionAlgorithm[aa, b, 1]; CreateWindow["if 1"],
+                                           bb = cVal; BisectionAlgorithm[a, bb, 1];
+                                           CreateWindow["if 2"]]
+                                       };]
+                           }]
+                           
+                       }]
+                                                                                               
+                                                                                               ]
+                                  }, Paneled -> False
+                                  ]
+                       ];
+AlgoTang[] :=
+         DynamicModule[{aa, bb, cc, \[Tau]\[Tau], ff},
+                       aa = ToExpression["a"];
+                       bb = ToExpression["b"];
+                       \[Tau]\[Tau] = ToExpression["\[Tau]"];
+                       ff = x^2 - 2;
+                       Manipulate[SecantAlgorithm[aa, bb, \[Tau]\[Tau]],
+                                  Column[{
+                           Row[{
+                               TextCell["Sia f = ", FontSize -> 15],
+                               TextCell[Superscript[x, 2], FontSize -> 15],
+                               TextCell[" - 2", FontSize -> 15]
+                           }],
+                           Row[{TextCell["Finché \[VerticalSeparator] ", FontSize -> 15] ,
+                               InputField[Dynamic[a], FieldSize -> {2.5, 1},
+                                          BaseStyle -> FontSize -> 15],
+                               TextCell[" - ", FontSize -> 15 ],
+                               InputField[Dynamic[b], FieldSize -> {2.5, 1},
+                                          BaseStyle -> FontSize -> 15],
+                               TextCell["  \[VerticalSeparator]  >  ", "Subitem"],
+                               InputField[Dynamic[\[Tau]], FieldSize -> {2.5, 1},
+                                          BaseStyle -> FontSize -> 15]
+                           }]}],
+                                  Initialization :> { SecantAlgorithm[a_, b_, t_] := Module[{},
+                                                                                            Column[{
+                           Row[{
+                               TextCell[" c = a - ", FontSize -> 15],
+                               Column[{
+                                   FractionBox[
+                                               RowBox[{TextCell["f(a)*(b-a)", FontSize -> 15]}],
+                                               RowBox[{TextCell["f(b)-f(a)", FontSize -> 15]}]
+                                               ] // DisplayForm
+                               }],
+                               Column[{
+                                   
+                                   Dynamic[ (*c= a-(f(a)*(b-a))/f(b)-f(a);*)
+                                           
+                                           faVal = #1^2 - 2 & @@@ {N[
+                                                                     ToExpression[ToString[Dynamic[a]]]]};
+                                           
+                                           fbVal = #1^2 - 2 & @@@ {N[
+                                                                     ToExpression[ToString[Dynamic[b]]]]};
+                                           If[fbVal >= faVal,
+                                              
+                                              cVal = N[
+                                                       ToExpression[
+                                                                    ToString[
+                                                                             Dynamic[a]]]] - (N[ToExpression[Dynamic[faVal]]]*
+                                                                                              N[ToExpression[ToString[Dynamic[b]]]])/(N[
+                                                                                                                                        ToExpression[Dynamic[fbVal]]] -
+                                                                                                                                      N[ToExpression[Dynamic[faVal]]]),
+                                              TextCell["errore"]];
+                                           TextCell[" = ", FontSize -> 15]
+                                           ]
+                               }],
+                               Column[{
+                                   TextCell[Dynamic[cVal], FontSize -> 20]
+                               }]
+                           }],
+                           Row[{TextCell["Se f(c) = 0 ho la soluzione", FontSize -> 15]}],
+                           Row[{
+                               TextCell[ " in questo caso f(c) = ", FontSize -> 15],
+                               Dynamic[
+                                       
+                                       fcVal = #1^2 - 2 & @@@ {N[
+                                                                 ToExpression[ToString[Dynamic[cVal]]]]};
+                                       
+                                       TextCell[ ToExpression[ToString[Dynamic[fcVal]]],
+                                                FontSize -> 15]]
+                           }],
+                           Row[{TextCell[ "Altrimenti ", FontSize -> 15]}],
+                           Row[{TextCell["Se segno("], Dynamic[cVal],
+                               TextCell[") = segno("], Dynamic[a],
+                               TextCell[")", FontSize -> 15]}],
+                           Row[{TextCell["a = c", FontSize -> 15]}],
+                           Row[{TextCell["Altrimenti", FontSize -> 15]}],
+                           Row[{TextCell["b = c", FontSize -> 15]}],
+                           Row[{Button["Aggiungi iterazione",
+                                       {If[Dynamic[a] > 0 && Dynamic[cVal] > 0, aa = cVal;
+                                           SecantAlgorithm[aa, b, 1]; CreateWindow["if 1"],
+                                           bb = cVal; SecantAlgorithm[a, bb, 1];
+                                           CreateWindow["if 2"]]
+                                       };]
+                           }]
+                           
+                       }]
+                                                                                            
+                                                                                            ]
+                                  }, Paneled -> False
+                                  ]
+                       ];
+         
 
 AlgoNewton[] :=
     DynamicModule[
