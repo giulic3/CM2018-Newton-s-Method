@@ -1150,7 +1150,7 @@ AlgoSec[] :=
                            }],
                            Row[{
                                
-                               TextCell["Finché \[VerticalSeparator] ", FontSize -> 15] ,
+                               TextCell["Finch\[EAcute] \[VerticalSeparator] ", FontSize -> 15] ,
                                
                                InputField[Dynamic[aa], ImageSize -> 100,
                                           
@@ -1350,8 +1350,7 @@ AlgoSec[] :=
                                                                                    ]
                                   }, Paneled -> False
                                   ]
-                       ]
-         ;
+                       ];
          
 
 AlgoNewton[] :=
@@ -1411,7 +1410,7 @@ AlgoNewton[] :=
                                     ] // DisplayForm
                                 }],
                                 Row[{
-                                    TextCell["  3. Finchè ", FontSize -> 25],
+                                    TextCell["  3. Finch\[EGrave] ", FontSize -> 25],
                                     TextCell["|", FontSize -> 30],
                                     TextCell[Subscript[x,"k+1"], FontSize -> 25],
                                     TextCell[ " - "],
@@ -1469,7 +1468,7 @@ AlgoNewton[] :=
                                 Spacer[50],
                                 Spacer[30],
                                 Row[{
-                                    TextCell["    cioè ", FontSize -> 25, FontColor -> Gray],
+                                    TextCell["    cio\[EGrave] ", FontSize -> 25, FontColor -> Gray],
                                     TextCell[Subscript[x,i+1],FontSize -> 25, FontColor -> Gray],
                                     TextCell[" = ", FontSize -> 25, FontColor -> Gray],
                                     TextCell[Dynamic[xi], FontSize -> 25, FontColor -> Gray],
@@ -1488,7 +1487,7 @@ AlgoNewton[] :=
                                 }],
                                 Spacer[50],
                                 Row[{
-                                    TextCell["    cioè ", FontSize -> 25, FontColor ->Gray],
+                                    TextCell["    cio\[EGrave] ", FontSize -> 25, FontColor ->Gray],
                                     TextCell["|", FontSize -> 30, FontColor -> Grey],
                                     xi1 = N[(xi - ((f /. x -> xi) / (D[f, x] /. x -> xi)))];
                                     If[xi==Subscript[x,0],
@@ -1620,5 +1619,8 @@ Esercizio[funzione_, a_, b_,x0_] :=
     ];
     
 EndPackage[]
+
+
+
 
 
