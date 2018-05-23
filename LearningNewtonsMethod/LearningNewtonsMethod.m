@@ -6,7 +6,7 @@
 
 (* Made by: Anna Avena (INF), Giulia Cantini (INF), Roberto Ferraro (MAT), Nicola Mainetti (MAT), Matteo Sanfelici (INF) *)
 
-BeginPackage["LearningNewtonsMethod`"]
+BeginPackage["LearningNewtonsMethod`"];
 (* Exported symbols added here with SymbolName::usage *) 
 
 
@@ -25,7 +25,10 @@ FirstExample::usage = "Shows the cases in which the Newton's method fails ";
 SecondExample::usage = "Shows the cases in which the Newton's method fails";
 Calculator::usage = "Shows a scientific calculator that allows user to write functions";
 MethodsComparison::usage = "Show convergence to solution using three different methods";
+(*
 i::usage = "Global variable used for the exercises part";
+tau::usage = "tempo,soloperprova";
+*)
 AlgoNewton::usage="";
 SecantInteractive::usage = "Interactively show step of iteration in the secant method";
 ShowDetails::usage = "ciao";
@@ -34,7 +37,7 @@ AlgoBisez::usage = "a";
 AlgoSec::usage = "a";
 
 
-Begin["`Private`"]
+Begin["`Private`"];
 
 (* Function that links a slide with the next,
 gets in input the Cell Tag of the slide to be linked 
@@ -64,7 +67,7 @@ GoHomepage[homeSlide_] :=
         Hyperlink[Import["Images/home.png", ImageSize->{100,100}], {EvaluationNotebook[], ToString[homeSlide]}]
     ];
 
-
+(*
 ShowDetails[] :=
     Module[
       {text = Null, buttonStatus = "Closed"},
@@ -85,7 +88,7 @@ ShowDetails[] :=
       ]
       }]
     ];
-
+*)
 (* Function that progressively introduces and explains Bolzano's Theorem *)
 Bolzano[] :=
     Module[{
@@ -150,7 +153,7 @@ Bolzano[] :=
                 }
               ]
               )
-            ]
+            ],
             ImageSize->{230,70},
             BaseStyle->{FontFamily->"Source Sans Pro", FontSize->36}
           ],
@@ -191,9 +194,7 @@ Bolzano[] :=
           TextCell["Teorema di Bolzano.", textCellStyle, FontWeight->Bold]
         }],
         Row[{}],
-        Row[{
-        (* TODO riquadro colorato interattivo, holy shit. *)
-        }],
+        Row[{}],
         Row[{}],
         Row[{
           TextCell["Quindi possiamo esser certi che tra ", textCellStyle],
@@ -482,14 +483,20 @@ BisectionInteractive[pm_,it_] :=
     DynamicModule[
         {listFunctions,listIntervals,passf,ff},
 
-        listIntervals={
+        listIntervals = {
           {0.5,2},
-          {(1/2*3.14),(1.5*3.14)}
+          {(1/2*3.14), (1.5*3.14)},
+          {0,2},
+          {0,2},
+          {0,3.14}
         };
 
-        listFunctions={
+        listFunctions = {
           TraditionalForm[x^2 - 2],
-          TraditionalForm[Sin[x]]
+          TraditionalForm[Sin[x]],
+          TraditionalForm[Cos[2x]Sin[x]],
+          TraditionalForm[x*Log[x]+x^3],
+          TraditionalForm[Cos[x]]
         };
 
         ff=TraditionalForm[x^2-2];
@@ -699,11 +706,7 @@ NewtonAnimated[] :=
             {i, 1, 5, 1}
         ]
     ];
-    
-     (* TODO problema setterbar, l'iterazione 0 in realt\[AGrave] \[EGrave] la 1
-    non mi piace che gli slider a e b dipendano dai valori di plotting,
-    parte la ventola quando manipolo il grafico 
-      *)
+
 SecantInteractive[pm_,it_] :=  DynamicModule[
     {Secant, passInput, intervalsList, functionsList, selectedInput, aa, bb, interval,ff},
 
@@ -762,9 +765,9 @@ SecantInteractive[pm_,it_] :=  DynamicModule[
                         }],
                         Row[{
                             If[it==1,TextCell["Iterazioni ", FontSize->23]],
-                            If[it==1,Slider[Dynamic[iteration],{1,6,1}]],
+                            If[it==1,Slider[Dynamic[iteration],{0,6,1}]],
                             If[it==1,TextCell[" ",FontSize->25]],
-                            If[it==1,TextCell[Dynamic[iteration],FontSize->23],iteration=1;]
+                            If[it==1,TextCell[Dynamic[iteration],FontSize->23],iteration=0;]
                         }]
                     }],
                     (*{{iteration, 0, TextCell["Numero di Iterazioni: ", FontSize->17]}, {0, 1, 2, 3, 4, 5, 6}, ControlType -> SetterBar},
@@ -793,27 +796,50 @@ SecantInteractive[pm_,it_] :=  DynamicModule[
                                 AxesLabel -> {Style["x", 16], Style["y", 16]},
                                 PlotStyle -> Thickness[0.006],
                                 Epilog -> {
-                                    {
-                                        PointSize[0.01],
-                                        (Point[{#1, 0}] &) /@ Flatten[xValues]
-                                    },
-                                    {
-                                        Thickness[0.002],
-                                        MapIndexed[
-                                            {
-                                                Red,
-                                                Line[{
-                                                    {#1[[1]], finalFunction/.x->#[[1]]},
-                                                    {#1[[2]], finalFunction/.x->#1[[2]]}
-                                                }]
-                                            } &,
-                                            xValues
-                                        ]
-                                    },
-                                    {
-                                        Thickness[0.002], Black,
-                                        Line[({{#1, 0}, {#1, finalFunction/.x->#1}} &) /@ Flatten[xValues]]
-                                    }
+                                  {
+                                    Thickness[0.002],
+                                    MapIndexed[
+                                      {
+                                        Red,
+                                        Line[{
+                                          {#1[[1]], finalFunction/.x->#[[1]]},
+                                          {#1[[2]], finalFunction/.x->#[[2]]}
+                                        }]
+                                      } &,
+                                      xValues
+                                    ]
+                                  },
+                                  {
+                                    Thickness[0.002], Black,
+                                    Line[({{#1, 0}, {#1, finalFunction/.x->#1}} &) /@ Flatten[xValues]]
+                                  },
+                                  {
+                                    PointSize[0.01],
+                                    Green,
+                                    (Point[{#1, 0}] &) /@ Flatten[xValues]
+
+                                  },
+                                  {(* x0 and x1 points are black *)
+                                    PointSize[0.01],
+                                    Black,
+                                    Point[{x0,0}],
+                                    Point[{x1,0}]
+                                  },
+                                  {
+                                  (* draw point labels only for the starting x0 and x1 *)
+                                    Text[
+                                      {x0, N[Rationalize[finalFunction /. x -> x0], 2]},
+                                      Offset[{0, 70}, {x0, finalFunction /. x -> x0}]
+                                    ],
+                                    Text[
+                                      {x1, N[Rationalize[finalFunction /. x -> x1], 2]},
+                                      Offset[{0, 70}, {x1, finalFunction /. x -> x1}]
+                                    ]
+                                  (*
+                                    (Text[{#1,N[Rationalize[finalFunction/.x->#1],2]}, Offset[{40,10}, {#1,finalFunction/.x->#1}]])&  /@ Flatten[xValues]
+                                    *)
+                                   }
+
                                 },
                                 Axes -> True,
                                 ImageSize -> {800,500},
@@ -832,41 +858,166 @@ SecantInteractive[pm_,it_] :=  DynamicModule[
 (* these two functions show cases/examples in which the Newton's method fails *)
 (* xlog(x)-1*)
 FirstExample[] :=
-    DynamicModule[ {list,f},
-        f[x_] = x Log[x]-1//N;
-        list = NestList[(#-f[#]/f'[#])&,0.1,3];
-        Plot[{x Log[x]-1},{x,-3,3},
-            PlotLegends->"f(x) = xlog(x)-1",
-            Epilog->{
-                PointSize[Large],
-                Point[{list[[1]],0}],
-                Point[{list[[2]],0}],
-                Text[DisplayForm@RowBox[{Subscript["x","0"]}],{0.3,0.3}],
-                Text[DisplayForm@RowBox[{Subscript["x","1"]}],{-0.6,0.3}],
-                Directive[{Thick,Red,Dashed}],
-                InfiniteLine[{{list[[1]],0},{list[[1]],1}}],
-                InfiniteLine[{{list[[2]],0},{list[[2]],1}}],
-                ImageSize->Large
+    DynamicModule[
+        {list,ff,x00,draw},
+        ff = x * Log[x]-1;
+        x00 = 0.2;
+
+        Manipulate[
+            draw[ff,x00],
+
+            Column[{
+                Row[{
+                    TextCell[" f(x) = ",FontSize->25],
+                    TextCell[TraditionalForm[x*Log[x]-1],FontSize->25]
+                }],
+                Row[{
+                    TextCell[" x ",FontSize->25],
+                    Slider[Dynamic[x00],{0.01,2.99,0.01}],
+                    TextCell[Dynamic[x00],FontSize->25]
+                }]
+            }],
+
+            Initialization:> {
+                draw[f_,x0_]:= DynamicModule[
+                    {f1,f1x0,fx0,fx0t},
+                    f1 = D[f,x];
+                    f1x0 = f1 /. x -> x0;
+                    fx0 = f /. x-> x0;
+                    fx0t = (f1x0*x0/fx0);
+                    Plot[
+                        f,{x,-3,3},
+                        PlotStyle->{
+                            Thickness[0.004]
+                        },
+                        Prolog->{
+                            RGBColor[210/255, 223/255, 242/255],
+                            Rectangle[{0,-1.5},{3.1,2.4}]
+                        },
+                        Epilog -> {
+                            Red,
+                            {
+                                Thickness[0.001],
+                                Dashed,
+                                Line[{
+                                    {x0, 0},
+                                    {x0, f  /. x-> x0}
+                                }]
+                            },
+                            {
+                                Thickness[0.004],
+                                Arrow[{
+                                    {x0, f  /. x-> x0},
+                                    {(x0 - ((f /. x -> x0)/(D[f,x] /. x -> x0))),0}
+                                }]
+                            },
+                            PointSize[0.015],
+                            Point[{x0,0}],
+                            Green,
+                            Point[{E^ProductLog[1],0}],
+                            Black,
+                            Text[TextCell[Subscript[x,0],FontSize->21],{x0,0.3}],
+                            Text[TextCell[Subscript[x,1],FontSize->21],{(x0 - ((f /. x -> x0)/(D[f,x] /. x -> x0))),0.3}],
+                            Text[TextCell["Dominio",FontSize->25],{1.5,1.5}],
+                            Text[TextCell["Funzione NON definita",FontSize->25],{-1.5,1.5}]
+                        },
+                        ImageSize -> {800,500}
+                    ]
+                ]
             },
-            ImageSize -> {800,500}
+            Paneled->False
         ]
-    ]
+    ];
     
 (* cos(x) *)
 SecondExample[] :=
-    Module[ {},
-        Plot[
-            {Cos[x], y = 1},{x,-Pi,Pi},
-            PlotRange->{-1.5,1.5},
-            PlotLegends->{"f(x) = cos(x)","f(x) = 1"},
-            Epilog->{
-                PointSize[Large],
-                Point[{0,1}],
-                Text[DisplayForm@RowBox[{Subscript["x","0"]}],{0.3,1.2}]
+    DynamicModule[
+        {ff,x00,draw},
+
+        ff=Cos[x];
+        x00=0;
+
+        Manipulate[
+            draw[ff,x00],
+
+            Column[{
+                Row[{
+                    TextCell["f(x) = ",FontSize->25],
+                    TextCell[TraditionalForm[Cos[x]],FontSize->25]
+                }],
+                Row[{
+                    TextCell["x ", FontSize -> 25],
+                    Slider[Dynamic[x00], {-3.1, 3.1, 0.1}],
+                    TextCell[Dynamic[x00], FontSize -> 25]
+                }]
+            }],
+
+            Initialization:>{
+                draw[f_,x0_] := DynamicModule[
+                    {},
+                    Plot[
+                        f,{x,-Pi,Pi},
+                        PlotRange->{{-Pi,Pi},{-1,1.3}},
+                        Epilog->{
+                            Red,
+                            {
+                                Thickness[0.001],
+                                Dashed,
+                                Line[{
+                                    {x0, 0},
+                                    {x0, f  /. x-> x0}
+                                }]
+                            },
+                            Black,
+                            Text[TextCell[Subscript[x,0],FontSize->21],{x0,0.3}],
+                            If[x0!=0,
+                                {
+                                    Red,
+                                    Thickness[0.004],
+                                    Arrow[{
+                                        {x0, f  /. x-> x0},
+                                        {(x0 - ((f /. x -> x0)/(D[f,x] /. x -> x0))),0}
+                                    }],
+                                    Black,
+                                    Text[TextCell[Subscript[x,1],FontSize->21],{(x0 - ((f /. x -> x0)/(D[f,x] /. x -> x0))),0.3}]
+
+                                },
+                                {
+                                    Red,
+                                    Thickness[0.004],
+                                    Line[{
+                                        {-2.5,1},
+                                        {2.5,1}
+                                    }],
+                                    Dashed,
+                                    Arrow[{
+                                        {-2.5,1},
+                                        {-3.1,1}
+                                    }],
+                                    Arrow[{
+                                        {2.5,1},
+                                        {3.1,1}
+                                    }],
+                                    Black,
+                                    Text[TextCell["Perfettamente Tangente",FontSize->25],{0,1.1}]
+                                }
+                            ],
+                            Red,
+                            PointSize[0.015],
+                            Point[{x0,0}],
+                            Green,
+                            Point[{-Pi/2,0}],
+                            Point[{Pi/2,0}]
+
+
+                        },
+                        ImageSize -> {800,500}
+                    ]
+                ]
             },
-            ImageSize -> {800,500}
+            Paneled->False
         ]
-    ]
+    ];
 
 (* helper function that converts an image to a nine-patch image to be used as background*)
 ConvertImageToFullyScaledNinePatch[img_] :=
@@ -912,90 +1063,253 @@ AddIteration[i_,fun_,x0_] :=
     
 (* Function that compares the bisection, secant and Newton's methods *)
 MethodsComparison[] :=
-    Module[ {a,b,n,f},
-        Clear[f];
-        f[x_] :=
-            Sin[x];
-        (* initial interval *)
-        a = 2.5;
-        b = 1.4Pi;
-        (* maximum number of iterations *)
-        n = 10;
-        bisectionRoots = (* initial root of the bisection method *)
-            N[NestList[
-                If[ f[#[[1]]]*f[(#[[1]]+#[[2]])/2]<0,
-                    {#[[1]],(#[[1]]+#[[2]])/2},
-                    {(#[[1]]+#[[2]])/2,#[[2]]}
-                ] &,
-                {a,b},
-                n
-            ]];
-        (* costruisco una lista annidata di coppie {xi-1, xi}, i due estremi su cui lavora secanti *)
-        (* a, b - f(b)(b-a)/(f(b)-f(a)) *)
-        secantRoots = (* initial root of the bsecant method *)
-            N[NestList[
-            {#[[1]],#[[2]]-f[#[[2]]](#[[2]]-#[[1]])/(f[#[[2]]]-f[#[[1]]])} &,
-            {a,b},
-            n]];
-        newtonRoots = NestList[ #1 - f[#1]/Derivative[1][f][#1] &, a, n]; (* initial root of the Newton's method *)
-        Manipulate[
-            Row[{
-            (* bisection *)
-                Column[{
-                    Plot[f[x],{x,1.5,4.5},
-                        Epilog -> {
-              Directive[{Thick, Gray, Dashed}],
-              (* calculation and plot of the subsequent roots for the bisection method *)
-                    InfiniteLine[{(bisectionRoots[[i]][[1]]+bisectionRoots[[i]][[2]])/2, 0}, {0, 1}],
-                    {
-                    Red,
-                    PointSize[.015],
-                    Point[{(bisectionRoots[[i]][[1]]+bisectionRoots[[i]][[2]])/2,0}]
-                    }
-                },
-        ImageSize->500,
-        PlotLabel->"Bisezione"]," ",
-        (* display the current root value for the bisection method *)
-        TextCell[Row[{Subscript[x,i]," = ",(bisectionRoots[[i]][[1]]+bisectionRoots[[i]][[2]])/2},Alignment->Center],"Text",TextAlignment->Center,CellBaseline->Center, CellSize->{500,50}]}],
-        (* secant *)
+    DynamicModule[ {
+      textBisection,
+      textSecant,
+      textNewton,
+      x,
+      i = 1,
+      tau = 0.1
+    },
+      Manipulate[
+        (* function that does calculations needed for plotting *)
+          Comparison[i,tau],
+            (* manipulate controls *)
         Column[{
-        Plot[f[x],{x,1.5,4.5},
-        Epilog -> {
-                  Directive[{Thick, Gray, Dashed}],
-                  (* calculation and plot of the subsequent roots for the secant method *)
-                    InfiniteLine[{secantRoots[[i]][[2]], 0}, {0, 1}],
-        {
-        Red,
-        PointSize[.015],
-        Point[{secantRoots[[i]][[2]],0}]
-        }
-                },
-        ImageSize->500,
-        PlotLabel->"Secanti"]," ",
-        (* display the current root value for the secanti method *)
-        TextCell[Row[{Subscript[x,i]," = ",secantRoots[[i]][[2]]},Alignment->Center],"Text",TextAlignment->Center,CellBaseline->Bottom, CellSize->{500,50}]}],
-        (* Newton *)
-        Column[{
-        Plot[f[x],{x,1.5,4.5}, 
-        Epilog -> {
-                  Directive[{Thick, Gray, Dashed}],
-                  (* calculation and plot of the subsequent roots for the bNewton'a method *)
-                    InfiniteLine[{newtonRoots[[i]], 0}, {0, 1}],
-        {
-        Red,
-        PointSize[.015],
-        Point[{newtonRoots[[i]],0}]
-        }
-                },
-        ImageSize->500,
-        PlotLabel->"Newton"],
-        (* display the current root value for the Newton's method *)
-        TextCell[Row[{Subscript[x,i]," = ", newtonRoots[[i]]},Alignment->Center],"Text", TextAlignment->Center, CellBaseline->Bottom,CellSize->{500,50}]
-        }]}],
-        (* slider that shows the iteration steps *)
-        {i,1,10,1,Appearance->{"Open","Labeled"}}
-        ]
-    ];
+          Row[{
+            (* control iteration *)
+            Slider[Dynamic[i], {1, 15, 1}, Appearance -> {"Labeled"}]
+          }],
+          Row[{
+            (* control tolerance *)
+            SetterBar[
+              Dynamic[tau],
+              {0.1, 0.01, 0.001, 0.0001, 0.00001, 0.00001},
+              ImageSize->Full
+            ]
+          }]
+        }],
+            Initialization:> {
+              Comparison[it_,t_] :=
+                  Module[{
+                    f,
+                    a,
+                    b,
+                    n,
+                    bisectionRoots,
+                    secantRoots,
+                    newtonRoots
+                  },
+
+                  Clear[f];
+                  f[x_] := Sin[x];
+                  (* initial interval *)
+                  a = 2.5;
+                  b = 1.4Pi;
+                  (* maximum number of iterations *)
+                  n = 15;
+                  textBisection = "";
+                  textSecant = "";
+                  textNewton = "";
+
+                  bisectionRoots = (* initial root of the bisection method *)
+                      N[NestList[
+                        If[ f[#[[1]]]*f[(#[[1]]+#[[2]])/2]<0,
+                          {#[[1]],(#[[1]]+#[[2]])/2},
+                          {(#[[1]]+#[[2]])/2,#[[2]]}
+                        ] &,
+                        {a,b},
+                        n
+                      ]];
+                  (* build a nested list of pairs {xi-1, xi} used as bounds by the method *)
+                  (* a, b - f(b)(b-a)/(f(b)-f(a)) *)
+                  (* initial root of the secant method *)
+                  secantRoots =
+                      N[NestList[
+                        {#[[1]],#[[2]]-f[#[[2]]](#[[2]]-#[[1]])/(f[#[[2]]]-f[#[[1]]])} &,
+                        {a,b},
+                        n]];
+                  (* initial root of the Newton's method *)
+                  newtonRoots = NestList[ #1 - f[#1]/Derivative[1][f][#1] &, a, n];
+
+                  (* check if (b-a<t) i.e. the bisection method has reached the desired tolerance *)
+                  If[Abs[bisectionRoots[[it]][[1]]-bisectionRoots[[it]][[2]]]<=t,
+                    textBisection = "Bisezione ha raggiunto la tolleranza desiderata!",
+                    textBisection = ""
+                  ];
+
+                  If[Abs[secantRoots[[it+1]][[2]]-secantRoots[[it]][[2]]]<=t,
+                    textSecant = "Secanti ha raggiunto la tolleranza desiderata!",
+                    textSecant = ""
+                  ];
+
+                  If[Abs[newtonRoots[[it]]-newtonRoots[[it+1]]]<=t,
+                    textNewton = "Newton ha raggiunto la tolleranza desiderata!",
+                    textNewton = ""
+                  ];
+
+                    Row[{
+                    (* bisection *)
+                      Column[{
+                        Plot[f[x], {x, 1.5, 4.5},
+                          Epilog -> {
+                            Directive[{Thick, Green, Dashed}],
+                          (* calculation and plot of the subsequent roots for the bisection method *)
+
+                            InfiniteLine[
+                              {(bisectionRoots[[i]][[1]] + bisectionRoots[[i]][[2]]) / 2, 0},
+                              {0, 1}
+                            ],
+                            {
+                              Green,
+                              PointSize[.01],
+                              Point[{(bisectionRoots[[i]][[1]] + bisectionRoots[[i]][[2]]) / 2, 0}]
+                            },
+                            {
+                              Red,
+                              PointSize[.008],
+                              Point[{Pi,0}],
+                              Text[{Pi,0}, Offset[{0,20},{Pi,0}]]
+                            }
+                          },
+                          ImageSize -> 500,
+                          PlotLabel -> "Bisezione"]
+                        , " ",
+                      (* display the current root value for the bisection method *)
+                        TextCell[
+                          Row[
+                            {Subscript["x", i], " = ", (bisectionRoots[[i]][[1]] + bisectionRoots[[i]][[2]]) / 2},
+                            Alignment -> Center
+                          ],
+                          "Text",
+                          Darker[Green],
+                          TextAlignment -> Center,
+                          CellBaseline -> Center,
+                          CellSize -> {500, 50}
+                        ],
+
+                        TextCell[
+                          Row[{
+                            Pi, " = ", N[Pi,10]
+                          },
+                            Alignment->Center
+                          ],
+                          "Text",
+                          Red,
+                          TextAlignment -> Center,
+                          CellBaseline -> Bottom,
+                          CellSize -> {500, 50}
+                        ],
+                        TextCell[Dynamic[textBisection], "Text"]
+                      }],
+                    (* secant *)
+                      Column[{
+                        Plot[f[x], {x, 1.5, 4.5},
+                          Epilog -> {
+                            Directive[{Thick, Green, Dashed}],
+                          (* calculation and plot of the subsequent roots for the secant method *)
+                            InfiniteLine[{secantRoots[[i]][[2]], 0}, {0, 1}],
+                            {
+                              Green,
+                              PointSize[.01],
+                              Point[{secantRoots[[i]][[2]], 0}]
+                            },
+                            {
+                              Red,
+                              PointSize[.008],
+                              Point[{Pi,0}],
+                              Text[{Pi,0}, Offset[{0,20},{Pi,0}]]
+                            }
+                          },
+                          ImageSize -> 500,
+                          PlotLabel -> "Secanti"
+                        ],
+                        " ",
+                      (* display the current root value for the secant method *)
+                        TextCell[
+                          Row[{
+                            Subscript["x", i], " = ", secantRoots[[i]][[2]]
+                            },
+                            Alignment -> Center
+                          ],
+
+                          "Text",
+                          Darker[Green],
+                          TextAlignment -> Center,
+                          CellBaseline -> Bottom,
+                          CellSize -> {500, 50}
+                        ],
+
+                        TextCell[
+                          Row[{
+                            Pi, " = ", N[Pi,10]
+                          },
+                            Alignment->Center
+                          ],
+                          "Text",
+                          Red,
+                          TextAlignment -> Center,
+                          CellBaseline -> Bottom,
+                          CellSize -> {500, 50}
+                        ],
+                        TextCell[Dynamic[textSecant], "Text"]
+                      }],
+                    (* Newton *)
+                      Column[{
+                        Plot[f[x], {x, 1.5, 4.5},
+                          Epilog -> {
+                            Directive[{Thick, Green, Dashed}],
+                          (* calculation and plot of the subsequent roots for the bNewton'a method *)
+                            InfiniteLine[{newtonRoots[[i]], 0}, {0, 1}],
+                            {
+                              Green,
+                              PointSize[.01],
+                              Point[{newtonRoots[[i]], 0}]
+                            },
+                            {
+                              Red,
+                              PointSize[.008],
+                              Point[{Pi,0}],
+                              Text[{Pi,0}, Offset[{0,20},{Pi,0}]]
+                            }
+                          },
+                          ImageSize -> 500,
+                          PlotLabel -> "Newton"],
+                      (* display the current root value for the Newton's method *)
+                        TextCell[
+                          Row[{Subscript["x", i], " = ", newtonRoots[[i]]}, Alignment -> Center],
+                          "Text",
+                          Darker[Green],
+                          TextAlignment -> Center,
+                          CellBaseline -> Bottom,
+                          CellSize -> {500, 50}
+                        ],
+                        TextCell[
+                          Row[{
+                            Pi, " = ", N[Pi,10]
+                          },
+                            Alignment->Center
+                          ],
+                          "Text",
+                          Red,
+                          TextAlignment -> Center,
+                          CellBaseline -> Bottom,
+                          CellSize -> {500, 50}
+                        ],
+                        TextCell[Dynamic[textNewton], "Text"]
+                      }]
+                    }]
+                  ] (* end module *)
+            }, (* end initialization *)
+        (*
+          (* slider that shows the iteration steps *)
+          {i,1,10,1,Appearance->{"Open","Labeled"}},
+          (* slider that lets the user set the tolerance value *)
+          {tau, {0.1,0.01,0.001,0.0001,0.00001,0.000001}, Appearance->{"Open","Labeled"}},
+        *)
+          Paneled -> False
+        ] (* end manipulate *)
+    ]; (* end dynamicmodule *)
          
          
 AlgoBisez[] :=
@@ -1563,7 +1877,7 @@ AlgoNewton[] :=
 				]
     ];
                    
-End[]
+End[];
 
 (* Function that manage the exercise area,
 gets in input the function, the initial interval point, the final interval point and 
@@ -1586,7 +1900,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
             ];
         (* exercise's text *) 
         testoRow1 = "Calcolare un'approssimazione dello zero usando il Metodo di Newton,";
-        testoRow2 = "con due iterazioni, 	 partendo dalla prima approssimazione data";
+        testoRow2 = "a partire dalla prima approssimazione data";
         buttonNew = Button[Style["Nuovo Esercizio", FontSize -> 20], ImageSize -> 150];
         Off[FindRoot::cvmit];
         i = 1;
