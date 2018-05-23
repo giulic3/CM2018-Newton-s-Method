@@ -123,7 +123,10 @@ Bolzano[] :=
                     Filling -> Axis,
                     FillingStyle -> {LightGreen, LightCyan}]
               )
-            ]]
+            ],
+            ImageSize->{200,70},
+            BaseStyle->{FontFamily->"Source Sans Pro", FontSize->36}
+          ]
         }],
         Row[{}], (* linefeed *)
         Row[{
@@ -147,6 +150,8 @@ Bolzano[] :=
               ]
               )
             ]
+            ImageSize->{230,70},
+            BaseStyle->{FontFamily->"Source Sans Pro", FontSize->36}
           ],
           TextCell[" .", textCellStyle]
         }],
@@ -173,7 +178,9 @@ Bolzano[] :=
                 }
               ]
               )
-            ]
+            ],
+            ImageSize->{200,70},
+            BaseStyle->{FontFamily->"Source Sans Pro", FontSize->36}
           ],
           TextCell[" .", textCellStyle]
         }],
@@ -216,7 +223,10 @@ Bolzano[] :=
                   }
                 }
               ])
-            ], Background->Red
+            ],
+            ImageSize->{200,70},
+            BaseStyle->{FontFamily->"Source Sans Pro", FontSize->36},
+            Background->Red
           ],
           TextCell[" .", textCellStyle]
         }],
@@ -465,6 +475,8 @@ RootExampleGraphic[] :=
         ]
     ];
 
+(* Call with pm = 1 to display a version of the graph with a popup-menu with a list of functions to choose from,
+call with it = 1 to display graph with multiple iterations *)
 BisectionInteractive[pm_,it_] :=
     DynamicModule[
         {listFunctions,listIntervals,passf,ff},
