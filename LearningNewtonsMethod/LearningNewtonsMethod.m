@@ -6,7 +6,7 @@
 
 (* Made by: Anna Avena (INF), Giulia Cantini (INF), Roberto Ferraro (MAT), Nicola Mainetti (MAT), Matteo Sanfelici (INF) *)
 
-BeginPackage["LearningNewtonsMethod`"]
+BeginPackage["LearningNewtonsMethod`"];
 (* Exported symbols added here with SymbolName::usage *) 
 
 
@@ -37,7 +37,7 @@ AlgoBisez::usage = "a";
 AlgoSec::usage = "a";
 
 
-Begin["`Private`"]
+Begin["`Private`"];
 
 (* Function that links a slide with the next,
 gets in input the Cell Tag of the slide to be linked 
@@ -153,7 +153,7 @@ Bolzano[] :=
                 }
               ]
               )
-            ]
+            ],
             ImageSize->{230,70},
             BaseStyle->{FontFamily->"Source Sans Pro", FontSize->36}
           ],
@@ -858,41 +858,166 @@ SecantInteractive[pm_,it_] :=  DynamicModule[
 (* these two functions show cases/examples in which the Newton's method fails *)
 (* xlog(x)-1*)
 FirstExample[] :=
-    DynamicModule[ {list,f},
-        f[x_] = x Log[x]-1//N;
-        list = NestList[(#-f[#]/f'[#])&,0.1,3];
-        Plot[{x Log[x]-1},{x,-3,3},
-            PlotLegends->"f(x) = xlog(x)-1",
-            Epilog->{
-                PointSize[Large],
-                Point[{list[[1]],0}],
-                Point[{list[[2]],0}],
-                Text[DisplayForm@RowBox[{Subscript["x","0"]}],{0.3,0.3}],
-                Text[DisplayForm@RowBox[{Subscript["x","1"]}],{-0.6,0.3}],
-                Directive[{Thick,Red,Dashed}],
-                InfiniteLine[{{list[[1]],0},{list[[1]],1}}],
-                InfiniteLine[{{list[[2]],0},{list[[2]],1}}],
-                ImageSize->Large
+    DynamicModule[
+        {list,ff,x00,draw},
+        ff = x * Log[x]-1;
+        x00 = 0.2;
+
+        Manipulate[
+            draw[ff,x00],
+
+            Column[{
+                Row[{
+                    TextCell[" f(x) = ",FontSize->25],
+                    TextCell[TraditionalForm[x*Log[x]-1],FontSize->25]
+                }],
+                Row[{
+                    TextCell[" x ",FontSize->25],
+                    Slider[Dynamic[x00],{0.01,2.99,0.01}],
+                    TextCell[Dynamic[x00],FontSize->25]
+                }]
+            }],
+
+            Initialization:> {
+                draw[f_,x0_]:= DynamicModule[
+                    {f1,f1x0,fx0,fx0t},
+                    f1 = D[f,x];
+                    f1x0 = f1 /. x -> x0;
+                    fx0 = f /. x-> x0;
+                    fx0t = (f1x0*x0/fx0);
+                    Plot[
+                        f,{x,-3,3},
+                        PlotStyle->{
+                            Thickness[0.004]
+                        },
+                        Prolog->{
+                            RGBColor[210/255, 223/255, 242/255],
+                            Rectangle[{0,-1.5},{3.1,2.4}]
+                        },
+                        Epilog -> {
+                            Red,
+                            {
+                                Thickness[0.001],
+                                Dashed,
+                                Line[{
+                                    {x0, 0},
+                                    {x0, f  /. x-> x0}
+                                }]
+                            },
+                            {
+                                Thickness[0.004],
+                                Arrow[{
+                                    {x0, f  /. x-> x0},
+                                    {(x0 - ((f /. x -> x0)/(D[f,x] /. x -> x0))),0}
+                                }]
+                            },
+                            PointSize[0.015],
+                            Point[{x0,0}],
+                            Green,
+                            Point[{E^ProductLog[1],0}],
+                            Black,
+                            Text[TextCell[Subscript[x,0],FontSize->21],{x0,0.3}],
+                            Text[TextCell[Subscript[x,1],FontSize->21],{(x0 - ((f /. x -> x0)/(D[f,x] /. x -> x0))),0.3}],
+                            Text[TextCell["Dominio",FontSize->25],{1.5,1.5}],
+                            Text[TextCell["Funzione NON definita",FontSize->25],{-1.5,1.5}]
+                        },
+                        ImageSize -> {800,500}
+                    ]
+                ]
             },
-            ImageSize -> {800,500}
+            Paneled->False
         ]
-    ]
+    ];
     
 (* cos(x) *)
 SecondExample[] :=
-    Module[ {},
-        Plot[
-            {Cos[x], y = 1},{x,-Pi,Pi},
-            PlotRange->{-1.5,1.5},
-            PlotLegends->{"f(x) = cos(x)","f(x) = 1"},
-            Epilog->{
-                PointSize[Large],
-                Point[{0,1}],
-                Text[DisplayForm@RowBox[{Subscript["x","0"]}],{0.3,1.2}]
+    DynamicModule[
+        {ff,x00,draw},
+
+        ff=Cos[x];
+        x00=0;
+
+        Manipulate[
+            draw[ff,x00],
+
+            Column[{
+                Row[{
+                    TextCell["f(x) = ",FontSize->25],
+                    TextCell[TraditionalForm[Cos[x]],FontSize->25]
+                }],
+                Row[{
+                    TextCell["x ", FontSize -> 25],
+                    Slider[Dynamic[x00], {-3.1, 3.1, 0.1}],
+                    TextCell[Dynamic[x00], FontSize -> 25]
+                }]
+            }],
+
+            Initialization:>{
+                draw[f_,x0_] := DynamicModule[
+                    {},
+                    Plot[
+                        f,{x,-Pi,Pi},
+                        PlotRange->{{-Pi,Pi},{-1,1.3}},
+                        Epilog->{
+                            Red,
+                            {
+                                Thickness[0.001],
+                                Dashed,
+                                Line[{
+                                    {x0, 0},
+                                    {x0, f  /. x-> x0}
+                                }]
+                            },
+                            Black,
+                            Text[TextCell[Subscript[x,0],FontSize->21],{x0,0.3}],
+                            If[x0!=0,
+                                {
+                                    Red,
+                                    Thickness[0.004],
+                                    Arrow[{
+                                        {x0, f  /. x-> x0},
+                                        {(x0 - ((f /. x -> x0)/(D[f,x] /. x -> x0))),0}
+                                    }],
+                                    Black,
+                                    Text[TextCell[Subscript[x,1],FontSize->21],{(x0 - ((f /. x -> x0)/(D[f,x] /. x -> x0))),0.3}]
+
+                                },
+                                {
+                                    Red,
+                                    Thickness[0.004],
+                                    Line[{
+                                        {-2.5,1},
+                                        {2.5,1}
+                                    }],
+                                    Dashed,
+                                    Arrow[{
+                                        {-2.5,1},
+                                        {-3.1,1}
+                                    }],
+                                    Arrow[{
+                                        {2.5,1},
+                                        {3.1,1}
+                                    }],
+                                    Black,
+                                    Text[TextCell["Perfettamente Tangente",FontSize->25],{0,1.1}]
+                                }
+                            ],
+                            Red,
+                            PointSize[0.015],
+                            Point[{x0,0}],
+                            Green,
+                            Point[{-Pi/2,0}],
+                            Point[{Pi/2,0}]
+
+
+                        },
+                        ImageSize -> {800,500}
+                    ]
+                ]
             },
-            ImageSize -> {800,500}
+            Paneled->False
         ]
-    ]
+    ];
 
 (* helper function that converts an image to a nine-patch image to be used as background*)
 ConvertImageToFullyScaledNinePatch[img_] :=
@@ -1700,7 +1825,7 @@ AlgoNewton[] :=
 				]
     ];
                    
-End[]
+End[];
 
 (* Function that manage the exercise area,
 gets in input the function, the initial interval point, the final interval point and 
