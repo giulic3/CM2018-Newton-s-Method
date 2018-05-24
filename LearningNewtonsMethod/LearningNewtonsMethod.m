@@ -20,13 +20,13 @@ BisectionInteractive::usage = "Interactive Bisection Method BisectionMethod[pm=0
 FirstExample::usage = "Shows the cases in which the Newton's method fails ";
 SecondExample::usage = "Shows the cases in which the Newton's method fails";
 MethodsComparison::usage = "Show convergence to solution using three different methods";
-AlgoNewton::usage="";
+AlgoNewton::usage="Interactive Newton's methid for finding roots";
 SecantInteractive::usage = "Interactively show step of iteration in the secant method";
 Bolzano::usage = "Show root graph example step by step: press a button to advance";
-AlgoBisez::usage = "a";
-AlgoSec::usage = "a";
+AlgoBisez::usage = "Interactive Bisection methid for finding roots";
+AlgoSec::usage = "Interactive Secant method for finding roots";
 
-x::usage="";
+x::usage="Unknown variable";
 
 Begin["`Private`"];
 
@@ -61,7 +61,7 @@ GoHomepage[homeSlide_] :=
 (* Function that progressively introduces and explains Bolzano's Theorem *)
 Bolzano[] :=
     Module[
-        {
+        {   (* variables and elements declaration *)
             buttonStatus1 = "closed",
             buttonStatus2 = "closed",
             buttonStatus3 = "closed",
@@ -78,7 +78,7 @@ Bolzano[] :=
         a = 1;
         b = 2;
         textCellStyle = {FontSize->36, FontFamily->"Source Sans Pro"};
-
+					(* layout elements disposition *)
         Row[{
             Column[{
                 Row[{
@@ -87,7 +87,8 @@ Bolzano[] :=
                     TextCell["(x) = ", textCellStyle],
                     TextCell[TraditionalForm[ToExpression["x^2 - 2"]], textCellStyle],
                     TextCell[" \[EGrave] ", textCellStyle],
-                    Button["continua",
+                    (* button that shows that the function is continuous *)
+                    Button["continua", 
                         If[buttonStatus1 == "closed" ,
                             (buttonStatus1 = "open";
                                 plot =
@@ -104,6 +105,7 @@ Bolzano[] :=
                 Row[{}], (* linefeed *)
                 Row[{
                     TextCell[" e che f calcolata in a = 1 \[EGrave] ", textCellStyle],
+                    (* button that shows thaht the function is negative somewhere *)
                     Button["negativa",
                         If[buttonStatus2 == "closed" && buttonStatus1 == "open",
                             ( buttonStatus2 = "open";
@@ -130,6 +132,7 @@ Bolzano[] :=
                 Row[{}],
                 Row[{
                     TextCell["Inoltre notiamo che f calcolata in b = 2 \[EGrave] ", textCellStyle],
+                    (* button that shows where the function is positive *)
                     Button["positiva",
                         If[buttonStatus3 == "closed" && buttonStatus1 == "open" && buttonStatus2 == "open",
                             (buttonStatus3 = "open";
@@ -169,6 +172,7 @@ Bolzano[] :=
                     TextCell[" e ", textCellStyle],
                     TextCell["2", textCellStyle, Green],
                     TextCell[" \[EGrave] compreso un suo ", textCellStyle],
+                    (* button that shows where is the solution, the root of the function *)
                     Button["zero",
                         If[buttonStatus4 == "closed" && buttonStatus1 == "open" && buttonStatus2 == "open" && buttonStatus3 == "open",
                             (buttonStatus4 = "open";
@@ -201,7 +205,7 @@ Bolzano[] :=
                 Row[{}]
             }],
             Column[{
-                Dynamic[plot]
+                Dynamic[plot] (* shows the initial function *)
             }]
         }]
     ];
@@ -291,7 +295,7 @@ NewtonInteractive[pm_,it_] :=
                     aa = interv[[1]][[1]];
                     bb = interv[[1]][[2]];
 
-                    Manipulate[
+                    Manipulate[ (* options *)
                         newton[input, N[x00], aa, bb, nn],
                         Column[{
                             Row[{
@@ -1177,9 +1181,9 @@ MethodsComparison[] :=
         ] (* end manipulate *)
     ]; (* end dynamicmodule *)
          
-         
+ (* Interactive algotithm that shows step by step the application of Bisection's method *)        
 AlgoBisez[] :=
-    DynamicModule[
+    DynamicModule[ (* variables declaration *)
         {ww, zz, tt1, ff},
         ww = ToExpression["a"];
         zz = ToExpression["b"];
@@ -1189,7 +1193,7 @@ AlgoBisez[] :=
         Manipulate[
             BisectionAlgorithm[ww, zz, tt1],
 
-            Column[{
+            Column[{ (* input fields that allows to insert a,b and the tollerance value  *)
                 Row[{
                     TextCell["Sia f = ", FontSize -> 25],
                     TextCell[TraditionalForm[ff], FontSize -> 25]
@@ -1209,7 +1213,7 @@ AlgoBisez[] :=
             Initialization :> {
                 BisectionAlgorithm[w_, z_, t1_] := DynamicModule[
                     {cValB, fcValB},
-
+					(* variables initialization *)
                     a1 = N[ToExpression[w]];
                     If[w != ToExpression["a"], w= a1];
                     b1 = N[ToExpression[z]];
@@ -1217,7 +1221,7 @@ AlgoBisez[] :=
                     If[t1 == ToString["\[Tau]"], "", ""];
                                                                                                     
                     Column[{
-                        Row[{
+                        Row[{ (* theorical area *)
                             TextCell["Finch\[EAcute] | a - b | > \[Tau]", FontSize -> 25]
                         }],
                             Row[{
@@ -1252,7 +1256,7 @@ AlgoBisez[] :=
 
                                 Column[{
                                     Spacer[20],
-                                    Row[{
+                                    Row[{ (* interactive area that shows step by step calculations *)
                                         TextCell["    c = ", FontSize -> 25, FontColor -> Gray],
                                         Column[{
                                             TextCell[
@@ -1269,10 +1273,11 @@ AlgoBisez[] :=
                                             ]
                                         }],
                                         Column[{
+                                            (* check if the tolerance has been reached *)
                                             If[ToString[w] != ToString["a"] && ToString[z] != ToString["b"] && ToString[t1] != ToString["\[Tau]"],
                                                 If[Abs[w - z] > ToExpression[ToString[t1]],
-                                                    cVal1B = ((w + z)/2) // N,
-                                                    cValB = "";
+                                                    cVal1B = ((w + z)/2) // N, (* if it's not reached, calculate f(c)  *)
+                                                    cValB = ""; (* if it's reached, shows a dialog box *)
 
                                                     CreateDialog[
                                                         Column[{
@@ -1289,7 +1294,7 @@ AlgoBisez[] :=
                                                         }, Alignment -> Center]
                                                     ]
                                                 ],
-                                                cVal1B = "";
+                                                cVal1B = ""; (* if input values are not inserted yet *)
                                            ];
                                             cValB = cVal1B;
                                             TextCell[" = ", FontSize -> 25, FontColor -> Gray]
@@ -1302,6 +1307,7 @@ AlgoBisez[] :=
                                     Spacer[50],
                                     Spacer[30],
                                     Row[{
+                                        (* check if the tolerance is reached, if  not shows the result of f(c) *) 
                                         If[ToString[w] != ToString["a"] && ToString[z] != ToString["b"] && ToString[t1] != ToString["\[Tau]"],
                                             If[Abs[w - z] > ToExpression[ToString[t1]],
                                                 Row[{
@@ -1317,6 +1323,7 @@ AlgoBisez[] :=
                                     }],
                                     Spacer[50],
                                     Row[{
+                                        (* after f(c) is calculated, we check if the sign of f(a) is equal to the sign of f(c) *)
                                         If[ToString[cValB] != ToString[""],
                                             Row[{
                                                 TextCell["Controllo se segno(", FontSize -> 25, FontColor -> Gray],
@@ -1334,11 +1341,12 @@ AlgoBisez[] :=
 
                             Row[{
                                 "                       ",
-                                Button[
+                                Button[ (* button that allows to calculate the next Bisection's iteration*)
                                     TextCell["Reitera", FontSize -> 25],
+                                    (* check if the tolerance is reached *)
                                     If[Abs[w - z] >= ToExpression[ToString[t1]],
-                                        If[(ff /. x -> w)*(ff /. x -> cValB) >= 0,
-                                            {
+                                        If[(ff /. x -> w)*(ff /. x -> cValB) >= 0, (* check if sign f(a) = sign f(c) *)
+                                            { (* if true, a = c *)
                                                 If[ToString[cValB] != ToString[""],
                                                     ww = cValB,
                                                     Break[]
@@ -1346,13 +1354,13 @@ AlgoBisez[] :=
                                                 zz = z;
                                                 tt1 = t1
                                             },
-                                            {
+                                            { (* if false, b = c *)
                                                 If[ToString[cValB] != ToString[""], zz = cValB, Break[]];
                                                 ww = w;
                                                 tt1 = t1
                                             }
                                         ],
-
+										(* if tolerance is reached shows a dialog box *)
                                         CreateDialog[
                                             Column[{
                                                 Row[{TextCell["Approssimazione ", FontSize -> 25]}],
@@ -1370,8 +1378,9 @@ AlgoBisez[] :=
         ]
     ];
 
+(* Interactive algotithm that shows step by step the application of Secant's method *)
 AlgoSec[] :=
-    DynamicModule[
+    DynamicModule[ (* variables declaration *)
         {aa, bb, cc, \[Tau]\[Tau], ff, faVal, fbVal, cVal1},
         faVal = ""; fbVal = ""; cVal1 = "";
         aa = ToExpression["a"];
@@ -1383,7 +1392,7 @@ AlgoSec[] :=
             SecAlgorithm[aa, bb, \[Tau]\[Tau]],
 
             Column[{
-                Row[{
+                Row[{ (* input fields that allows to insert a,b and the tolerance value  *)
                     TextCell["Sia f = ", FontSize -> 25],
                     TextCell[TraditionalForm[ff], FontSize -> 25]
                 }],
@@ -1402,6 +1411,7 @@ AlgoSec[] :=
             Initialization :> {
                 SecAlgorithm[a_, b_, t_] := DynamicModule[
                     { cVal, fcVal, r, rr},
+                    (* variables initialization *)
                     a1 = N[ToExpression[a]];
                     If[a != ToExpression["a"], a = a1];
                     b1 = N[ToExpression[b]];
@@ -1409,7 +1419,7 @@ AlgoSec[] :=
                     If[t == ToString["\[Tau]"], "", ""];
 
                     Column[{
-                         Row[{
+                         Row[{ (* theorical area *)
                              TextCell["Finch\[EAcute] | a - b | > \[Tau]", FontSize -> 25]
                          }],
                          Row[{
@@ -1446,7 +1456,7 @@ AlgoSec[] :=
                              }],
                              Column[{
                                  Spacer[20],
-                                 Row[{
+                                 Row[{ (* interactive area that shows step by step calculations *)
                                      Column[{
                                          Row[{
                                              Column[{
@@ -1455,8 +1465,9 @@ AlgoSec[] :=
                                                      If[ToString[a] != ToString["a"] &&
                                                         ToString[b] != ToString["b"] &&
                                                         ToString[t] != ToString["\[Tau]"],
+                                                        (* check if the tolerance has been reached *)
                                                         If[Abs[a - b] >= ToExpression[ToString[t]],
-                                                           {
+                                                           { (* if not, make the calculations *)
                                                                faVal = ff /. x -> a;
                                                                fbVal = ff /. x -> b;
                                                                cVal1 = a - ((faVal*(b - a))/(fbVal - faVal));
@@ -1472,8 +1483,7 @@ AlgoSec[] :=
                                                                                                      Alignment -> Center]]}, ""]
                                                            },
                                                            {
-                                                               (*cVal1="";*)
-
+                                                              (* if it's reached, shows a dialog box *)
                                                                CreateDialog[
                                                                             Column[{Row[{TextCell["Approssimazione ",
                                                                                                   FontSize -> 25]}],
@@ -1614,7 +1624,7 @@ AlgoSec[] :=
         ]
     ];
          
-
+(* Interactive algotithm that shows step by step the application of Newton's method *)
 AlgoNewton[] :=
     DynamicModule[
 				{xii, \[Tau]\[Tau], ff,ii},
