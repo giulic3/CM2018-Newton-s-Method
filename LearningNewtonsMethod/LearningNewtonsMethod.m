@@ -643,7 +643,7 @@ SecantInteractive[pm_,it_] :=
                                         }
                                     },
                                     Axes -> True,
-                                    ImageSize -> {800,500},
+                                    ImageSize -> {750,450},
                                     AxesLabel -> {Style["x", 16], Style["y", 16]}
                                 ]
                             ]
@@ -976,8 +976,11 @@ MethodsComparison[] :=
                                         Text[{Pi,0}, Offset[{0,20},{Pi,0}]]
                                     }
                                 },
-                                ImageSize -> 500,
-                                PlotLabel -> "Bisezione"
+                                ImageSize -> 700,
+                                PlotLabel -> "Bisezione",
+                                LabelStyle->Directive[FontSize->15],
+                                PlotStyle -> Thickness[0.006]
+
                             ]
                             , " ",
                             (* display the current root value for the bisection method *)
@@ -987,7 +990,9 @@ MethodsComparison[] :=
                                 Darker[Green],
                                 TextAlignment -> Center,
                                 CellBaseline -> Center,
-                                CellSize -> {500, 50}
+                                CellSize -> {500, 50},
+                                FontSize->20
+
                             ],
 
                             TextCell[
@@ -996,7 +1001,9 @@ MethodsComparison[] :=
                                 Red,
                                 TextAlignment -> Center,
                                 CellBaseline -> Bottom,
-                                CellSize -> {500, 50}
+                                CellSize -> {500, 50},
+                                FontSize->20
+
                             ],
                             TextCell[Dynamic[textBisection], "Text"]
                         }],
@@ -1019,8 +1026,10 @@ MethodsComparison[] :=
                                         Text[{Pi,0}, Offset[{0,20},{Pi,0}]]
                                     }
                                 },
-                                ImageSize -> 500,
-                                PlotLabel -> "Secanti"
+                                ImageSize -> 700,
+                                PlotLabel -> "Secanti",
+                                LabelStyle->Directive[FontSize->15],
+                                PlotStyle -> Thickness[0.006]
                             ],
                             " ",
                             (* display the current root value for the secant method *)
@@ -1030,7 +1039,8 @@ MethodsComparison[] :=
                                 Darker[Green],
                                 TextAlignment -> Center,
                                 CellBaseline -> Bottom,
-                                CellSize -> {500, 50}
+                                CellSize -> {500, 50},
+                                FontSize->20
                             ],
 
                             TextCell[
@@ -1039,9 +1049,10 @@ MethodsComparison[] :=
                                 Red,
                                 TextAlignment -> Center,
                                 CellBaseline -> Bottom,
-                                CellSize -> {500, 50}
-                            ],
+                                CellSize -> {500, 50},
+                                FontSize->20
 
+                            ],
                             TextCell[Dynamic[textSecant], "Text"]
                         }],
                         (* Newton *)
@@ -1063,8 +1074,10 @@ MethodsComparison[] :=
                                         Text[{Pi,0}, Offset[{0,20},{Pi,0}]]
                                     }
                                 },
-                                ImageSize -> 500,
-                                PlotLabel -> "Newton"
+                                ImageSize -> 700,
+                                PlotLabel -> "Newton",
+                                LabelStyle -> Directive[FontSize->15],
+                                PlotStyle -> Thickness[0.006]
                             ],
                             (* display the current root value for the Newton's method *)
                             TextCell[
@@ -1073,7 +1086,9 @@ MethodsComparison[] :=
                                 Darker[Green],
                                 TextAlignment -> Center,
                                 CellBaseline -> Bottom,
-                                CellSize -> {500, 50}
+                                CellSize -> {500, 50},
+                                FontSize->20
+
                             ],
                             TextCell[
                                 Row[{Pi, " = ", N[Pi,10]}, Alignment->Center],
@@ -1081,7 +1096,9 @@ MethodsComparison[] :=
                                 Red,
                                 TextAlignment -> Center,
                                 CellBaseline -> Bottom,
-                                CellSize -> {500, 50}
+                                CellSize -> {500, 50},
+                                FontSize->20
+
                             ],
 
                             TextCell[Dynamic[textNewton], "Text"]
