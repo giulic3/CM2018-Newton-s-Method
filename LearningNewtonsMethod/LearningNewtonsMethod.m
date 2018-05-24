@@ -1816,7 +1816,6 @@ Esercizio[funzione_, a_, b_,x0_] :=
         (*Iter2Result = FindRoot[fun, {x, Rationalize[x0]}, Method -> "Newton", MaxIterations -> , WorkingPrecision -> 3][[1]][[2]]    ;*)
         Iter2Result = NestList[ (* calculate the second iteration result *) 
             N[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))] &, x0, i+1];
-        	Print[Dynamic[Iter2Result]];
         IterationList = {AddIteration[i,fun,x0]}; (* manage all the exercise area *)
         Column[{
             Row[{"   ",
@@ -1858,7 +1857,6 @@ Esercizio[funzione_, a_, b_,x0_] :=
                                    TextCell["Inserisci il risultato: ", "Text", FontSize -> 30], 
                                 InputField[Dynamic[Risultato], String, BaseStyle->FontSize->25, ImageSize->150],
                                 "  ",
-                                Print[Dynamic[Iter2Result[[i+1]]]];
                                 Button[Style["Verifica", FontSize -> 20],
                                     {
                                         If[ ToString[Risultato] == ToString[Iter2Result[[i+1]]], (* verification of the entered value *) 
