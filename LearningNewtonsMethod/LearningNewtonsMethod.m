@@ -26,6 +26,7 @@ Bolzano::usage = "Show root graph example step by step: press a button to advanc
 AlgoBisez::usage = "a";
 AlgoSec::usage = "a";
 
+x::usage="";
 
 Begin["`Private`"];
 
@@ -273,7 +274,7 @@ NewtonInteractive[pm_,it_] :=
         Manipulate[
             passInput[ff],
             Row[{
-                TextCell["Funzione: ", FontSize->23],
+                TextCell["  Funzione: ", FontSize->25],
                 If[pm==1,
                     PopupMenu[Dynamic[ff], listaFunzioni, MenuStyle->{FontSize->23}],
                     TextCell[TraditionalForm[x^2-2], FontSize->23]
@@ -294,13 +295,14 @@ NewtonInteractive[pm_,it_] :=
                         newton[input, N[x00], aa, bb, nn],
                         Column[{
                             Row[{
+                                TextCell[" ",FontSize->25],
                                 TextCell[Subscript[x,0], FontSize->23],
                                 Slider[Dynamic[x00],{aa+0.01,bb-0.01,0.01}],
                                 TextCell[" ",FontSize->25],
                                 TextCell[Dynamic[x00],FontSize->23]
                             }],
                             Row[{
-                                If[it==1,TextCell["Iterazioni ", FontSize->23]],
+                                If[it==1,TextCell[" Iterazioni ", FontSize->23]],
                                 If[it==1,Slider[Dynamic[nn],{1,12,1}]],
                                 If[it==1,TextCell[" ",FontSize->25]],
                                 If[it==1,TextCell[Dynamic[nn],FontSize->23],nn=1;]
@@ -322,9 +324,10 @@ NewtonInteractive[pm_,it_] :=
 
                                 Column[{
                                     Row[{
-                                        TextCell[HoldForm[Subscript[{Subscript["x", "k"]}, "k" = 0]^n],FontSize->17],
-                                        TextCell[ " = ",FontSize->17],
-                                        TextCell[list,FontSize->17]
+                                        "                         ",
+                                        TextCell[Subscript["x", n],FontSize->25,FontFamily->"Source Sans Pro"],
+                                        TextCell[ " = ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                        TextCell[list[[nn]],FontSize->25,FontFamily->"Source Sans Pro"]
                                     }],
                                     Plot[
                                         funzioneFinale, {x, aa, bb},
@@ -365,11 +368,11 @@ BisectionInteractive[pm_,it_] :=
         {listFunctions,listIntervals,passf,ff},
 
         listIntervals = {
-          {0.5,2},
-          {(1/2*3.14), (1.5*3.14)},
-          {0,2},
-          {0,2},
-          {0,3.14}
+          {0,4,5},
+          {(1/2*3.14), (1.5*3.14),30},
+          {0,2,40},
+          {0,2,10},
+          {0,3.14,30}
         };
 
         listFunctions = {
@@ -394,13 +397,21 @@ BisectionInteractive[pm_,it_] :=
 
             Initialization :> {
                 passf[fun_]:=	DynamicModule[
-                    {ax,bx,stepx,BisezMethod,selectedInput,interv,interva,intervb},
+                    {ax,bx,stepx,BisezMethod,selectedInput,interv,interva,intervb,yline},
                         selectedInput = Position[listFunctions,ff][[1]];
                         interv = listIntervals[[ selectedInput ]];
                         interva = interv[[1]][[1]];
                         intervb = interv[[1]][[2]];
-                        ax=((interva+intervb)*0.33);
-                        bx=((interva+intervb)*0.66);
+                        yline = interv[[1]][[3]];
+                        ax=interva+0.01;
+                        bx=intervb-0.01;
+                        If[fun==TraditionalForm[x^2-2],
+                            {
+                            ax=1.,
+                            bx=2.
+                            }
+                        ];
+
 
                     Manipulate[
                         BisezMethod[fun, ax, bx, stepx],
@@ -455,28 +466,39 @@ BisectionInteractive[pm_,it_] :=
                                 intervals[f_,{a_,b_},step_] :=
                                     Table[
                                         {
-                                          {line[f,{a,b},i][[1]], -(i/30)},
-                                          {line[f,{a,b},i][[2]], -(i/30)}
+                                          {line[f,{a,b},i][[1]], -(i/yline)},
+                                          {line[f,{a,b},i][[2]], -(i/yline)}
                                         },
                                         {i, 1, step}
                                     ];
 
-                                vertline[a_] := Line[{{a, -1}, {a, 1}}];
+                                vertline[a_] := InfiniteLine[{{a, -1}, {a, 1}}];
 
-                                If[(fx /. x -> aa)*(fx /. x -> bb) <= 0,
-                                    Row[{"Intervallo: [", line[fx, {aa, bb}, nn][[1]], ", ", line[fx, {aa, bb}, nn][[2]], "]"}],
-                                    Row[{"Errore"}]
-                                ];
+                                Column[{
+                                    If[(fx /. x -> aa)*(fx /. x -> bb) <= 0,
+                                        Row[{
+                                            "                     ",
+                                            TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                            TextCell[line[fx, {aa, bb}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                            TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                            TextCell[line[fx, {aa, bb}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                            TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
+                                        }],
+                                        Row[{"Errore"}]
+                                    ],
 
-                                Plot[
-                                    fx, {x, interva, intervb},
-                                    PlotRange -> All,
-                                    ImageSize -> {800, 500} ,
-                                    Epilog -> {
-                                        {Red, Line /@ intervals[fx, {aa, bb}, nn]},
-                                        {Dashed, vertline /@ line[fx, {aa, bb}, nn]}
-                                    }
-                                ]
+                                    Plot[
+                                        fx, {x, interva, intervb},
+                                        PlotRange -> All,
+                                        PlotStyle->Thickness->0.006,
+                                        ImageSize -> {800, 500} ,
+                                        Epilog -> {
+                                            {Red, Thickness[0.002], Line /@ intervals[fx, {aa, bb}, nn]},
+                                            {Dashed, vertline /@ line[fx, {aa, bb}, nn]},
+                                            If[pm==0&&it==0,{Red,PointSize[0.015],Point[{((aa+bb)/2),-(nn/yline)}]}]
+                                        }
+                                    ]
+                                }]
                             ]
                         },
                         Paneled->False
