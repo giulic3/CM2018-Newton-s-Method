@@ -1117,13 +1117,13 @@ AlgoBisez[] :=
                     TextCell[TraditionalForm[ff], FontSize -> 25]
                 }],
                 Row[{
-                    TextCell["Inserisci punto iniziale: ", FontSize -> 25],
+                    TextCell["Dati due valori ", FontSize -> 25],
                     InputField[Dynamic[ww], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
-                    TextCell[" e punto finale: ", FontSize -> 25],
+                    TextCell[" e ", FontSize -> 25],
                     InputField[Dynamic[zz], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25]
                 }] ,
                 Row[{
-                    TextCell["Tolleranza \[Tau] ", FontSize -> 25],
+                    TextCell["Posta una tolleranza \[Tau] ", FontSize -> 25],
                     InputField[Dynamic[tt1], ImageSize -> 100, Alignment->Center, BaseStyle -> FontSize -> 25]
                 }]
             }],
@@ -1310,13 +1310,13 @@ AlgoSec[] :=
                     TextCell[TraditionalForm[ff], FontSize -> 25]
                 }],
                 Row[{
-                    TextCell["Inserisci punto iniziale: ", FontSize -> 25],
+                    TextCell["Dati due valori ", FontSize -> 25],
                     InputField[Dynamic[aa], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
-                    TextCell[" e punto finale: ", FontSize -> 25],
+                    TextCell[" e ", FontSize -> 25],
                     InputField[Dynamic[bb], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25]
                 }],
                 Row[{
-                    TextCell["Tolleranza \[Tau] ", FontSize -> 25],
+                    TextCell["Posta una tolleranza \[Tau] ", FontSize -> 25],
                     InputField[Dynamic[\[Tau]\[Tau]], ImageSize -> 100, Alignment -> Center, BaseStyle -> FontSize -> 25]
                 }]
             }],
