@@ -799,7 +799,7 @@ SecondExample[] :=
                                         {3.1,1}
                                     }],
                                     Black,
-                                    Text[TextCell["Perfettamente Tangente",FontSize->25],{0,1.1}]
+                                    Text[TextCell["Perfettamente Parallela",FontSize->25],{0,1.1}]
                                 }
                             ],
                             Red,
@@ -955,16 +955,46 @@ MethodsComparison[] :=
                     Row[{
                         (* bisection *)
                         Column[{
-                            Plot[f[x], {x, 1.5, 4.5},
+                        (* current a and b values *)
+                          TextCell[
+                            Row[{"a = ", N[Rationalize[bisectionRoots[[i]][[1]]],2],
+                              " b = ", N[Rationalize[bisectionRoots[[i]][[2]]],2]
+                            },
+                              Alignment->Center],
+                            "Text",
+                            TextAlignment -> Center,
+                            CellBaseline -> Bottom,
+                            CellSize -> {500, 50},
+                            FontSize->20
+                          ],
+
+                          Plot[f[x], {x, 1.5, 4.5},
                                 Epilog -> {
+                                  (*
                                     Directive[{Thick, Green, Dashed}],
+                                    *)
                                     (* calculation and plot of the subsequent roots for the bisection method *)
 
+                                    (* draw line passing through approximation *)
+                                  {
+                                    Green, Thick,
                                     InfiniteLine[
-                                        {(bisectionRoots[[i]][[1]] + bisectionRoots[[i]][[2]]) / 2, 0},
-                                        {0, 1}
+                                      {(bisectionRoots[[i]][[1]] + bisectionRoots[[i]][[2]]) / 2, 0},
+                                      {0, 1}
+                                    ]
+                                  },
+                                    (* draw lines passing through interval bounds *)
+                                  {
+                                    InfiniteLine[
+                                      {bisectionRoots[[i]][[1]], 0},
+                                      {0, 1}
                                     ],
-                                    {
+                                    InfiniteLine[
+                                      {bisectionRoots[[i]][[2]], 0},
+                                      {0, 1}
+                                    ]
+                                  },
+                                  {
                                         Green,
                                         PointSize[.01],
                                         Point[{(bisectionRoots[[i]][[1]] + bisectionRoots[[i]][[2]]) / 2, 0}]
@@ -1009,11 +1039,42 @@ MethodsComparison[] :=
                         }],
                         (* secant *)
                         Column[{
-                            Plot[f[x], {x, 1.5, 4.5},
+                        (* current a and b values *)
+                          (*
+                          TextCell[
+                            Row[{"a = ", N[Rationalize[secantRoots[[i-1]][[2]]],2],
+                              " b = ", N[Rationalize[secantRoots[[i]][[2]]],2]
+                            },
+                              Alignment->Center],
+                            "Text",
+                            TextAlignment -> Center,
+                            CellBaseline -> Bottom,
+                            CellSize -> {500, 50},
+                            FontSize->20
+                          ],
+                          *)
+                          Plot[f[x], {x, 1.5, 4.5},
                                 Epilog -> {
+                                  (*
                                     Directive[{Thick, Green, Dashed}],
+                                    *)
                                     (* calculation and plot of the subsequent roots for the secant method *)
-                                    InfiniteLine[{secantRoots[[i]][[2]], 0}, {0, 1}],
+                                  {
+                                    Green, Thick,
+                                  InfiniteLine[{secantRoots[[i]][[2]], 0}, {0, 1}]
+                                  },
+                                  (*,
+                                  {
+                                    InfiniteLine[
+                                      {secantRoots[[i-1]][[2]], 0},
+                                      {0, 1}
+                                    ],
+                                    InfiniteLine[
+                                      {secantRoots[[i]][[2]], 0},
+                                      {0, 1}
+                                    ]
+                                  },
+                                  *)
                                     {
                                         Green,
                                         PointSize[.01],
