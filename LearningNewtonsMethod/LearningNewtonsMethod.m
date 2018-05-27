@@ -3,27 +3,29 @@
 (* Wolfram Language Package *)
 (* Created by the Wolfram Workbench 07-May-2018 *)
 (* Copyright *)
-
+(* Matematica Computazionale - Calcolo Numerico e Software Didattico 2017/2018  *)
 (* Made by: Anna Avena (INF), Giulia Cantini (INF), Roberto Ferraro (MAT), Nicola Mainetti (MAT), Matteo Sanfelici (INF) *)
 
 BeginPackage["LearningNewtonsMethod`"];
-(* Exported symbols added here with SymbolName::usage *) 
 
+Unprotect["LearningNewtonsMethod`*"]
+ClearAll["LearningNewtonsMethod`*"];
 
+(* Exported symbols added here with SymbolName::usage *)
 GoForward::usage = "Allows user to go to the next slide";
 GoBack::usage = "Allows user to go back to the previous slide ";
 GoHomepage::usage = "Return to the homepage";
 ReadInputFile::usage = "Reads expressions from 'inputExp' file";
-NewtonInteractive::usage = "Animated Newton Method";
+NewtonInteractive::usage = "Animated Newton's Method";
 ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
 BisectionInteractive::usage = "Interactive Bisection Method BisectionMethod[pm=0/1,it=0/1] pm->PopupMenu, it->Interactive";
 FirstExample::usage = "Shows the cases in which the Newton's method fails ";
 SecondExample::usage = "Shows the cases in which the Newton's method fails";
 MethodsComparison::usage = "Show convergence to solution using three different methods";
-AlgoNewton::usage="Interactive Newton's methid for finding roots";
+AlgoNewton::usage="Interactive Newton's method for finding roots";
 SecantInteractive::usage = "Interactively show step of iteration in the secant method";
 Bolzano::usage = "Show root graph example step by step: press a button to advance";
-AlgoBisez::usage = "Interactive Bisection methid for finding roots";
+AlgoBisez::usage = "Interactive Bisection method for finding roots";
 AlgoSec::usage = "Interactive Secant method for finding roots";
 Esercizio::usage="";
 HappySmiley::usage="";
@@ -61,7 +63,8 @@ GoHomepage[homeSlide_] :=
         Hyperlink[Import["Images/home.png", ImageSize->{100,100}], {EvaluationNotebook[], ToString[homeSlide]}]
     ];
 
-(* Function that progressively introduces and explains Bolzano's Theorem *)
+(* Function that progressively introduces and explains Bolzano's Theorem,
+slide "Problema: ricerca di uno zero di una funzione *)
 Bolzano[] :=
     Module[
         {   (* variables and elements declaration *)
@@ -215,7 +218,8 @@ Bolzano[] :=
 
 (* Function that reads expressions from 'inputExp' file *)
 (* The file contains N rows composed in this way:
-function, initial interval point, final interval point, point of the first iteration *)
+function, initial interval point, final interval point, point of the first iteration,
+called in the slide "Esercizio" *)
 ReadInputFile[] :=
     DynamicModule[ {expressions,esp,func,a,b,x0,d,i}, (* local variables *)
         esp = {}; (* array that will contain all the expressions and other attributes mentioned above *)
@@ -250,7 +254,8 @@ ReadInputFile[] :=
         }]
     ];
 
-(* Function that shows an interactive manipulate *)
+(* Function that shows an interactive manipulate,
+ slide "Metodo di Newton (2/3 *)
 NewtonInteractive[pm_,it_] :=
     DynamicModule[ 
         {newton,ff,passInput,listaIntervalli,listaFunzioni,selectedInput,aa,bb,interv},
@@ -369,7 +374,8 @@ NewtonInteractive[pm_,it_] :=
     ];
 
 (* Call with pm = 1 to display a version of the graph with a popup-menu with a list of functions to choose from,
-call with it = 1 to display graph with multiple iterations *)
+call with it = 1 to display graph with multiple iterations
+slide "Metodo di bisezione (1/5),(3/5),(4/5)" *)
 BisectionInteractive[pm_,it_] :=
     DynamicModule[
         {listFunctions,listIntervals,passf,ff},
@@ -451,14 +457,19 @@ BisectionInteractive[pm_,it_] :=
 
                                 fx = ToExpression[ToString[ffx]];
 
+
+                                (* helper function that draws horizontal red line that displays the bisection range at the first iteration *)
                                 line[f_,{a_,b_},1] := {Min[aa, bb], Max[aa, bb]};
 
+
+                                (* helper function that draws horizontal red line that displays the bisection range at the nth iteration *)
                                 line[f_,{a_,b_},n_] :=
                                     If[ (f/.x->a) * (f/.x->b) <= 0,
                                         bisec[f, line[f,{a,b},n -1]],
                                         {a, b}
                                     ];
 
+                                (* main function that calculate the next iteration's range after checking sign of a and b*)
                                 bisec[f_,{a_, b_}] :=
                                     If[(f/.x->a)*(f/.x->b) <= 0,
                                         If[(f/.x->((a + b)/2)) * (f/.x->a) <= 0,
@@ -470,6 +481,7 @@ BisectionInteractive[pm_,it_] :=
                                         {a, b}
                                     ];
 
+                                (* *)
                                 intervals[f_,{a_,b_},step_] :=
                                     Table[
                                         {
@@ -516,6 +528,7 @@ BisectionInteractive[pm_,it_] :=
         ]
     ];
 
+(* slide "Metodo delle secanti (\*/3)" *)
 SecantInteractive[pm_,it_] :=
     DynamicModule[
         {Secant, passInput, intervalsList, functionsList, selectedInput, aa, bb, interval,ff},
@@ -665,6 +678,7 @@ SecantInteractive[pm_,it_] :=
 
 (* these two functions show cases/examples in which the Newton's method fails *)
 (* xlog(x)-1*)
+(* slide "Limiti del metodo di Newton (1/2) *)
 FirstExample[] :=
     DynamicModule[
         {list,ff,x00,draw},
@@ -680,7 +694,7 @@ FirstExample[] :=
                     TextCell[TraditionalForm[x*Log[x]-1],FontSize->25]
                 }],
                 Row[{
-                    TextCell[" x ",FontSize->25],
+                    TextCell[Subscript["x","0"],FontSize->25],
                     Slider[Dynamic[x00],{0.01,2.99,0.01}],
                     TextCell[Dynamic[x00],FontSize->25]
                 }]
@@ -738,6 +752,7 @@ FirstExample[] :=
     ];
     
 (* cos(x) *)
+(* slide "Limiti del metodo di Newton (2/2) *)
 SecondExample[] :=
     DynamicModule[
         {ff,x00,draw},
@@ -754,7 +769,7 @@ SecondExample[] :=
                     TextCell[TraditionalForm[Cos[x]],FontSize->25]
                 }],
                 Row[{
-                    TextCell["x ", FontSize -> 25],
+                    TextCell[Subscript["x","0"], FontSize -> 25],
                     Slider[Dynamic[x00], {-3.1, 3.1, 0.1}],
                     TextCell[Dynamic[x00], FontSize -> 25]
                 }]
@@ -827,6 +842,7 @@ SecondExample[] :=
     ];
 
 (* helper function that converts an image to a nine-patch image to be used as background*)
+(* cover slide, initialization cells *)
 ConvertImageToFullyScaledNinePatch[img_] :=
     Module[ {paddedImage = ImagePad[img,1,Black] },
         ReplaceImageValue[
@@ -838,8 +854,8 @@ ConvertImageToFullyScaledNinePatch[img_] :=
         SetOptions[SelectedNotebook[],
          System`BackgroundAppearance -> ConvertImageToFullyScaledNinePatch[img_]];*)
          
-(* Function that calculate the value of f(x) for a specific given x 
-and display it on screen *)        
+(* Helper function that calculate the value of f(x) for a specific given x
+and display it on screen, called in Esercizio[] *)
 AddIteration[i_,fun_,x0_] :=
     Module[ {xn},
         xn = Null;
@@ -871,6 +887,7 @@ AddIteration[i_,fun_,x0_] :=
 (* Function that manage the exercise area,
 gets in input the function, the initial interval point, the final interval point and
 the first point from which start the iteration *)
+(* called in ReadInputFile[] *))
 Esercizio[funzione_, a_, b_,x0_] :=
     Module[ {calculator,plot,testoRow1,testoRow2,buttonNew,fun,i,IterationList,Iter2Result,Risultato},
         fun = ToExpression[funzione]; (* the current function *)
@@ -972,6 +989,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
         ]
     ];
 (* Function that compares the bisection, secant and Newton's methods *)
+(* slide "Confronto tra i tre metodi" *)
 MethodsComparison[] :=
     DynamicModule[
         {
@@ -1287,7 +1305,8 @@ MethodsComparison[] :=
         ] (* end manipulate *)
     ]; (* end dynamicmodule *)
          
- (* Interactive algotithm that shows step by step the application of Bisection's method *)        
+ (* Interactive algorithm that shows step by step the application of Bisection's method,
+  slide "Algoritmo" under the section "Metodo di bisezione" *)
 AlgoBisez[] :=
     DynamicModule[ (* variables declaration *)
         {ww, zz, tt1, ff},
@@ -1485,6 +1504,7 @@ AlgoBisez[] :=
     ];
 
 (* Interactive algotithm that shows step by step the application of Secant's method *)
+(* slide "Algoritmo" under the section "Metodo delle secanti" *)
 AlgoSec[] :=
     DynamicModule[ (* variables declaration *)
         {aa, bb, cc, \[Tau]\[Tau], ff, faVal, fbVal, cVal1},
@@ -1731,6 +1751,7 @@ AlgoSec[] :=
     ];
          
 (* Interactive algotithm that shows step by step the application of Newton's method *)
+(* slide "Algoritmo" under the section "Metodo di Newton" *)
 AlgoNewton[] :=
     DynamicModule[
 				{xii, \[Tau]\[Tau], ff,ii},
@@ -1894,6 +1915,6 @@ AlgoNewton[] :=
 
 End[];
 
-
+Protect["LearningNewtonsMethod`*"]
     
 EndPackage[]
