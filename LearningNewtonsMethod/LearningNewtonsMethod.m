@@ -8,7 +8,7 @@
 
 BeginPackage["LearningNewtonsMethod`"];
 
-Unprotect["LearningNewtonsMethod`*"]
+Unprotect["LearningNewtonsMethod`*"];
 ClearAll["LearningNewtonsMethod`*"];
 
 (* Exported symbols added here with SymbolName::usage *)
@@ -344,17 +344,18 @@ NewtonInteractive[pm_,it_] :=
                                     Plot[
                                         funzioneFinale, {x, aa, bb},
                                         PlotRange -> {{aa,bb},Full},
-                                        AxesLabel -> {Style["x", 16], Style["y", 16]},
+                                        AxesLabel -> {Style["x", 30], Style["y", 30]},
                                         PlotStyle -> Thickness[0.006],
-
+                                        BaseStyle-> {FontSize->30},
+                                        Background->White,
                                         Epilog -> {
                                             {
-                                                Red,
+                                                Darker[Green],
                                                 Thickness[0.002],
                                                 If[n>0,Line[{listArrow}]]
                                             },
                                             {
-                                                Red,
+                                                Darker[Green],
                                                 PointSize[0.015],
                                                 Point[{list[[i]], 0}]
                                             }
@@ -495,15 +496,35 @@ BisectionInteractive[pm_,it_] :=
 
                                 Column[{
                                     If[(fx /. x -> aa)*(fx /. x -> bb) <= 0,
-                                        Row[{
-                                            "                     ",
-                                            TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                            TextCell[line[fx, {aa, bb}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
-                                            TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                            TextCell[line[fx, {aa, bb}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
-                                            TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
+                                        Column[{
+                                            Row[{
+                                                "                     ",
+                                                TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[line[fx, {aa, bb}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[line[fx, {aa, bb}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
+                                            }],
+                                            Row[{
+                                                "                     ",
+                                                TextCell["Ampiezza: ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[Abs[line[fx, {aa, bb}, nn][[1]]-line[fx, {aa, bb}, nn][[2]]],FontSize->25,FontFamily->"Source Sans Pro"]
+                                            }]
                                         }],
-                                        Row[{"Errore"}]
+                                        Column[{
+                                            Row[{
+                                                "                     ",
+                                                TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[line[fx, {aa, bb}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[line[fx, {aa, bb}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
+                                            }],
+                                            Row[{
+                                                "            ",
+                                                TextCell["L'intervallo scelto non contiene una soluzione",FontSize->25,FontFamily->"Source Sans Pro"]
+                                            }]
+                                        }]
                                     ],
 
                                     Plot[
@@ -511,10 +532,12 @@ BisectionInteractive[pm_,it_] :=
                                         PlotRange -> All,
                                         PlotStyle->Thickness->0.006,
                                         ImageSize -> {800, 500} ,
+                                        BaseStyle-> {FontSize->30},
+                                        Background->White,
                                         Epilog -> {
                                             {Red, Thickness[0.002], Line /@ intervals[fx, {aa, bb}, nn]},
                                             {Dashed, vertline /@ line[fx, {aa, bb}, nn]},
-                                            If[pm==0&&it==0,{Red,PointSize[0.015],Point[{((aa+bb)/2),-(nn/yline)}]}]
+                                            If[pm==0&&it==0,{Darker[Green],PointSize[0.015],Point[{((aa+bb)/2),-(nn/yline)}]}]
                                         }
                                     ]
                                 }]
@@ -620,12 +643,14 @@ SecantInteractive[pm_,it_] :=
                                     PlotRange -> {{a,b},Full},
                                     AxesLabel -> {Style["x", 16], Style["y", 16]},
                                     PlotStyle -> Thickness[0.006],
+                                    BaseStyle-> {FontSize->30},
+                                    Background->White,
                                     Epilog -> {
                                         {
                                             Thickness[0.002],
                                             MapIndexed[
                                                 {
-                                                    Red,
+                                                    Darker[Green],
                                                     Line[{
                                                         {#1[[1]], finalFunction/.x->#[[1]]},
                                                         {#1[[2]], finalFunction/.x->#[[2]]}
@@ -640,7 +665,7 @@ SecantInteractive[pm_,it_] :=
                                         },
                                         {
                                             PointSize[0.01],
-                                            Green,
+                                            Darker[Green],
                                             (Point[{#1, 0}] &) /@ Flatten[xValues]
                                         },
                                         {(* x0 and x1 points are black *)
@@ -712,12 +737,14 @@ FirstExample[] :=
                         PlotStyle->{
                             Thickness[0.004]
                         },
+                        BaseStyle-> {FontSize->30},
+                        Background->White,
                         Prolog->{
                             RGBColor[210/255, 223/255, 242/255],
                             Rectangle[{0,-1.5},{3.1,2.4}]
                         },
                         Epilog -> {
-                            Red,
+                            Darker[Green],
                             {
                                 Thickness[0.001],
                                 Dashed,
@@ -735,7 +762,7 @@ FirstExample[] :=
                             },
                             PointSize[0.015],
                             Point[{x0,0}],
-                            Green,
+                            Red,
                             Point[{E^ProductLog[1],0}],
                             Black,
                             Text[TextCell[Subscript[x,0],FontSize->21],{x0,0.3}],
@@ -781,8 +808,10 @@ SecondExample[] :=
                     Plot[
                         f,{x,-Pi,Pi},
                         PlotRange->{{-Pi,Pi},{-1,1.3}},
+                        BaseStyle-> {FontSize->30},
+                        Background->White,
                         Epilog->{
-                            Red,
+                            Darker[Green],
                             {
                                 Thickness[0.001],
                                 Dashed,
@@ -795,7 +824,7 @@ SecondExample[] :=
                             Text[TextCell[Subscript[x,0],FontSize->21],{x0,0.3}],
                             If[x0!=0,
                                 {
-                                    Red,
+                                    Darker[Green],
                                     Thickness[0.004],
                                     Arrow[{
                                         {x0, f  /. x-> x0},
@@ -805,7 +834,7 @@ SecondExample[] :=
                                     Text[TextCell[Subscript[x,1],FontSize->21],{(x0 - ((f /. x -> x0)/(D[f,x] /. x -> x0))),0.3}]
                                 },
                                 {
-                                    Red,
+                                    Darker[Green],
                                     Thickness[0.004],
                                     Line[{
                                         {-2.5,1},
@@ -824,10 +853,10 @@ SecondExample[] :=
                                     Text[TextCell["Perfettamente Parallela",FontSize->25],{0,1.1}]
                                 }
                             ],
-                            Red,
+                            Darker[Green],
                             PointSize[0.015],
                             Point[{x0,0}],
-                            Green,
+                            Red,
                             Point[{-Pi/2,0}],
                             Point[{Pi/2,0}]
 
@@ -859,7 +888,7 @@ and display it on screen, called in Esercizio[] *)
 AddIteration[i_,fun_,x0_] :=
     Module[ {xn},
         xn = Null;
-        (*NewtonList = NestList[N[Rationalize[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))],3] &, Rationalize[x0], 10];*)
+        (*NewtonList = NestList[N[Rationalize[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))],3] &, Rationalize[x0], 10]*)
         Row[{
             TextCell[ Subscript["x", i], FontSize -> 25],
                 TextCell["=", FontSize -> 25],
@@ -887,7 +916,7 @@ AddIteration[i_,fun_,x0_] :=
 (* Function that manage the exercise area,
 gets in input the function, the initial interval point, the final interval point and
 the first point from which start the iteration *)
-(* called in ReadInputFile[] *))
+(* called in ReadInputFile[] *)
 Esercizio[funzione_, a_, b_,x0_] :=
     Module[ {calculator,plot,testoRow1,testoRow2,buttonNew,fun,i,IterationList,Iter2Result,Risultato},
         fun = ToExpression[funzione]; (* the current function *)
@@ -897,10 +926,12 @@ Esercizio[funzione_, a_, b_,x0_] :=
             Plot[
                 fun, {x, a, b},
                 PlotStyle -> Thickness[0.006],
+                BaseStyle-> {FontSize->30},
+                Background->White,
                 Epilog->{
-                    PointSize[Large], (* plots the point of the first iteration *)
-                    Point[{x0,0}](*    ,
-                    Text[DisplayForm@RowBox[{Subscript["x","0"]}], {x0, -0.20}] *)
+                    Darker[Green],
+                    PointSize[0.015], (* plots the point of the first iteration *)
+                    Point[{x0,0}]
                 },
                 ImageSize -> Large
             ];
@@ -961,7 +992,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
                                             CreateDialog[{ (* if correct *)
                                                 Column[{
                                                     TextCell["Complimenti!", FontSize -> 25],
-                                                    TextCell[\[HappySmiley], FontSize -> 200, FontColor -> Green],
+                                                    TextCell["\[HappySmiley]", FontSize -> 200, FontColor -> Green],
                                                     TextCell["Hai risolto l'esercizio correttamente!", FontSize -> 25],
                                                     DefaultButton[]
                                                 },Alignment->Center]
@@ -969,7 +1000,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
                                             CreateDialog[{ (* if wrong *)
                                                 Column[{
                                                     TextCell["Errore!", FontSize -> 25],
-                                                    TextCell[\[WarningSign], FontSize -> 200, FontColor -> Red],
+                                                    TextCell["\[WarningSign]", FontSize -> 200, FontColor -> Red],
                                                     TextCell["Riprova e stai pi\[UGrave] attento", FontSize -> 25],
                                                     DefaultButton[]
                                                 },Alignment->Center]
@@ -1008,14 +1039,18 @@ MethodsComparison[] :=
             Column[{
                 Row[{
                 (* control iteration *)
-                    Slider[Dynamic[i], {1, 15, 1}, Appearance -> {"Labeled"}]
+                    TextCell["Iterazione ",FontSize->25],
+                    Slider[Dynamic[i], {1, 15, 1}],
+                    TextCell[i,FontSize->25]
                 }],
                 Row[{
                     (* control tolerance *)
+                    TextCell["Tolleranza ",FontSize->25],
                     SetterBar[
                         Dynamic[tau],
                         {0.1, 0.01, 0.001, 0.0001, 0.00001, 0.00001},
-                        ImageSize->Full
+                        ImageSize->Full,
+                        BaseStyle->{FontSize->25}
                     ]
                 }]
             }],
@@ -1093,10 +1128,12 @@ MethodsComparison[] :=
                             TextAlignment -> Center,
                             CellBaseline -> Bottom,
                             CellSize -> {500, 50},
-                            FontSize->20
+                            FontSize->25
                           ],
 
                           Plot[f[x], {x, 1.5, 4.5},
+                              BaseStyle-> {FontSize->30},
+                              Background->White,
                                 Epilog -> {
                                   (*
                                     Directive[{Thick, Green, Dashed}],
@@ -1181,7 +1218,12 @@ MethodsComparison[] :=
                             FontSize->20
                           ],
                           *)
+                            TextCell[" ",FontSize->25],
+                            TextCell[" "],
                           Plot[f[x], {x, 1.5, 4.5},
+
+                              BaseStyle-> {FontSize->30},
+                              Background->White,
                                 Epilog -> {
                                   (*
                                     Directive[{Thick, Green, Dashed}],
@@ -1246,7 +1288,11 @@ MethodsComparison[] :=
                         }],
                         (* Newton *)
                         Column[{
+                            TextCell[" ",FontSize->25],
                             Plot[f[x], {x, 1.5, 4.5},
+
+                                BaseStyle-> {FontSize->30},
+                                Background->White,
                                 Epilog -> {
                                     Directive[{Thick, Green, Dashed}],
                                     (* calculation and plot of the subsequent roots for the bNewton'a method *)
@@ -1915,6 +1961,6 @@ AlgoNewton[] :=
 
 End[];
 
-Protect["LearningNewtonsMethod`*"]
+Protect["LearningNewtonsMethod`*"];
     
 EndPackage[]
