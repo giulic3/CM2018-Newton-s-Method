@@ -4,7 +4,12 @@
 (* Created by the Wolfram Workbench 07-May-2018 *)
 (* Copyright *)
 (* Matematica Computazionale - Calcolo Numerico e Software Didattico 2017/2018  *)
-(* Made by: Anna Avena (INF), Giulia Cantini (INF), Roberto Ferraro (MAT), Nicola Mainetti (MAT), Matteo Sanfelici (INF) *)
+(* Made by:
+    Anna Avena (INF),
+    Giulia Cantini (INF),
+    Roberto Ferraro (MAT),
+    Nicola Mainetti (MAT),
+    Matteo Sanfelici (INF) *)
 
 BeginPackage["LearningNewtonsMethod`"];
 
