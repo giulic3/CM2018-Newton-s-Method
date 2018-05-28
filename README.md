@@ -1,6 +1,6 @@
 # Learning Newton's Method
 This repo contains an academic project developed for the course of Computational Mathematics (a.y.2017/2018) at the University of Bologna, aimed at explaining in a creative way how the Newton's method works.
-##Authors
+## Authors
 - [Anna Avena](https://github.com/annaavena) (INF) 
 - [Giulia Cantini](https://github.com/giulic3) (INF) 
 - Roberto Ferraro (MAT)
