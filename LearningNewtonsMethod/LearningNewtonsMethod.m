@@ -100,6 +100,8 @@ Bolzano[] :=
                                 plot =
                                     Plot[x^2 - 2, {x, -2.5, 2.5},
                                         ImageSize -> {800, 500},
+                                        Background->White,
+                                        BaseStyle->{FontSize->30},
                                         Filling -> Axis,
                                         FillingStyle -> {LightGreen, LightCyan}]
                             )
@@ -123,7 +125,7 @@ Bolzano[] :=
                                             {
                                                 Blue,
                                                 Point[{a, f[a]}],
-                                                Text[{a, f[a]}, Offset[{40, 10}, {a, f[a]}]]
+                                                Text[{a, f[a]}, Offset[{60, 10}, {a, f[a]}]]
                                             }
                                         }
                                     }
@@ -150,9 +152,9 @@ Bolzano[] :=
                                             {
                                                 Blue,
                                                 Point[{a, f[a]}],
-                                                Text[{a, f[a]}, Offset[{40, 10}, {a, f[a]}]],
+                                                Text[{a, f[a]}, Offset[{60, 10}, {a, f[a]}]],
                                                 Point[{b, f[b]}],
-                                                Text[{b, f[b]}, Offset[{40, 10}, {b, f[b]}]]
+                                                Text[{b, f[b]}, Offset[{60, 10}, {b, f[b]}]]
                                             }
                                         }
                                     }
@@ -189,14 +191,14 @@ Bolzano[] :=
                                         {
                                             Blue,
                                             Point[{a, f[a]}],
-                                            Text[{a, f[a]}, Offset[{40, 10}, {a, f[a]}]],
+                                            Text[{a, f[a]}, Offset[{60, 10}, {a, f[a]}]],
                                             Point[{b, f[b]}],
-                                            Text[{b, f[b]}, Offset[{40, 10}, {b, f[b]}]]
+                                            Text[{b, f[b]}, Offset[{60, 10}, {b, f[b]}]]
                                         },
                                         {
                                             Red,
                                             Point[{Sqrt[2], 0}],
-                                            Text[{Sqrt[2], 0}, Offset[{40, 10}, {Sqrt[2], 0}]]
+                                            Text[{Sqrt[2], 0}, Offset[{60, 10}, {Sqrt[2], 0}]]
                                         }
                                     }
                                 ]
