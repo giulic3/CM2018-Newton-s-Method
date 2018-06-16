@@ -21,6 +21,7 @@ GoForward::usage = "Allows user to go to the next slide";
 GoBack::usage = "Allows user to go back to the previous slide ";
 GoHomepage::usage = "Return to the homepage";
 ReadInputFile::usage = "Reads expressions from 'inputExp' file";
+NormalizeRangeValues::usage = "Checks if values inserted belong or not to the specified interval, and if not, it normalizes them";
 NewtonInteractive::usage = "Animated Newton's Method";
 ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
 BisectionInteractive::usage = "Interactive Bisection Method BisectionMethod[pm=0/1,it=0/1] pm->PopupMenu, it->Interactive";
@@ -38,6 +39,7 @@ WarningMessage::usage="";
 x::usage="Unknown variable";
 
 Begin["`Private`"];
+
 
 (* Function that links a slide with the next,
 gets in input the Cell Tag of the slide to be linked 
@@ -267,6 +269,39 @@ ReadInputFile[] :=
         }]
     ];
 
+(* this is needed to treat the function parameters as values passed by reference *)
+SetAttributes[NormalizeRangeValues, HoldFirst];
+(* TODO add comment, problem with parameter passing *)
+NormalizeRangeValues[av_, bv_, strav_, strbv_] :=
+    Module[ {},
+
+      a = N[ToExpression[av]];
+      b = N[ToExpression[bv]];
+      stra = ToString[ToExpression[strav]];
+      strb = ToString[ToExpression[strbv]];
+
+      If[
+        a < 0.01,
+        a = 0.01; stra = "Hai scelto per a un valore che va fuori dal range!",
+        stra = ""
+      ];
+      If[
+        b < 0.01,
+        b = 0.01; strb = "Hai scelto per b un valore che va fuori dal range!",
+        strb = ""
+      ];
+      If[
+        a > 3.99,
+        a = 3.99; stra = "Hai scelto per a un valore che va fuori dal range!"
+      ];
+      If[
+        b > 3.99,
+        b = 3.99; strb = "Hai scelto per b un valore che va fuori dal range!"
+      ];
+
+    ];
+
+
 (* Function that shows an interactive manipulate,
  slide "Metodo di Newton (2/3 *)
 NewtonInteractive[pm_,it_] :=
@@ -392,7 +427,7 @@ call with it = 1 to display graph with multiple iterations
 slide "Metodo di bisezione (1/5),(3/5),(4/5)" *)
 BisectionInteractive[pm_,it_] :=
     DynamicModule[
-        {listFunctions,listIntervals,passf,ff},
+        {listFunctions,listIntervals,passf,ff,warninga,warningb},
 
         listIntervals = {
           {0,4,5},
@@ -424,36 +459,60 @@ BisectionInteractive[pm_,it_] :=
 
             Initialization :> {
                 passf[fun_]:=	DynamicModule[
-                    {ax,bx,stepx,BisezMethod,selectedInput,interv,interva,intervb,yline},
-                        selectedInput = Position[listFunctions,ff][[1]];
-                        interv = listIntervals[[ selectedInput ]];
-                        interva = interv[[1]][[1]];
-                        intervb = interv[[1]][[2]];
-                        yline = interv[[1]][[3]];
-                        ax=interva+0.01;
-                        bx=intervb-0.01;
-                        If[fun==TraditionalForm[x^2-2],
-                            {
-                            ax=1.,
-                            bx=2.
-                            }
-                        ];
+                    {
+                      ax,
+                      bx,
+                      stepx,
+                      BisezMethod,
+                      selectedInput,
+                      interv,
+                      interva,
+                      intervb,
+                      yline
+                    },
+                    selectedInput = Position[listFunctions,ff][[1]];
+                    interv = listIntervals[[ selectedInput ]];
+                    interva = interv[[1]][[1]];
+                    intervb = interv[[1]][[2]];
+                    yline = interv[[1]][[3]];
+                    ax=interva+0.01;
+                    bx=intervb-0.01;
+                    If[fun==TraditionalForm[x^2-2],
+                        {
+                        ax=1.,
+                        bx=2.
+                        }
+                    ];
+                    warninga = "";
+                    warningb = "";
 
 
                     Manipulate[
                         BisezMethod[fun, ax, bx, stepx],
                         Column[{
-                            Row[{
-                                TextCell["a ", FontSize->23],
-                                Slider[Dynamic[ax],{(interva+0.01), (intervb-0.01),0.01}],
-                                TextCell[" ",FontSize->25],
-                                TextCell[Dynamic[ax],FontSize->23]
+                          Row[{
+                              TextCell["a   ", FontSize -> 23],
+                              TextCell[interva + 0.01, FontSize -> 23],
+                              Slider[Dynamic[ax], {(interva + 0.01), (intervb - 0.01), 0.01}],
+                              TextCell[intervb - 0.01, FontSize -> 23],
+                              TextCell["   ", FontSize -> 25],
+                              InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+                              TextCell["   ", FontSize -> 25]
+                          (* text filled when input for a is a value outside range *)
+                                TextCell[Dynamic[warninga], "Text"]
+
                             }],
                             Row[{
-                                TextCell["b ", FontSize->23],
+                                TextCell["b   ", FontSize->23],
+                                TextCell[interva+0.01, FontSize->23],
                                 Slider[Dynamic[bx],{(interva+0.01), (intervb-0.01),0.01}],
-                                TextCell[" ",FontSize->25],
-                                TextCell[Dynamic[bx],FontSize->23]
+                                TextCell[intervb-0.01, FontSize->23],
+                                TextCell["   ",FontSize->25],
+                                InputField[Dynamic[bx], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
+                                TextCell["   ",FontSize->25],
+                                (* text filled when input for b is a value outside range *)
+                                TextCell[Dynamic[warningb], "Text"]
+
                             }],
                             Row[{
                                 If[it==1,TextCell["Iterazioni ", FontSize->23]],
@@ -467,13 +526,40 @@ BisectionInteractive[pm_,it_] :=
                         Initialization :> {
                         BisezMethod[ffx_, aa_, bb_, nn_] :=
                             Module[
-                                {line, bisec, intervals, vertline, fx},
+                                {line, bisec, intervals, vertline, fx, avalue, bvalue},
 
                                 fx = ToExpression[ToString[ffx]];
+                                avalue = N[ToExpression[aa]]; (* used to treat "inputfield"*)
+                                bvalue = N[ToExpression[bb]];
+
+                                (* TODO this MUST work in NormalizeRangeValues*)
+                                (* if user inputs values outside the slider range, values are "normalized" *)
+                                (*
+                                If[
+                                  avalue < 0.01,
+                                  avalue = 0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
+                                  warninga = ""
+                                ];
+                                If[
+                                  bvalue < 0.01,
+                                  bvalue = 0.01; warningb = "Hai scelto per b un valore che va fuori dal range!",
+                                  warningb = ""
+                                ];
+                                If[
+                                  avalue > 3.99,
+                                  avalue = 3.99; warninga = "Hai scelto per a un valore che va fuori dal range!"
+                                ];
+                                If[
+                                  bvalue > 3.99,
+                                  bvalue = 3.99; warningb = "Hai scelto per b un valore che va fuori dal range!"
+                                ];
+                                *)
+
+                                NormalizeRangeValues[avalue,bvalue,warninga,warningb];
 
 
                                 (* helper function that draws horizontal red line that displays the bisection range at the first iteration *)
-                                line[f_,{a_,b_},1] := {Min[aa, bb], Max[aa, bb]};
+                                line[f_,{a_,b_},1] := {Min[avalue, bvalue], Max[avalue, bvalue]};
 
 
                                 (* helper function that draws horizontal red line that displays the bisection range at the nth iteration *)
@@ -508,29 +594,29 @@ BisectionInteractive[pm_,it_] :=
                                 vertline[a_] := InfiniteLine[{{a, -1}, {a, 1}}];
 
                                 Column[{
-                                    If[(fx /. x -> aa)*(fx /. x -> bb) <= 0,
+                                    If[(fx /. x -> avalue)*(fx /. x -> bvalue) <= 0,
                                         Column[{
                                             Row[{
                                                 "                     ",
                                                 TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[line[fx, {aa, bb}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[line[fx, {avalue, bvalue}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
                                                 TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[line[fx, {aa, bb}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[line[fx, {avalue, bvalue}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
                                                 TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
                                             }],
                                             Row[{
                                                 "                     ",
                                                 TextCell["Ampiezza: ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[Abs[line[fx, {aa, bb}, nn][[1]]-line[fx, {aa, bb}, nn][[2]]],FontSize->25,FontFamily->"Source Sans Pro"]
+                                                TextCell[Abs[line[fx, {avalue, bvalue}, nn][[1]]-line[fx, {avalue, bvalue}, nn][[2]]],FontSize->25,FontFamily->"Source Sans Pro"]
                                             }]
                                         }],
                                         Column[{
                                             Row[{
                                                 "                     ",
                                                 TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[line[fx, {aa, bb}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[line[fx, {avalue, bvalue}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
                                                 TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[line[fx, {aa, bb}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                TextCell[line[fx, {avalue, bvalue}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
                                                 TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
                                             }],
                                             Row[{
@@ -548,9 +634,11 @@ BisectionInteractive[pm_,it_] :=
                                         BaseStyle-> {FontSize->30},
                                         Background->White,
                                         Epilog -> {
-                                            {Red, Thickness[0.002], Line /@ intervals[fx, {aa, bb}, nn]},
-                                            {Dashed, vertline /@ line[fx, {aa, bb}, nn]},
-                                            If[pm==0&&it==0,{Darker[Green],PointSize[0.015],Point[{((aa+bb)/2),-(nn/yline)}]}]
+                                            {Red, Thickness[0.002], Line /@ intervals[fx, {avalue, bvalue}, nn]},
+                                            {Dashed, vertline /@ line[fx, {avalue, bvalue}, nn]},
+                                            If[pm == 0 && it == 0,
+                                              {Darker[Green],PointSize[0.015],Point[{((avalue+bvalue)/2),-(nn/yline)}]}
+                                            ]
                                         }
                                     ]
                                 }]
@@ -616,7 +704,7 @@ SecantInteractive[pm_,it_] :=
 
                         Column[{
                             Row[{
-                                TextCell["a ", FontSize->23],
+                                TextCell["a   ", FontSize->23],
                                 Slider[Dynamic[ax],{(aa+0.01), (bb-0.01),0.01}],
                                 TextCell[" ",FontSize->25],
                                 TextCell[Dynamic[ax],FontSize->23]
@@ -899,7 +987,7 @@ ConvertImageToFullyScaledNinePatch[img_] :=
 (* Helper function that calculate the value of f(x) for a specific given x
 and display it on screen, called in Esercizio[] *)
 AddIteration[i_,fun_,x0_] :=
-    Module[ {xn},
+    DynamicModule[ {xn},
         xn = Null;
         (*NewtonList = NestList[N[Rationalize[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))],3] &, Rationalize[x0], 10]*)
         Row[{
