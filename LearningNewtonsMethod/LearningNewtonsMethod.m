@@ -988,8 +988,7 @@ ConvertImageToFullyScaledNinePatch[img_] :=
 (* Helper function that calculate the value of f(x) for a specific given x
 and display it on screen, called in Esercizio[] *)
 AddIteration[i_,fun_,x0_] :=
-    DynamicModule[ {xn},
-        xn = Null;
+Module[{xn=Null},
         (*NewtonList = NestList[N[Rationalize[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))],3] &, Rationalize[x0], 10]*)
         Row[{
             TextCell[ Subscript["x", i], FontSize -> 25],
@@ -1009,9 +1008,10 @@ AddIteration[i_,fun_,x0_] :=
                 TextCell[ Subscript["x", i], FontSize -> 25, FontColor->Blue],
                 TextCell["=", FontSize -> 25, FontColor->Blue],
                 If[ xn==Null,
-                    xn = Subscript[x,i-1]
+                    xn = Subscript[x,i-1];
                 ];
-                TextCell[Dynamic[N[(Rationalize[xn] - ((fun /. x->Rationalize[xn])/(D[fun, x]/.x->Rationalize[xn])))]], FontSize -> 25, FontColor->Blue]
+                Dynamic[N[(Rationalize[xn] - ((fun /. x->Rationalize[xn])/(D[fun, x]/.x->Rationalize[xn])))]]
+                
         }]
     ];
 
