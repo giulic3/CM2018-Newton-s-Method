@@ -899,7 +899,7 @@ ConvertImageToFullyScaledNinePatch[img_] :=
 (* Helper function that calculate the value of f(x) for a specific given x
 and display it on screen, called in Esercizio[] *)
 AddIteration[i_,fun_,x0_] :=
-    DynamicModule[ {xn},
+    Module[ {xn},
         xn = Null;
         (*NewtonList = NestList[N[Rationalize[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))],3] &, Rationalize[x0], 10]*)
         Row[{
@@ -931,7 +931,7 @@ gets in input the function, the initial interval point, the final interval point
 the first point from which start the iteration *)
 (* called in ReadInputFile[] *)
 Esercizio[funzione_, a_, b_,x0_] :=
-    DynamicModule[ {plot,testoRow1,testoRow2,buttonNew,fun,i,IterationList,Iter2Result,Risultato},
+    DynamicModule[ {plot,testoRow1,testoRow2,buttonNew,fun,i,IterationList,Iter2Result,Risultato,xn},
         fun = ToExpression[funzione]; (* the current function *)
         (* plot the current function *)
         plot =
@@ -1052,14 +1052,14 @@ MethodsComparison[] :=
                 (* control iteration *)
                     TextCell["Iterazione ",FontSize->25],
                     Slider[Dynamic[i], {1, 15, 1}],
-                    TextCell[i,FontSize->25]
+                    TextCell[Dynamic[i],FontSize->25]
                 }],
                 Row[{
                     (* control tolerance *)
                     TextCell["Tolleranza ",FontSize->25],
                     SetterBar[
                         Dynamic[tau],
-                        {0.1, 0.01, 0.001, 0.0001, 0.00001, 0.00001},
+                        {0.1, 0.01, 0.001, 0.0001, 0.00001},
                         (*ImageSize->Full,*)
                         BaseStyle->{FontSize->25}
                     ]
