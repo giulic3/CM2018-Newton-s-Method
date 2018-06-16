@@ -477,10 +477,10 @@ BisectionInteractive[pm_,it_] :=
                     yline = interv[[1]][[3]];
                     ax=interva+0.01;
                     bx=intervb-0.01;
-                    If[fun==TraditionalForm[x^2-2],
+                    If[fun == TraditionalForm[x^2-2],
                         {
-                        ax=1.,
-                        bx=2.
+                        ax = 1.,
+                        bx = 2.
                         }
                     ];
                     warninga = "";
@@ -683,7 +683,7 @@ SecantInteractive[pm_,it_] :=
 
             Row[{
                 TextCell["Funzione: ", FontSize->25],
-                If[pm==1,
+                If[pm == 1,
                     PopupMenu[Dynamic[ff], functionsList, MenuStyle->{FontSize->23}],
                     TextCell[TraditionalForm[x^2-2], FontSize->25]
                 ]
@@ -692,13 +692,24 @@ SecantInteractive[pm_,it_] :=
             Initialization:> {
 
                 passInput[input_]:= DynamicModule[
-                    {ax,bx,iteration},
+                    {
+                      ax,
+                      bx,
+                      iteration
+                    },
                     selectedInput = Position[functionsList,input][[1]];
                     interval = intervalsList[[selectedInput]];
                     aa = interval[[1]][[1]];
                     bb = interval[[1]][[2]];
-                    ax = aa+0.01;
-                    bx = bb-0.01;
+                    ax = aa + 0.01;
+                    bx = bb - 0.01;
+
+                    If[input == TraditionalForm[x^2-2],
+                      {
+                        ax = 1.,
+                        bx = 2.
+                      }
+                    ];
 
                     Manipulate[
                         Secant[input,N[ax],N[bx],aa,bb,iteration],
@@ -776,18 +787,21 @@ SecantInteractive[pm_,it_] :=
                                             Point[{x0,0}],
                                             Point[{x1,0}]
                                         },
-                                        {
-                                        (* draw point labels only for the starting x0 and x1 *)
+                                      {
+                                        If[x0 == 1 && x1 == 2,
+                                          (* draw point labels only for the starting x0=1 and x1=2 (aka a and b)*)
+                                          {
                                             Text[
-                                                {x0, N[Rationalize[finalFunction /. x -> x0], 2]},
-                                                Offset[{0, 70}, {x0, finalFunction /. x -> x0}]
+                                              {1, -1},
+                                              Offset[{0, 70}, {1, -1}]
                                             ],
                                             Text[
-                                                {x1, N[Rationalize[finalFunction /. x -> x1], 2]},
-                                                Offset[{0, 70}, {x1, finalFunction /. x -> x1}]
+                                              {2, 2},
+                                              Offset[{0, 70}, {2, 2}]
                                             ]
-                                            (*(Text[{#1,N[Rationalize[finalFunction/.x->#1],2]}, Offset[{40,10}, {#1,finalFunction/.x->#1}]])&  /@ Flatten[xValues]*)
-                                        }
+                                      }
+                                        ]
+                                      }
                                     },
                                     Axes -> True,
                                     ImageSize -> {750,450},
