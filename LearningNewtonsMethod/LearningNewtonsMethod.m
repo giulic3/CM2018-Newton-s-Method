@@ -534,7 +534,7 @@ BisectionInteractive[pm_,it_] :=
 
                                 (* TODO this MUST work in NormalizeRangeValues*)
                                 (* if user inputs values outside the slider range, values are "normalized" *)
-                                (*
+
                                 If[
                                   avalue < 0.01,
                                   avalue = 0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
@@ -553,10 +553,11 @@ BisectionInteractive[pm_,it_] :=
                                   bvalue > 3.99,
                                   bvalue = 3.99; warningb = "Hai scelto per b un valore che va fuori dal range!"
                                 ];
-                                *)
+                                
 
+                                (*
                                 NormalizeRangeValues[avalue,bvalue,warninga,warningb];
-
+                                *)
 
                                 (* helper function that draws horizontal red line that displays the bisection range at the first iteration *)
                                 line[f_,{a_,b_},1] := {Min[avalue, bvalue], Max[avalue, bvalue]};
