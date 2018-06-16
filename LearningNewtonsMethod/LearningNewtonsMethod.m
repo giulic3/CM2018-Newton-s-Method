@@ -35,7 +35,6 @@ AlgoSec::usage = "Interactive Secant method for finding roots";
 Esercizio::usage="";
 HappySmiley::usage="";
 WarningMessage::usage="";
-
 x::usage="Unknown variable";
 
 Begin["`Private`"];
@@ -71,7 +70,7 @@ GoHomepage[homeSlide_] :=
 (* Function that progressively introduces and explains Bolzano's Theorem,
 slide "Problema: ricerca di uno zero di una funzione *)
 Bolzano[] :=
-    Module[
+    DynamicModule[
         {   (* variables and elements declaration *)
             buttonStatus1 = "closed",
             buttonStatus2 = "closed",
@@ -79,7 +78,7 @@ Bolzano[] :=
             buttonStatus4 = "closed",
             plot = "",
             f,
-            x,
+            (*x,*)
             a,
             b,
             textCellStyle = {}
@@ -90,6 +89,13 @@ Bolzano[] :=
         b = 2;
         textCellStyle = {FontSize->36, FontFamily->"Source Sans Pro"};
 					(* layout elements disposition *)
+        plot =
+            Plot[x^2 - 2, {x, -2.5, 2.5},
+              ImageSize -> {800, 500},
+              Background->White,
+              BaseStyle->{FontSize->30}
+            ];
+
         Row[{
             Column[{
                 Row[{
@@ -159,7 +165,7 @@ Bolzano[] :=
                                                 Point[{a, f[a]}],
                                                 Text[{a, f[a]}, Offset[{60, 10}, {a, f[a]}]],
                                                 Point[{b, f[b]}],
-                                                Text[{b, f[b]}, Offset[{60, 10}, {b, f[b]}]]
+                                                Text[{b, f[b]}, Offset[{20, 20}, {b, f[b]}]]
                                             }
                                         }
                                     }
@@ -198,12 +204,12 @@ Bolzano[] :=
                                             Point[{a, f[a]}],
                                             Text[{a, f[a]}, Offset[{60, 10}, {a, f[a]}]],
                                             Point[{b, f[b]}],
-                                            Text[{b, f[b]}, Offset[{60, 10}, {b, f[b]}]]
+                                            Text[{b, f[b]}, Offset[{20, 20}, {b, f[b]}]]
                                         },
                                         {
                                             Red,
                                             Point[{Sqrt[2], 0}],
-                                            Text[{Sqrt[2], 0}, Offset[{60, 10}, {Sqrt[2], 0}]]
+                                            Text[{Sqrt[2], 0}, Offset[{80, 10}, {Sqrt[2], 0}]]
                                         }
                                     }
                                 ]
@@ -893,7 +899,7 @@ ConvertImageToFullyScaledNinePatch[img_] :=
 (* Helper function that calculate the value of f(x) for a specific given x
 and display it on screen, called in Esercizio[] *)
 AddIteration[i_,fun_,x0_] :=
-    Module[ {xn},
+    DynamicModule[ {xn},
         xn = Null;
         (*NewtonList = NestList[N[Rationalize[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))],3] &, Rationalize[x0], 10]*)
         Row[{
@@ -925,9 +931,8 @@ gets in input the function, the initial interval point, the final interval point
 the first point from which start the iteration *)
 (* called in ReadInputFile[] *)
 Esercizio[funzione_, a_, b_,x0_] :=
-    Module[ {calculator,plot,testoRow1,testoRow2,buttonNew,fun,i,IterationList,Iter2Result,Risultato},
+    DynamicModule[ {plot,testoRow1,testoRow2,buttonNew,fun,i,IterationList,Iter2Result,Risultato},
         fun = ToExpression[funzione]; (* the current function *)
-        calculator = Calculator[];
         (* plot the current function *)
         plot =
             Plot[
@@ -988,7 +993,6 @@ Esercizio[funzione_, a_, b_,x0_] :=
                                     Iter2Result =
                                         NestList[N[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))] &, x0, i+1]
                                 }, ImageSize->200],
-                        (*Row[{calculator}],*)
                             Row[{ (* in this section is verified the result inserted by the user *)
                                 TextCell["Inserisci il risultato: ", "Text", FontSize -> 30],
                                 InputField[Dynamic[Risultato], String, BaseStyle->FontSize->25, ImageSize->150],
@@ -1056,7 +1060,7 @@ MethodsComparison[] :=
                     SetterBar[
                         Dynamic[tau],
                         {0.1, 0.01, 0.001, 0.0001, 0.00001, 0.00001},
-                        ImageSize->Full,
+                        (*ImageSize->Full,*)
                         BaseStyle->{FontSize->25}
                     ]
                 }]
@@ -1468,7 +1472,13 @@ AlgoBisez[] :=
                                                             }],
                                                             Row[{
                                                                 TextCell["Raggiunta", FontSize -> 25]
-                                                            }]
+                                                            }],
+                                                          Row[{
+                                                            TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                                          }],
+                                                          Row[{
+                                                            TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                                          }]
                                                         }, Alignment -> Center]
                                                     ]
                                                 ],
@@ -1538,16 +1548,26 @@ AlgoBisez[] :=
                                                 tt1 = t1
                                             }
                                         ],
-										(* if tolerance is reached shows a dialog box *)
+
+										                    (* if tolerance is reached shows a dialog box *)
                                         CreateDialog[
                                             Column[{
                                                 Row[{TextCell["Approssimazione ", FontSize -> 25]}],
-                                                Row[{TextCell["con tolleranza ", FontSize -> 25],
-                                                TextCell[t1, FontSize -> 25]}],
-                                                Row[{TextCell["Raggiunta", FontSize -> 25]}]}, Alignment -> Center]]
+                                                Row[{
+                                                  TextCell["con tolleranza ", FontSize -> 25],
+                                                  TextCell[t1, FontSize -> 25]
+                                                }],
+                                                Row[{TextCell["Raggiunta", FontSize -> 25]},
+                                                  Row[{
+                                                    TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                                  }],
+                                                  Row[{
+                                                    TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                                  }]
+                                            ]}, Alignment -> Center]
+                                        ]
                                     ],
                                     ImageSize -> 200
-
                                 ]
                             }]
                         }]
@@ -1654,21 +1674,43 @@ AlgoSec[] :=
                                                                rr = N[r[[2]]];
 
                                                                If[ToString[cVal1] ==
-                                                                  ToString[rr], {CreateDialog[
-                                                                                              Column[{Row[{TextCell["Trovata soluzione: ",
-                                                                                                                    FontSize -> 25]}],
-                                                                   Row[{TextCell["x = ", FontSize -> 25],
-                                                                       TextCell[cVal1, FontSize -> 25]}]},
-                                                                                                     Alignment -> Center]]}, ""]
+                                                                  ToString[rr],
+                                                                 CreateDialog[
+                                                                   (*Column[{
+                                                                    Row[{TextCell["Trovata soluzione: ",
+                                                                                        FontSize -> 25]}],
+                                                                     Row[{TextCell["x = ", FontSize -> 25],
+                                                                         TextCell[cVal1, FontSize -> 25]}]
+                                                                      Row[{TextCell["Cliccare sulla x per chiudere", FontSize -> 25]}]
+                                                                  },*)
+                                                                     Column[{
+                                                                         Row[{TextCell["Approssimazione ",FontSize -> 25]}],
+                                                                         Row[{TextCell["con tolleranza ", FontSize -> 25],TextCell[t, FontSize -> 25]}],
+                                                                         Row[{TextCell["Raggiunta", FontSize -> 25]}],
+                                                                         RRow[{
+                                                                           TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                                                         }],
+                                                                       Row[{
+                                                                         TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                                                       }]
+                                                                     },Alignment -> Center]]
+                                                               ]
                                                            },
                                                            {
                                                               (* if it's reached, shows a dialog box *)
                                                                CreateDialog[
-                                                                            Column[{Row[{TextCell["Approssimazione ",
-                                                                                                  FontSize -> 25]}],
-                                                                   Row[{TextCell["con tolleranza ", FontSize -> 25],
-                                                                       TextCell[t, FontSize -> 25]}],
-                                                                   Row[{TextCell["Raggiunta", FontSize -> 25]}]},
+                                                                            Column[{
+                                                                              Row[{TextCell["Approssimazione ",FontSize -> 25]}],
+                                                                              Row[{TextCell["con tolleranza ", FontSize -> 25],TextCell[t, FontSize -> 25]}],
+                                                                              Row[{TextCell["Raggiunta", FontSize -> 25]},
+                                                                                Row[{
+                                                                                  TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                                                                }],
+                                                                                Row[{
+                                                                                  TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                                                                }]
+
+                                                                     ]},
                                                                                    Alignment -> Center]]
                                                            }]
                                                         ];
@@ -1790,7 +1832,13 @@ AlgoSec[] :=
                                                  TextCell["con tolleranza ", FontSize -> 25],
                                                  TextCell[t, FontSize -> 25]
                                              }],
-                                             Row[{TextCell["Raggiunta", FontSize -> 25]}]
+                                             Row[{TextCell["Raggiunta", FontSize -> 25]}],
+                                           Row[{
+                                             TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                           }],
+                                           Row[{
+                                             TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                           }]
                                          }, Alignment -> Center]
                                      ]
                                  ], ImageSize -> 200
@@ -1949,6 +1997,12 @@ AlgoNewton[] :=
                                                     }],
                                                     Row[{
                                                         TextCell["Raggiunta", FontSize -> 25]
+                                                    }],
+                                                    Row[{
+                                                      TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                                    }],
+                                                    Row[{
+                                                        TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
                                                     }]
                                                 }, Alignment -> Center]
                                             ]
