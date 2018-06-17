@@ -1673,11 +1673,11 @@ AlgoBisez[] :=
                                         (* after f(c) is calculated, we check if the sign of f(a) is equal to the sign of f(c) *)
                                         If[ToString[cValB] != ToString[""],
                                             Row[{
-                                                TextCell["Controllo se segno(", FontSize -> 25, FontColor -> Gray],
+                                                TextCell["Controllo se segno(f(", FontSize -> 25, FontColor -> Gray],
                                                 TextCell[cValB, FontSize -> 25, FontColor -> Gray],
-                                                TextCell[") = segno(", FontSize -> 25, FontColor -> Gray],
+                                                TextCell[")) = segno(f(", FontSize -> 25, FontColor -> Gray],
                                                 TextCell[Dynamic[w], FontSize -> 25, FontColor -> Gray],
-                                                TextCell[")", FontSize -> 25, FontColor -> Gray]
+                                                TextCell["))", FontSize -> 25, FontColor -> Gray]
                                             }],
                                             ""
                                         ]
