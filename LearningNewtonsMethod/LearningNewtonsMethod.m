@@ -1455,12 +1455,12 @@ MethodsComparison[] :=
   slide "Algoritmo" under the section "Metodo di bisezione" *)
 AlgoBisez[] :=
     DynamicModule[ (* variables declaration *)
-        {ww, zz, tt1, ff},
+        {ww, zz, tt1, ff,soluzione},
         ww = ToExpression["a"];
         zz = ToExpression["b"];
         tt1 = ToExpression["\[Tau]"];
         ff = x^2 - 2;
-
+	soluzione = x/. FindRoot[ff,{x,1}];
         Manipulate[
             BisectionAlgorithm[ww, zz, tt1],
 
@@ -1485,12 +1485,13 @@ AlgoBisez[] :=
                 BisectionAlgorithm[w_, z_, t1_] := DynamicModule[
                     {cValB, fcValB},
 					(* variables initialization *)
+					
                     a1 = N[ToExpression[w]];
                     If[w != ToExpression["a"], w= a1];
                     b1 = N[ToExpression[z]];
                     If[z != ToExpression["b"], z = b1];
                     If[t1 == ToString["\[Tau]"], "", ""];
-                                                                                                    
+                                                                                                 
                     Column[{
                         Row[{ (* theorical area *)
                             TextCell["Finch\[EAcute] | a - b | > \[Tau]", FontSize -> 25]
@@ -1571,7 +1572,7 @@ AlgoBisez[] :=
                                                         }, Alignment -> Center]
                                                     ]
                                                 ],
-                                                cVal1B = ""; (* if input values are not inserted yet *)
+                                                cVal1B = "" (* // if input values are not inserted yet *)
                                            ];
                                             cValB = cVal1B;
                                             TextCell[" = ", FontSize -> 25, FontColor -> Gray]
@@ -1620,6 +1621,8 @@ AlgoBisez[] :=
                                 "                       ",
                                 Button[ (* button that allows to calculate the next Bisection's iteration*)
                                     TextCell["Reitera", FontSize -> 25],
+                                    If[a1 < soluzione && b1 > soluzione,
+{
                                     (* check if the tolerance is reached *)
                                     If[Abs[w - z] >= ToExpression[ToString[t1]],
                                         If[(ff /. x -> w)*(ff /. x -> cValB) >= 0, (* check if sign f(a) = sign f(c) *)
@@ -1655,7 +1658,22 @@ AlgoBisez[] :=
                                                   }]
                                             ]}, Alignment -> Center]
                                         ]
-                                    ],
+                                    ]},{ CreateDialog[
+                                            Column[{
+                                                Row[{TextCell["Attenzione!", FontSize -> 25]}],
+                                                Row[{
+                                                  TextCell["Nessuna soluzione per i valori a e b scelti.", FontSize -> 25]
+                                                }],
+                                               
+                                                  Row[{
+                                                    TextCell["! Scegliere altri valori !", FontSize -> 20]
+                                                  }],
+                                                  Row[{
+                                                    TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                                  }]
+                                            }, Alignment -> Center]
+                                        ]
+                                        }],
                                     ImageSize -> 200
                                 ]
                             }]
@@ -1664,7 +1682,7 @@ AlgoBisez[] :=
             }, Paneled -> False
         ]
     ];
-
+    
 (* Interactive algotithm that shows step by step the application of Secant's method *)
 (* slide "Algoritmo" under the section "Metodo delle secanti" *)
 AlgoSec[] :=
