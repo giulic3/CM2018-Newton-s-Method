@@ -1847,7 +1847,7 @@ AlgoSec[] :=
                                                                          Row[{TextCell["Approssimazione ",FontSize -> 25]}],
                                                                          Row[{TextCell["con tolleranza ", FontSize -> 25],TextCell[t, FontSize -> 25]}],
                                                                          Row[{TextCell["Raggiunta", FontSize -> 25]}],
-                                                                         RRow[{
+                                                                         Row[{
                                                                            TextCell["! Smettere di reiterare !", FontSize -> 20]
                                                                          }],
                                                                        Row[{
