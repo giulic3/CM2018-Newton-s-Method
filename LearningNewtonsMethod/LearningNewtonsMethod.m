@@ -342,7 +342,8 @@ NewtonInteractive[pm_,it_] :=
             }],
             Initialization:>{
                 passInput[input_]:= DynamicModule[
-                    {nn,x00,warning},
+                  (* nn number of it and x00 starting point *)
+                    {nn,x00},
                     (* select the position (index) of the first occurence of input inside listaFunzioni *)
                     selectedInput = Position[listaFunzioni,input][[1]];
                     (* select the corresponding plotting interval *)
@@ -1581,7 +1582,7 @@ AlgoBisez[] :=
                                         TextCell["  2a. Se f(c) = 0 ho la soluzione ", FontSize -> 25]
                                     }],
                                     Row[{
-                                        TextCell["  2b. Se segno(c) = segno(a) ", FontSize -> 25]
+                                        TextCell["  2b. Se segno(f(c)) = segno(f(a)) ", FontSize -> 25]
                                     }],
                                     Row[{
                                         TextCell["         a = c", FontSize -> 25]
