@@ -314,8 +314,8 @@ NewtonInteractive[pm_,it_] :=
             {0, 2*3.14},
             {-4, 8},
             {0, 6},
-            {0, 2*3.14},
-            {-3, 6}
+            {0, 2*3.14}
+            (*{-3, 6}*)
         };
 
         (* list of functions that can be selected from the popup menu *)
@@ -325,8 +325,8 @@ NewtonInteractive[pm_,it_] :=
             TraditionalForm[Sin[x]],
             TraditionalForm[-9 + (x-2)^2],
             TraditionalForm[-4 + x - 3*(x)^2 + (x)^3],
-            TraditionalForm[Sin[x]*Cos[x]],
-            TraditionalForm[-1 + x^2*Log2[x]]
+            TraditionalForm[Sin[x]*Cos[x]]
+            (*TraditionalForm[-1 + x^2*Log2[x]]*)
         };
 
         ff=TraditionalForm[x^2-2];
@@ -553,22 +553,22 @@ BisectionInteractive[pm_,it_] :=
                                 (* if user inputs values outside the slider range, values are "normalized" *)
 
                                 If[
-                                  avalue < 0.01,
-                                  avalue = 0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
+                                  avalue < interva+0.01,
+                                  avalue = interva+0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
                                   warninga = ""
                                 ];
                                 If[
-                                  bvalue < 0.01,
-                                  bvalue = 0.01; warningb = "Hai scelto per b un valore che va fuori dal range!",
+                                  bvalue < intervb-0.01,
+                                  bvalue = intervb-0.01; warningb = "Hai scelto per b un valore che va fuori dal range!",
                                   warningb = ""
                                 ];
                                 If[
-                                  avalue > 3.99,
-                                  avalue = 3.99; warninga = "Hai scelto per a un valore che va fuori dal range!"
+                                  avalue > interva+0.01,
+                                  avalue = interva+0.01; warninga = "Hai scelto per a un valore che va fuori dal range!"
                                 ];
                                 If[
-                                  bvalue > 3.99,
-                                  bvalue = 3.99; warningb = "Hai scelto per b un valore che va fuori dal range!"
+                                  bvalue > intervb-0.01,
+                                  bvalue = intervb-0.01; warningb = "Hai scelto per b un valore che va fuori dal range!"
                                 ];
                                 
 
@@ -775,22 +775,22 @@ SecantInteractive[pm_,it_] :=
                                 (* if user inputs values outside the slider range, values are "normalized" *)
 
                                 If[
-                                  x0value < 0.01,
-                                  x0value = 0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
+                                  x0value < a+0.01,
+                                  x0value = a+0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
                                   warninga = ""
                                 ];
                                 If[
-                                  x1value < 0.01,
-                                  x1value = 0.01; warningb = "Hai scelto per b un valore che va fuori dal range!",
+                                  x1value < a+0.01,
+                                  x1value = a+0.01; warningb = "Hai scelto per b un valore che va fuori dal range!",
                                   warningb = ""
                                 ];
                                 If[
-                                  x0value > 3.99,
-                                  x0value = 3.99; warninga = "Hai scelto per a un valore che va fuori dal range!"
+                                  x0value > b-0.01,
+                                  x0value = b-0.01; warninga = "Hai scelto per a un valore che va fuori dal range!"
                                 ];
                                 If[
-                                  x1value > 3.99,
-                                  x1value = 3.99; warningb = "Hai scelto per b un valore che va fuori dal range!"
+                                  x1value > b,
+                                  x1value = b-0.01; warningb = "Hai scelto per b un valore che va fuori dal range!"
                                 ];
 
                                 xValues =
