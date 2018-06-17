@@ -342,7 +342,7 @@ NewtonInteractive[pm_,it_] :=
             }],
             Initialization:>{
                 passInput[input_]:= DynamicModule[
-                    {nn,x00},
+                    {nn,x00,warning},
                     (* select the position (index) of the first occurence of input inside listaFunzioni *)
                     selectedInput = Position[listaFunzioni,input][[1]];
                     (* select the corresponding plotting interval *)
@@ -350,16 +350,23 @@ NewtonInteractive[pm_,it_] :=
                     (* aa and bb store bounds of the selected interval *)
                     aa = interv[[1]][[1]];
                     bb = interv[[1]][[2]];
-
+					warning="";
                     Manipulate[ (* options *)
                         newton[input, N[x00], aa, bb, nn],
                         Column[{
                             Row[{
                                 TextCell[" ",FontSize->25],
                                 TextCell[Subscript[x,0], FontSize->23],
+                                TextCell["   ", FontSize -> 25],
+                                TextCell[aa+0.01,FontSize->23],
+                                TextCell["   ", FontSize -> 25],
                                 Slider[Dynamic[x00],{aa+0.01,bb-0.01,0.01}],
                                 TextCell[" ",FontSize->25],
-                                TextCell[Dynamic[x00],FontSize->23]
+                                TextCell[bb-0.01,FontSize->23],
+                                TextCell["   ", FontSize -> 25],
+                                InputField[Dynamic[x00], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+                                TextCell["   ", FontSize -> 25],
+                                TextCell[Dynamic[warning], "Text"]
                             }],
                             Row[{
                                 If[it==1,TextCell[" Iterazioni ", FontSize->23]],
@@ -370,9 +377,17 @@ NewtonInteractive[pm_,it_] :=
                         }],
 
                         Initialization:>{
-                            newton[inputFun_,x0_,a_,b_,n_] := Module[
-                                {list,funzioneFinale,listArrow},
-
+                            newton[inputFun_,x0value_,a_,b_,n_] := Module[
+                                {list,funzioneFinale,listArrow,x0},
+                                x0 = N[ToExpression[x0value]];
+								If[
+                                  x0 < a,
+                                  x0 = a+0.01; warning = "Hai scelto un valore che va fuori dal range!"
+                                ];
+                                If[
+                                  x0 > b,
+                                  x0 = b-0.01; warning = "Hai scelto per a un valore che va fuori dal range!"
+                                ];
                                 funzioneFinale = ToExpression[ToString[inputFun]];
                                 list = NestList[ (#1 - ((funzioneFinale/.x->#1)/(D[funzioneFinale,x]/.x->#1))) & ,x0, n];
                                 Clear[listArrow];
