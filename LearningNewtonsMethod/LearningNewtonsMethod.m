@@ -554,13 +554,11 @@ BisectionInteractive[pm_,it_] :=
 
                                 If[
                                   avalue < interva+0.01,
-                                  avalue = interva+0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
-                                  warninga = ""
+                                  avalue = interva+0.01; warninga = "Hai scelto per a un valore che va fuori dal range!"
                                 ];
                                 If[
                                   bvalue < intervb-0.01,
-                                  bvalue = intervb-0.01; warningb = "Hai scelto per b un valore che va fuori dal range!",
-                                  warningb = ""
+                                  bvalue = intervb-0.01; warningb = "Hai scelto per b un valore che va fuori dal range!"
                                 ];
                                 If[
                                   avalue > interva+0.01,
