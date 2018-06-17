@@ -445,19 +445,20 @@ BisectionInteractive[pm_,it_] :=
           TraditionalForm[Cos[x]]
         };
 
-        ff=TraditionalForm[x^2-2];
+        ff = TraditionalForm[x^2-2];
 
         Manipulate[
             passf[ff],
             Row[{
                 TextCell["Funzione: ", FontSize->25],
-                If[pm==1,
+                If[pm == 1,
                     PopupMenu[Dynamic[ff], listFunctions, MenuStyle->{FontSize->23}],
                     TextCell[TraditionalForm[x^2-2], FontSize->25]
                 ]
             }],
 
             Initialization :> {
+
                 passf[fun_]:=	DynamicModule[
                     {
                       ax,
@@ -477,10 +478,10 @@ BisectionInteractive[pm_,it_] :=
                     yline = interv[[1]][[3]];
                     ax=interva+0.01;
                     bx=intervb-0.01;
-                    If[fun==TraditionalForm[x^2-2],
+                    If[fun == TraditionalForm[x^2-2],
                         {
-                        ax=1.,
-                        bx=2.
+                        ax = 1.,
+                        bx = 2.
                         }
                     ];
                     warninga = "";
@@ -489,6 +490,7 @@ BisectionInteractive[pm_,it_] :=
 
                     Manipulate[
                         BisezMethod[fun, ax, bx, stepx],
+
                         Column[{
                           Row[{
                               TextCell["a   ", FontSize -> 23],
@@ -656,7 +658,7 @@ BisectionInteractive[pm_,it_] :=
 (* slide "Metodo delle secanti (\*/3)" *)
 SecantInteractive[pm_,it_] :=
     DynamicModule[
-        {Secant, passInput, intervalsList, functionsList, selectedInput, aa, bb, interval,ff},
+        {Secant, passInput, intervalsList, functionsList, selectedInput, aa, bb, interval,ff, warninga, warningb},
 
         intervalsList = {
             {0,4},
@@ -676,14 +678,14 @@ SecantInteractive[pm_,it_] :=
             TraditionalForm[x-Sin[x]-(1/2)]
         };
 
-        ff=TraditionalForm[x^2-2];
+        ff = TraditionalForm[x^2-2];
 
         Manipulate[
             passInput[ff],
 
             Row[{
                 TextCell["Funzione: ", FontSize->25],
-                If[pm==1,
+                If[pm == 1,
                     PopupMenu[Dynamic[ff], functionsList, MenuStyle->{FontSize->23}],
                     TextCell[TraditionalForm[x^2-2], FontSize->25]
                 ]
@@ -692,43 +694,90 @@ SecantInteractive[pm_,it_] :=
             Initialization:> {
 
                 passInput[input_]:= DynamicModule[
-                    {ax,bx,iteration},
+                    {
+                      ax,
+                      bx,
+                      iteration
+                    },
                     selectedInput = Position[functionsList,input][[1]];
                     interval = intervalsList[[selectedInput]];
                     aa = interval[[1]][[1]];
                     bb = interval[[1]][[2]];
-                    ax = aa+0.01;
-                    bx = bb-0.01;
+                    ax = aa + 0.01;
+                    bx = bb - 0.01;
+
+                    If[input == TraditionalForm[x^2-2],
+                      {
+                        ax = 1.,
+                        bx = 2.
+                      }
+                    ];
+
+                    warninga = "";
+                    warningb = "";
 
                     Manipulate[
                         Secant[input,N[ax],N[bx],aa,bb,iteration],
 
                         Column[{
                             Row[{
-                                TextCell["a   ", FontSize->23],
-                                Slider[Dynamic[ax],{(aa+0.01), (bb-0.01),0.01}],
-                                TextCell[" ",FontSize->25],
-                                TextCell[Dynamic[ax],FontSize->23]
+                              TextCell["a   ", FontSize->23],
+                              TextCell[aa + 0.01, FontSize -> 23],
+                              Slider[Dynamic[ax],{(aa+0.01), (bb-0.01),0.01}],
+                              TextCell[bb - 0.01, FontSize -> 23],
+                              TextCell["   ",FontSize->23],
+                              InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+                              TextCell["   ", FontSize -> 23],
+                              TextCell[Dynamic[warninga],"Text"]
                             }],
                             Row[{
-                                TextCell["b ", FontSize->23],
-                                Slider[Dynamic[bx],{(aa+0.01), (bb-0.01),0.01}],
-                                TextCell[" ",FontSize->25],
-                                TextCell[Dynamic[bx],FontSize->23]
+                              TextCell["b   ", FontSize->23],
+                              TextCell[aa + 0.01, FontSize -> 23],
+                              Slider[Dynamic[bx],{(aa+0.01), (bb-0.01),0.01}],
+                              TextCell[bb - 0.01, FontSize -> 23],
+                              InputField[Dynamic[bx], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
+                              TextCell["   ",FontSize->23],
+                              TextCell[Dynamic[warningb],"Text"]
+
                             }],
                             Row[{
-                                If[it==1,TextCell["Iterazioni ", FontSize->23]],
-                                If[it==1,Slider[Dynamic[iteration],{0,6,1}]],
-                                If[it==1,TextCell[" ",FontSize->25]],
-                                If[it==1,TextCell[Dynamic[iteration],FontSize->23],iteration=0;]
+                                If[it == 1,TextCell["Iterazioni ", FontSize->23]],
+                                If[it == 1,Slider[Dynamic[iteration],{0,6,1}]],
+                                If[it == 1,TextCell[" ",FontSize->23]],
+                                If[it == 1,TextCell[Dynamic[iteration],FontSize->23],iteration=0;]
                             }]
                         }],
 
                         Initialization:>{
 
                             Secant[inputFun_,x0_,x1_,a_,b_,i_] := Module[
-                                {xValues,finalFunction},
+                                {xValues,finalFunction, x0value, x1value},
+
                                 finalFunction = ToExpression[ToString[inputFun]];
+                                x0value = N[ToExpression[x0]];
+                                x1value = N[ToExpression[x1]];
+
+                                (* if user inputs values outside the slider range, values are "normalized" *)
+
+                                If[
+                                  x0value < 0.01,
+                                  x0value = 0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
+                                  warninga = ""
+                                ];
+                                If[
+                                  x1value < 0.01,
+                                  x1value = 0.01; warningb = "Hai scelto per b un valore che va fuori dal range!",
+                                  warningb = ""
+                                ];
+                                If[
+                                  x0value > 3.99,
+                                  x0value = 3.99; warninga = "Hai scelto per a un valore che va fuori dal range!"
+                                ];
+                                If[
+                                  x1value > 3.99,
+                                  x1value = 3.99; warningb = "Hai scelto per b un valore che va fuori dal range!"
+                                ];
+
                                 xValues =
                                     NestList[
                                         {
@@ -739,6 +788,7 @@ SecantInteractive[pm_,it_] :=
                                         {x1, x0},
                                         i
                                     ];
+
 
                                 Plot[
                                     finalFunction, {x, a, b},
@@ -773,21 +823,24 @@ SecantInteractive[pm_,it_] :=
                                         {(* x0 and x1 points are black *)
                                             PointSize[0.01],
                                             Black,
-                                            Point[{x0,0}],
-                                            Point[{x1,0}]
+                                            Point[{x0value,0}],
+                                            Point[{x1value,0}]
                                         },
-                                        {
-                                        (* draw point labels only for the starting x0 and x1 *)
+                                      {
+                                        If[x0value == 1 && x1value == 2,
+                                          (* draw point labels only for the starting x0=1 and x1=2 (aka a and b)*)
+                                          {
                                             Text[
-                                                {x0, N[Rationalize[finalFunction /. x -> x0], 2]},
-                                                Offset[{0, 70}, {x0, finalFunction /. x -> x0}]
+                                              {1, -1},
+                                              Offset[{0, 70}, {1, -1}]
                                             ],
                                             Text[
-                                                {x1, N[Rationalize[finalFunction /. x -> x1], 2]},
-                                                Offset[{0, 70}, {x1, finalFunction /. x -> x1}]
+                                              {2, 2},
+                                              Offset[{0, 70}, {2, 2}]
                                             ]
-                                            (*(Text[{#1,N[Rationalize[finalFunction/.x->#1],2]}, Offset[{40,10}, {#1,finalFunction/.x->#1}]])&  /@ Flatten[xValues]*)
-                                        }
+                                      }
+                                        ]
+                                      }
                                     },
                                     Axes -> True,
                                     ImageSize -> {750,450},
