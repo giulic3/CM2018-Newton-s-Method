@@ -269,39 +269,6 @@ ReadInputFile[] :=
         }]
     ];
 
-(* this is needed to treat the function parameters as values passed by reference *)
-SetAttributes[NormalizeRangeValues, HoldFirst];
-(* TODO add comment, problem with parameter passing *)
-NormalizeRangeValues[av_, bv_, strav_, strbv_] :=
-    Module[ {},
-
-      a = N[ToExpression[av]];
-      b = N[ToExpression[bv]];
-      stra = ToString[ToExpression[strav]];
-      strb = ToString[ToExpression[strbv]];
-
-      If[
-        a < 0.01,
-        a = 0.01; stra = "Hai scelto per a un valore che va fuori dal range!",
-        stra = ""
-      ];
-      If[
-        b < 0.01,
-        b = 0.01; strb = "Hai scelto per b un valore che va fuori dal range!",
-        strb = ""
-      ];
-      If[
-        a > 3.99,
-        a = 3.99; stra = "Hai scelto per a un valore che va fuori dal range!"
-      ];
-      If[
-        b > 3.99,
-        b = 3.99; strb = "Hai scelto per b un valore che va fuori dal range!"
-      ];
-
-    ];
-
-
 (* Function that shows an interactive manipulate,
  slide "Metodo di Newton (2/3 *)
 NewtonInteractive[pm_,it_] :=
@@ -344,7 +311,7 @@ NewtonInteractive[pm_,it_] :=
                 passInput[input_]:= DynamicModule[
                   (* nn number of it and x00 starting point *)
                     {nn,x00},
-                    (* select the position (index) of the first occurence of input inside listaFunzioni *)
+                    (* select the position (index) of the first occurrence of input inside listaFunzioni *)
                     selectedInput = Position[listaFunzioni,input][[1]];
                     (* select the corresponding plotting interval *)
                     interv = listaIntervalli[[ selectedInput ]];
@@ -441,6 +408,9 @@ NewtonInteractive[pm_,it_] :=
 (* Call with pm = 1 to display a version of the graph with a popup-menu with a list of functions to choose from,
 call with it = 1 to display graph with multiple iterations
 slide "Metodo di bisezione (1/5),(3/5),(4/5)" *)
+
+(* TODO fix warning texts logic, and test with all the interactive, fix all the Interactive that CRAAACK *)
+(* TODO add labels (x,y) for each interactive, maybe *)
 BisectionInteractive[pm_,it_] :=
     DynamicModule[
         {listFunctions,listIntervals,passf,ff,warninga,warningb},
@@ -452,7 +422,7 @@ BisectionInteractive[pm_,it_] :=
           {0,2,10},
           {0,3.14,30}
         };
-
+        (* TODO add another function here*)
         listFunctions = {
           TraditionalForm[x^2 - 2],
           TraditionalForm[Sin[x]],
@@ -487,7 +457,13 @@ BisectionInteractive[pm_,it_] :=
                       intervb,
                       yline
                     },
-                    selectedInput = Position[listFunctions,ff][[1]];
+
+                    Print["function inside first initialization: "];
+                    Print[ff];
+                  (* select the position (index) of the first occurrence of ff inside ListFunctions *)
+                    Print["Now selecting function from functions list..."];
+                    selectedInput = Position[listFunctions,ff][[1]]; (* TODO error here!*)
+                    Print["Just selected function from functions list..."];
                     interv = listIntervals[[ selectedInput ]];
                     interva = interv[[1]][[1]];
                     intervb = interv[[1]][[2]];
@@ -547,33 +523,41 @@ BisectionInteractive[pm_,it_] :=
                                 {line, bisec, intervals, vertline, fx, avalue, bvalue},
 
                                 fx = ToExpression[ToString[ffx]];
+
+                                (* TODO loop all'infinito se lascio le print....*)
+                                (*
+                                Print["function inside second initialization: "];
+                                Print[fx];
+                                *)
+
                                 avalue = N[ToExpression[aa]]; (* used to treat "inputfield"*)
                                 bvalue = N[ToExpression[bb]];
 
-                                (* TODO this MUST work in NormalizeRangeValues*)
                                 (* if user inputs values outside the slider range, values are "normalized" *)
 
                                 If[
-                                  avalue < interva+0.01,
-                                  avalue = interva+0.01; warninga = "Hai scelto per a un valore che va fuori dal range!"
+                                  avalue < aa+0.01,
+                                  avalue = aa+0.01;
+                                  warninga = "Hai scelto per a un valore che va fuori dal range!",
+                                  warninga = ""
                                 ];
                                 If[
-                                  bvalue < intervb-0.01,
-                                  bvalue = intervb-0.01; warningb = "Hai scelto per b un valore che va fuori dal range!"
+                                  bvalue < bb-0.01,
+                                  bvalue = bb-0.01;
+                                  warningb = "Hai scelto per b un valore che va fuori dal range!",
+                                  warningb = ""
                                 ];
                                 If[
-                                  avalue > interva+0.01,
-                                  avalue = interva+0.01; warninga = "Hai scelto per a un valore che va fuori dal range!"
+                                  avalue > aa+0.01,
+                                  avalue = aa+0.01;
+                                  warninga = "Hai scelto per a un valore che va fuori dal range!"
                                 ];
                                 If[
-                                  bvalue > intervb-0.01,
-                                  bvalue = intervb-0.01; warningb = "Hai scelto per b un valore che va fuori dal range!"
+                                  bvalue > bb-0.01,
+                                  bvalue = bb-0.01;
+                                  warningb = "Hai scelto per b un valore che va fuori dal range!"
                                 ];
-                                
 
-                                (*
-                                NormalizeRangeValues[avalue,bvalue,warninga,warningb];
-                                *)
 
                                 (* helper function that draws horizontal red line that displays the bisection range at the first iteration *)
                                 line[f_,{a_,b_},1] := {Min[avalue, bvalue], Max[avalue, bvalue]};
@@ -1086,6 +1070,7 @@ Module[{xn=Null},
 gets in input the function, the initial interval point, the final interval point and
 the first point from which start the iteration *)
 (* called in ReadInputFile[] *)
+(* TODO add more explanations on how to give input, e.g. don't ctrl+c but write the number explicitly *)
 Esercizio[funzione_, a_, b_,x0_] :=
     DynamicModule[ {plot,testoRow1,testoRow2,buttonNew,fun,i,IterationList,Iter2Result,Risultato,xn},
         fun = ToExpression[funzione]; (* the current function *)
@@ -1520,6 +1505,14 @@ MethodsComparison[] :=
          
  (* Interactive algorithm that shows step by step the application of Bisection's method,
   slide "Algoritmo" under the section "Metodo di bisezione" *)
+(* TODO display current iteration number while iterating, check strange behaviour, e.g. when secant is slower than
+bisection*)
+(* TODO show f(c) also when convergence is reached, f(c) is important since tolerance is checked on it too
+(maybe we should apply tolerance logic to y too, this could explain Secant slowness)
+the last f(c) is wrong in Secant, this applies to all the 3 algorithms
+in AlgoBisez the last f(c) disappears.
+
+*)
 AlgoBisez[] :=
     DynamicModule[ (* variables declaration *)
         {ww, zz, tt1, ff,soluzione},
@@ -1531,7 +1524,7 @@ AlgoBisez[] :=
         Manipulate[
             BisectionAlgorithm[ww, zz, tt1],
 
-            Column[{ (* input fields that allows to insert a,b and the tollerance value  *)
+            Column[{ (* input fields that allows to insert a,b and the tolerance value  *)
                 Row[{
                     TextCell["Sia f = ", FontSize -> 25],
                     TextCell[TraditionalForm[ff], FontSize -> 25]
@@ -1554,13 +1547,13 @@ AlgoBisez[] :=
 					(* variables initialization *)
 					
                     a1 = N[ToExpression[w]];
-                    If[w != ToExpression["a"], w= a1];
+                    If[w != ToExpression["a"], w = a1];
                     b1 = N[ToExpression[z]];
                     If[z != ToExpression["b"], z = b1];
                     If[t1 == ToString["\[Tau]"], "", ""];
                                                                                                  
                     Column[{
-                        Row[{ (* theorical area *)
+                        Row[{
                             TextCell["Finch\[EAcute] | a - b | > \[Tau]", FontSize -> 25]
                         }],
                             Row[{
