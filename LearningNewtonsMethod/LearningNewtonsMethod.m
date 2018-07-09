@@ -23,6 +23,7 @@ GoHomepage::usage = "Return to the homepage";
 ReadInputFile::usage = "Reads expressions from 'inputExp' file";
 NormalizeRangeValues::usage = "Checks if values inserted belong or not to the specified interval, and if not, it normalizes them";
 NewtonInteractive::usage = "Animated Newton's Method";
+SimplifiedNewtonInteractive::usage = "Simplified version of Newton's method with a single Manipulate";
 ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
 BisectionInteractive::usage = "Interactive Bisection Method BisectionMethod[pm=0/1,it=0/1] pm->PopupMenu, it->Interactive";
 FirstExample::usage = "Shows the cases in which the Newton's method fails ";
@@ -404,6 +405,126 @@ NewtonInteractive[pm_,it_] :=
             Paneled->False
         ]
     ];
+
+SimplifiedNewtonInteractive[pm_, it_] :=
+    DynamicModule[
+      {newton, f, a, b, n, x0, functionsList},
+
+    (* list of functions that can be selected from the popup menu *)
+      functionsList = {
+        TraditionalForm[x^2-2],
+        TraditionalForm[Cos[x]],
+        TraditionalForm[Sin[x]],
+        TraditionalForm[-9 + (x-2)^2],
+        TraditionalForm[-4 + x - 3*(x)^2 + (x)^3],
+        TraditionalForm[Sin[x]*Cos[x]]
+      };
+
+      f = TraditionalForm[x^2-2];
+      (* TODO decide how to select intervals *)
+      a = 0.1;
+      b = 4;
+
+      (* TODO do newton computations here and in the manipulate body just retrieve the values *)
+
+      Manipulate[
+        (* manipulate options *)
+
+        (* function argument for newton's method*)
+        newton[f, N[x0], a, b, n],
+        (* pop up menu *)
+        Row[{
+          TextCell["  Funzione: ", FontSize->25],
+          If[pm==1,
+            PopupMenu[Dynamic[f], functionsList, MenuStyle->{FontSize->23}],
+            TextCell[TraditionalForm[x^2-2], FontSize->23]
+          ]
+        }],
+        Column[{
+        (* starting x0 slider + input field *)
+          Row[{
+            TextCell[" ",FontSize->25],
+            TextCell[Subscript[x,0], FontSize->23],
+            TextCell["   ", FontSize -> 25],
+            TextCell[a,FontSize->23],
+            TextCell["   ", FontSize -> 25],
+            Slider[Dynamic[x0],{a,b,0.01}],
+            TextCell[" ",FontSize->25],
+            TextCell[b,FontSize->23],
+            TextCell["   ", FontSize -> 25],
+            InputField[Dynamic[x0], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+            TextCell["   ", FontSize -> 25],
+            TextCell[Dynamic[warning], "Text"]
+          }],
+        (* number of iterations slider *)
+          Row[{
+            If[it==1,TextCell[" Iterazioni ", FontSize->23]],
+            If[it==1,Slider[Dynamic[n],{1,12,1}]],
+            If[it==1,TextCell[" ",FontSize->25]],
+            If[it==1,TextCell[Dynamic[n],FontSize->23],n=1;]
+          }]
+        }],
+        Initialization:>{
+          newton[inputFun_,x0value_,a_,b_,n_] := Module[
+            {list,finalFunction,listArrow,x0},
+
+            x0 = N[ToExpression[x0value]];
+            (* warning logic *)
+            If[
+              x0 < a,
+              x0 = a+0.01; warning = "Hai scelto un valore che va fuori dal range!"
+            ];
+            If[
+              x0 > b,
+              x0 = b-0.01; warning = "Hai scelto per a un valore che va fuori dal range!"
+            ];
+
+            (* creating the xi series *)
+            finalFunction = ToExpression[ToString[inputFun]];
+            list = NestList[ (#1 - ((finalFunction/.x->#1)/(D[finalFunction,x]/.x->#1))) & ,x0, n];
+            Clear[listArrow];
+
+            listArrow = {{list[[1]],0}};
+            For[i=1,i<=n,i++,
+              listArrow = Append[listArrow,{list[[i]],finalFunction/.x->list[[i]]}];
+              listArrow = Append[listArrow,{list[[i+1]],0}];
+            ];
+
+            Column[{
+              Row[{
+                "                         ",
+                TextCell[Subscript["x", n],FontSize->25,FontFamily->"Source Sans Pro"],
+                TextCell[ " = ",FontSize->25,FontFamily->"Source Sans Pro"],
+                TextCell[list[[n]],FontSize->25,FontFamily->"Source Sans Pro"]
+              }],
+              Plot[
+                finalFunction, {x, a, b},
+                PlotRange -> {{a,b},Full},
+                AxesLabel -> {Style["x", 30], Style["y", 30]},
+                PlotStyle -> Thickness[0.006],
+                BaseStyle-> {FontSize->30},
+                Background->White,
+                Epilog -> {
+                  {
+                    Darker[Green],
+                    Thickness[0.002],
+                    If[n>0,Line[{listArrow}]]
+                  },
+                  {
+                    Darker[Green],
+                    PointSize[0.015],
+                    Point[{list[[i]], 0}]
+                  }
+                },
+                ImageSize -> {800,500}
+              ]
+            }]
+          ]
+        }
+      ],
+      Paneled->False
+    ]
+
 
 (* Call with pm = 1 to display a version of the graph with a popup-menu with a list of functions to choose from,
 call with it = 1 to display graph with multiple iterations
