@@ -52,7 +52,7 @@ GoForward[nextSlide_, bool_] :=
             Import["Images/forwardgrey.png",ImageSize->{100,100}]
         ]
     ];
- 
+
 (* Function that links a slide with the previous,
 gets in input the Cell Tag of the slide to be linked 
 and a boolean value that indicates if the link must be enabled or disabled *)
@@ -63,7 +63,7 @@ GoBack[prevSlide_, bool_] :=
             Import["Images/backgrey.png",ImageSize->{100,100}]
         ]
     ];
-    
+
 (* Function that links a slide with the homepage, gets in input the Cell Tag of the main slide *)
 GoHomepage[homeSlide_] :=
     Module[ {},
@@ -81,7 +81,7 @@ Bolzano[] :=
             buttonStatus4 = "closed",
             plot = "",
             f,
-            (*x,*)
+        (*x,*)
             a,
             b,
             textCellStyle = {}
@@ -91,12 +91,12 @@ Bolzano[] :=
         a = 1;
         b = 2;
         textCellStyle = {FontSize->36, FontFamily->"Source Sans Pro"};
-					(* layout elements disposition *)
+        (* layout elements disposition *)
         plot =
             Plot[x^2 - 2, {x, -2.5, 2.5},
-              ImageSize -> {800, 500},
-              Background->White,
-              BaseStyle->{FontSize->30}
+                ImageSize -> {800, 500},
+                Background->White,
+                BaseStyle->{FontSize->30}
             ];
 
         Row[{
@@ -107,17 +107,17 @@ Bolzano[] :=
                     TextCell["(x) = ", textCellStyle],
                     TextCell[TraditionalForm[ToExpression["x^2 - 2"]], textCellStyle],
                     TextCell[" \[EGrave] ", textCellStyle],
-                    (* button that shows that the function is continuous *)
-                    Button["continua", 
+                (* button that shows that the function is continuous *)
+                    Button["continua",
                         If[buttonStatus1 == "closed" ,
                             (buttonStatus1 = "open";
-                                plot =
-                                    Plot[x^2 - 2, {x, -2.5, 2.5},
-                                        ImageSize -> {800, 500},
-                                        Background->White,
-                                        BaseStyle->{FontSize->30},
-                                        Filling -> Axis,
-                                        FillingStyle -> {LightGreen, LightCyan}]
+                            plot =
+                                Plot[x^2 - 2, {x, -2.5, 2.5},
+                                    ImageSize -> {800, 500},
+                                    Background->White,
+                                    BaseStyle->{FontSize->30},
+                                    Filling -> Axis,
+                                    FillingStyle -> {LightGreen, LightCyan}]
                             )
                         ],
                         ImageSize->{200,70},
@@ -127,23 +127,23 @@ Bolzano[] :=
                 Row[{}], (* linefeed *)
                 Row[{
                     TextCell[" e che f calcolata in a = 1 \[EGrave] ", textCellStyle],
-                    (* button that shows thaht the function is negative somewhere *)
+                (* button that shows thaht the function is negative somewhere *)
                     Button["negativa",
                         If[buttonStatus2 == "closed" && buttonStatus1 == "open",
                             ( buttonStatus2 = "open";
-                                plot = Show[
-                                    plot,
-                                    Epilog -> {
+                            plot = Show[
+                                plot,
+                                Epilog -> {
+                                    {
+                                        PointSize[0.012],
                                         {
-                                            PointSize[0.012],
-                                            {
-                                                Blue,
-                                                Point[{a, f[a]}],
-                                                Text[{a, f[a]}, Offset[{60, 10}, {a, f[a]}]]
-                                            }
+                                            Blue,
+                                            Point[{a, f[a]}],
+                                            Text[{a, f[a]}, Offset[{60, 10}, {a, f[a]}]]
                                         }
                                     }
-                                ]
+                                }
+                            ]
                             )
                         ],
                         ImageSize->{230,70},
@@ -154,25 +154,25 @@ Bolzano[] :=
                 Row[{}],
                 Row[{
                     TextCell["Inoltre notiamo che f calcolata in b = 2 \[EGrave] ", textCellStyle],
-                    (* button that shows where the function is positive *)
+                (* button that shows where the function is positive *)
                     Button["positiva",
                         If[buttonStatus3 == "closed" && buttonStatus1 == "open" && buttonStatus2 == "open",
                             (buttonStatus3 = "open";
-                                plot = Show[
-                                    plot,
-                                    Epilog -> {
+                            plot = Show[
+                                plot,
+                                Epilog -> {
+                                    {
+                                        PointSize[0.012],
                                         {
-                                            PointSize[0.012],
-                                            {
-                                                Blue,
-                                                Point[{a, f[a]}],
-                                                Text[{a, f[a]}, Offset[{60, 10}, {a, f[a]}]],
-                                                Point[{b, f[b]}],
-                                                Text[{b, f[b]}, Offset[{20, 20}, {b, f[b]}]]
-                                            }
+                                            Blue,
+                                            Point[{a, f[a]}],
+                                            Text[{a, f[a]}, Offset[{60, 10}, {a, f[a]}]],
+                                            Point[{b, f[b]}],
+                                            Text[{b, f[b]}, Offset[{20, 20}, {b, f[b]}]]
                                         }
                                     }
-                                ]
+                                }
+                            ]
                             )
                         ],
                         ImageSize->{200,70},
@@ -194,28 +194,28 @@ Bolzano[] :=
                     TextCell[" e ", textCellStyle],
                     TextCell["2", textCellStyle, Green],
                     TextCell[" \[EGrave] compreso un suo ", textCellStyle],
-                    (* button that shows where is the solution, the root of the function *)
+                (* button that shows where is the solution, the root of the function *)
                     Button["zero",
                         If[buttonStatus4 == "closed" && buttonStatus1 == "open" && buttonStatus2 == "open" && buttonStatus3 == "open",
                             (buttonStatus4 = "open";
-                                plot = Show[
-                                    plot,
-                                    Epilog -> {
-                                        PointSize[0.012],
-                                        {
-                                            Blue,
-                                            Point[{a, f[a]}],
-                                            Text[{a, f[a]}, Offset[{60, 10}, {a, f[a]}]],
-                                            Point[{b, f[b]}],
-                                            Text[{b, f[b]}, Offset[{20, 20}, {b, f[b]}]]
-                                        },
-                                        {
-                                            Red,
-                                            Point[{Sqrt[2], 0}],
-                                            Text[{Sqrt[2], 0}, Offset[{80, 10}, {Sqrt[2], 0}]]
-                                        }
+                            plot = Show[
+                                plot,
+                                Epilog -> {
+                                    PointSize[0.012],
+                                    {
+                                        Blue,
+                                        Point[{a, f[a]}],
+                                        Text[{a, f[a]}, Offset[{60, 10}, {a, f[a]}]],
+                                        Point[{b, f[b]}],
+                                        Text[{b, f[b]}, Offset[{20, 20}, {b, f[b]}]]
+                                    },
+                                    {
+                                        Red,
+                                        Point[{Sqrt[2], 0}],
+                                        Text[{Sqrt[2], 0}, Offset[{80, 10}, {Sqrt[2], 0}]]
                                     }
-                                ]
+                                }
+                            ]
                             )
                         ],
                         ImageSize->{200,70},
@@ -241,9 +241,9 @@ ReadInputFile[] :=
         esp = {}; (* array that will contain all the expressions and other attributes mentioned above *)
         expressions = Import["inputExp"];
         For[i = 1, i <= Length[expressions], i++,
-             (* Appends every row contained in the file to esp array *)
-             esp = Append[esp,expressions[[i]]]; 
-            ];
+        (* Appends every row contained in the file to esp array *)
+            esp = Append[esp,expressions[[i]]];
+        ];
         i = 1;
         func = ToString[esp[[i]][[1]]]; (* gets the first parameter of exp that corresponds to the function *)
         a = esp[[i]][[2]]; (* gets the second parameter of exp that corresponds to the initial interval point *)
@@ -255,12 +255,12 @@ ReadInputFile[] :=
                 Button[ (* Button that allows user to change exercise *)
                     Style["Nuovo Esercizio", FontSize -> 25],
                     {d = Esercizio[ (* sets input parameters that are passed to Esercizio function *)
-                        ToString[esp[[1 + Mod[i, Length[esp]]]][[1]]], 
+                        ToString[esp[[1 + Mod[i, Length[esp]]]][[1]]],
                         esp[[1 + Mod[i, Length[esp]]]][[2]],
                         esp[[1 + Mod[i, Length[esp]]]][[3]],
                         N[esp[[1 + Mod[i++, Length[esp]]]][[4]],2]
                     ],
-                    Clear[xn]},
+                        Clear[xn]},
                     ImageSize -> 200
                 ]
             }],
@@ -273,9 +273,9 @@ ReadInputFile[] :=
 (* Function that shows an interactive manipulate,
  slide "Metodo di Newton (2/3 *)
 NewtonInteractive[pm_,it_] :=
-    DynamicModule[ 
+    DynamicModule[
         {newton,ff,passInput,listaIntervalli,listaFunzioni,selectedInput,aa,bb,interv},
-        (* plotting interval for each function *)
+    (* plotting interval for each function *)
         listaIntervalli={
             {0.375, 3},
             {0, 2*3.14},
@@ -283,7 +283,7 @@ NewtonInteractive[pm_,it_] :=
             {-4, 8},
             {0, 6},
             {0, 2*3.14}
-            (*{-3, 6}*)
+        (*{-3, 6}*)
         };
 
         (* list of functions that can be selected from the popup menu *)
@@ -294,7 +294,7 @@ NewtonInteractive[pm_,it_] :=
             TraditionalForm[-9 + (x-2)^2],
             TraditionalForm[-4 + x - 3*(x)^2 + (x)^3],
             TraditionalForm[Sin[x]*Cos[x]]
-            (*TraditionalForm[-1 + x^2*Log2[x]]*)
+        (*TraditionalForm[-1 + x^2*Log2[x]]*)
         };
 
         ff=TraditionalForm[x^2-2];
@@ -310,16 +310,16 @@ NewtonInteractive[pm_,it_] :=
             }],
             Initialization:>{
                 passInput[input_]:= DynamicModule[
-                  (* nn number of it and x00 starting point *)
+                (* nn number of it and x00 starting point *)
                     {nn,x00},
-                    (* select the position (index) of the first occurrence of input inside listaFunzioni *)
+                (* select the position (index) of the first occurrence of input inside listaFunzioni *)
                     selectedInput = Position[listaFunzioni,input][[1]];
                     (* select the corresponding plotting interval *)
                     interv = listaIntervalli[[ selectedInput ]];
                     (* aa and bb store bounds of the selected interval *)
                     aa = interv[[1]][[1]];
                     bb = interv[[1]][[2]];
-					warning="";
+                    warning="";
                     Manipulate[ (* options *)
                         newton[input, N[x00], aa, bb, nn],
                         Column[{
@@ -349,13 +349,13 @@ NewtonInteractive[pm_,it_] :=
                             newton[inputFun_,x0value_,a_,b_,n_] := Module[
                                 {list,funzioneFinale,listArrow,x0},
                                 x0 = N[ToExpression[x0value]];
-								If[
-                                  x0 < a,
-                                  x0 = a+0.01; warning = "Hai scelto un valore che va fuori dal range!"
+                                If[
+                                    x0 < a,
+                                    x0 = a+0.01; warning = "Hai scelto un valore che va fuori dal range!"
                                 ];
                                 If[
-                                  x0 > b,
-                                  x0 = b-0.01; warning = "Hai scelto per a un valore che va fuori dal range!"
+                                    x0 > b,
+                                    x0 = b-0.01; warning = "Hai scelto per a un valore che va fuori dal range!"
                                 ];
                                 funzioneFinale = ToExpression[ToString[inputFun]];
                                 list = NestList[ (#1 - ((funzioneFinale/.x->#1)/(D[funzioneFinale,x]/.x->#1))) & ,x0, n];
@@ -408,121 +408,121 @@ NewtonInteractive[pm_,it_] :=
 
 SimplifiedNewtonInteractive[pm_, it_] :=
     DynamicModule[
-      {newton, f, a, b, n, x0, functionsList},
+        {newton, f, a, b, n, x0, functionsList},
 
     (* list of functions that can be selected from the popup menu *)
-      functionsList = {
-        TraditionalForm[x^2-2],
-        TraditionalForm[Cos[x]],
-        TraditionalForm[Sin[x]],
-        TraditionalForm[-9 + (x-2)^2],
-        TraditionalForm[-4 + x - 3*(x)^2 + (x)^3],
-        TraditionalForm[Sin[x]*Cos[x]]
-      };
+        functionsList = {
+            TraditionalForm[x^2-2],
+            TraditionalForm[Cos[x]],
+            TraditionalForm[Sin[x]],
+            TraditionalForm[-9 + (x-2)^2],
+            TraditionalForm[-4 + x - 3*(x)^2 + (x)^3],
+            TraditionalForm[Sin[x]*Cos[x]]
+        };
 
-      f = TraditionalForm[x^2-2];
-      (* TODO decide how to select intervals *)
-      a = 0.1;
-      b = 4;
+        f = TraditionalForm[x^2-2];
+        (* TODO decide how to select intervals *)
+        a = 0.1;
+        b = 4;
 
-      (* TODO do newton computations here and in the manipulate body just retrieve the values *)
+        (* TODO do newton computations here and in the manipulate body just retrieve the values *)
 
-      Manipulate[
+        Manipulate[
         (* manipulate options *)
 
         (* function argument for newton's method*)
-        newton[f, N[x0], a, b, n],
+            newton[f, N[x0], a, b, n],
         (* pop up menu *)
-        Row[{
-          TextCell["  Funzione: ", FontSize->25],
-          If[pm==1,
-            PopupMenu[Dynamic[f], functionsList, MenuStyle->{FontSize->23}],
-            TextCell[TraditionalForm[x^2-2], FontSize->23]
-          ]
-        }],
-        Column[{
-        (* starting x0 slider + input field *)
-          Row[{
-            TextCell[" ",FontSize->25],
-            TextCell[Subscript[x,0], FontSize->23],
-            TextCell["   ", FontSize -> 25],
-            TextCell[a,FontSize->23],
-            TextCell["   ", FontSize -> 25],
-            Slider[Dynamic[x0],{a,b,0.01}],
-            TextCell[" ",FontSize->25],
-            TextCell[b,FontSize->23],
-            TextCell["   ", FontSize -> 25],
-            InputField[Dynamic[x0], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
-            TextCell["   ", FontSize -> 25],
-            TextCell[Dynamic[warning], "Text"]
-          }],
-        (* number of iterations slider *)
-          Row[{
-            If[it==1,TextCell[" Iterazioni ", FontSize->23]],
-            If[it==1,Slider[Dynamic[n],{1,12,1}]],
-            If[it==1,TextCell[" ",FontSize->25]],
-            If[it==1,TextCell[Dynamic[n],FontSize->23],n=1;]
-          }]
-        }],
-        Initialization:>{
-          newton[inputFun_,x0value_,a_,b_,n_] := Module[
-            {list,finalFunction,listArrow,x0},
-
-            x0 = N[ToExpression[x0value]];
-            (* warning logic *)
-            If[
-              x0 < a,
-              x0 = a+0.01; warning = "Hai scelto un valore che va fuori dal range!"
-            ];
-            If[
-              x0 > b,
-              x0 = b-0.01; warning = "Hai scelto per a un valore che va fuori dal range!"
-            ];
-
-            (* creating the xi series *)
-            finalFunction = ToExpression[ToString[inputFun]];
-            list = NestList[ (#1 - ((finalFunction/.x->#1)/(D[finalFunction,x]/.x->#1))) & ,x0, n];
-            Clear[listArrow];
-
-            listArrow = {{list[[1]],0}};
-            For[i=1,i<=n,i++,
-              listArrow = Append[listArrow,{list[[i]],finalFunction/.x->list[[i]]}];
-              listArrow = Append[listArrow,{list[[i+1]],0}];
-            ];
-
+            Row[{
+                TextCell["  Funzione: ", FontSize->25],
+                If[pm==1,
+                    PopupMenu[Dynamic[f], functionsList, MenuStyle->{FontSize->23}],
+                    TextCell[TraditionalForm[x^2-2], FontSize->23]
+                ]
+            }],
             Column[{
-              Row[{
-                "                         ",
-                TextCell[Subscript["x", n],FontSize->25,FontFamily->"Source Sans Pro"],
-                TextCell[ " = ",FontSize->25,FontFamily->"Source Sans Pro"],
-                TextCell[list[[n]],FontSize->25,FontFamily->"Source Sans Pro"]
-              }],
-              Plot[
-                finalFunction, {x, a, b},
-                PlotRange -> {{a,b},Full},
-                AxesLabel -> {Style["x", 30], Style["y", 30]},
-                PlotStyle -> Thickness[0.006],
-                BaseStyle-> {FontSize->30},
-                Background->White,
-                Epilog -> {
-                  {
-                    Darker[Green],
-                    Thickness[0.002],
-                    If[n>0,Line[{listArrow}]]
-                  },
-                  {
-                    Darker[Green],
-                    PointSize[0.015],
-                    Point[{list[[i]], 0}]
-                  }
-                },
-                ImageSize -> {800,500}
-              ]
-            }]
-          ]
-        }
-      ],
-      Paneled->False
+            (* starting x0 slider + input field *)
+                Row[{
+                    TextCell[" ",FontSize->25],
+                    TextCell[Subscript[x,0], FontSize->23],
+                    TextCell["   ", FontSize -> 25],
+                    TextCell[a,FontSize->23],
+                    TextCell["   ", FontSize -> 25],
+                    Slider[Dynamic[x0],{a,b,0.01}],
+                    TextCell[" ",FontSize->25],
+                    TextCell[b,FontSize->23],
+                    TextCell["   ", FontSize -> 25],
+                    InputField[Dynamic[x0], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+                    TextCell["   ", FontSize -> 25],
+                    TextCell[Dynamic[warning], "Text"]
+                }],
+            (* number of iterations slider *)
+                Row[{
+                    If[it==1,TextCell[" Iterazioni ", FontSize->23]],
+                    If[it==1,Slider[Dynamic[n],{1,12,1}]],
+                    If[it==1,TextCell[" ",FontSize->25]],
+                    If[it==1,TextCell[Dynamic[n],FontSize->23],n=1;]
+                }]
+            }],
+            Initialization:>{
+                newton[inputFun_,x0value_,a_,b_,n_] := Module[
+                    {list,finalFunction,listArrow,x0},
+
+                    x0 = N[ToExpression[x0value]];
+                    (* warning logic *)
+                    If[
+                        x0 < a,
+                        x0 = a+0.01; warning = "Hai scelto un valore che va fuori dal range!"
+                    ];
+                    If[
+                        x0 > b,
+                        x0 = b-0.01; warning = "Hai scelto per a un valore che va fuori dal range!"
+                    ];
+
+                    (* creating the xi series *)
+                    finalFunction = ToExpression[ToString[inputFun]];
+                    list = NestList[ (#1 - ((finalFunction/.x->#1)/(D[finalFunction,x]/.x->#1))) & ,x0, n];
+                    Clear[listArrow];
+
+                    listArrow = {{list[[1]],0}};
+                    For[i=1,i<=n,i++,
+                        listArrow = Append[listArrow,{list[[i]],finalFunction/.x->list[[i]]}];
+                        listArrow = Append[listArrow,{list[[i+1]],0}];
+                    ];
+
+                    Column[{
+                        Row[{
+                            "                         ",
+                            TextCell[Subscript["x", n],FontSize->25,FontFamily->"Source Sans Pro"],
+                            TextCell[ " = ",FontSize->25,FontFamily->"Source Sans Pro"],
+                            TextCell[list[[n]],FontSize->25,FontFamily->"Source Sans Pro"]
+                        }],
+                        Plot[
+                            finalFunction, {x, a, b},
+                            PlotRange -> {{a,b},Full},
+                            AxesLabel -> {Style["x", 30], Style["y", 30]},
+                            PlotStyle -> Thickness[0.006],
+                            BaseStyle-> {FontSize->30},
+                            Background->White,
+                            Epilog -> {
+                                {
+                                    Darker[Green],
+                                    Thickness[0.002],
+                                    If[n>0,Line[{listArrow}]]
+                                },
+                                {
+                                    Darker[Green],
+                                    PointSize[0.015],
+                                    Point[{list[[i]], 0}]
+                                }
+                            },
+                            ImageSize -> {800,500}
+                        ]
+                    }]
+                ]
+            }
+        ],
+        Paneled->False
     ]
 
 
@@ -537,19 +537,19 @@ BisectionInteractive[pm_,it_] :=
         {listFunctions,listIntervals,passf,ff,warninga,warningb},
 
         listIntervals = {
-          {0,4,5},
-          {(1/2*3.14), (1.5*3.14),30},
-          {0,2,40},
-          {0,2,10},
-          {0,3.14,30}
+            {0,4,5},
+            {(1/2*3.14), (1.5*3.14),30},
+            {0,2,40},
+            {0,2,10},
+            {0,3.14,30}
         };
         (* TODO add another function here*)
         listFunctions = {
-          TraditionalForm[x^2 - 2],
-          TraditionalForm[Sin[x]],
-          TraditionalForm[Cos[2x]Sin[x]],
-          TraditionalForm[x*Log[x]+x^3],
-          TraditionalForm[Cos[x]]
+            TraditionalForm[x^2 - 2],
+            TraditionalForm[Sin[x]],
+            TraditionalForm[Cos[2x]Sin[x]],
+            TraditionalForm[x*Log[x]+x^3],
+            TraditionalForm[Cos[x]]
         };
 
         ff = TraditionalForm[x^2-2];
@@ -568,20 +568,20 @@ BisectionInteractive[pm_,it_] :=
 
                 passf[fun_]:=	DynamicModule[
                     {
-                      ax,
-                      bx,
-                      stepx,
-                      BisezMethod,
-                      selectedInput,
-                      interv,
-                      interva,
-                      intervb,
-                      yline
+                        ax,
+                        bx,
+                        stepx,
+                        BisezMethod,
+                        selectedInput,
+                        interv,
+                        interva,
+                        intervb,
+                        yline
                     },
 
                     Print["function inside first initialization: "];
                     Print[ff];
-                  (* select the position (index) of the first occurrence of ff inside ListFunctions *)
+                    (* select the position (index) of the first occurrence of ff inside ListFunctions *)
                     Print["Now selecting function from functions list..."];
                     selectedInput = Position[listFunctions,ff][[1]]; (* TODO error here!*)
                     Print["Just selected function from functions list..."];
@@ -593,8 +593,8 @@ BisectionInteractive[pm_,it_] :=
                     bx=intervb-0.01;
                     If[fun == TraditionalForm[x^2-2],
                         {
-                        ax = 1.,
-                        bx = 2.
+                            ax = 1.,
+                            bx = 2.
                         }
                     ];
                     warninga = "";
@@ -605,15 +605,15 @@ BisectionInteractive[pm_,it_] :=
                         BisezMethod[fun, ax, bx, stepx],
 
                         Column[{
-                          Row[{
-                              TextCell["a   ", FontSize -> 23],
-                              TextCell[interva + 0.01, FontSize -> 23],
-                              Slider[Dynamic[ax], {(interva + 0.01), (intervb - 0.01), 0.01}],
-                              TextCell[intervb - 0.01, FontSize -> 23],
-                              TextCell["   ", FontSize -> 25],
-                              InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
-                              TextCell["   ", FontSize -> 25]
-                          (* text filled when input for a is a value outside range *)
+                            Row[{
+                                TextCell["a   ", FontSize -> 23],
+                                TextCell[interva + 0.01, FontSize -> 23],
+                                Slider[Dynamic[ax], {(interva + 0.01), (intervb - 0.01), 0.01}],
+                                TextCell[intervb - 0.01, FontSize -> 23],
+                                TextCell["   ", FontSize -> 25],
+                                InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+                                TextCell["   ", FontSize -> 25]
+                            (* text filled when input for a is a value outside range *)
                                 TextCell[Dynamic[warninga], "Text"]
 
                             }],
@@ -625,7 +625,7 @@ BisectionInteractive[pm_,it_] :=
                                 TextCell["   ",FontSize->25],
                                 InputField[Dynamic[bx], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
                                 TextCell["   ",FontSize->25],
-                                (* text filled when input for b is a value outside range *)
+                            (* text filled when input for b is a value outside range *)
                                 TextCell[Dynamic[warningb], "Text"]
 
                             }],
@@ -639,132 +639,132 @@ BisectionInteractive[pm_,it_] :=
 
 
                         Initialization :> {
-                        BisezMethod[ffx_, aa_, bb_, nn_] :=
-                            Module[
-                                {line, bisec, intervals, vertline, fx, avalue, bvalue},
+                            BisezMethod[ffx_, aa_, bb_, nn_] :=
+                                Module[
+                                    {line, bisec, intervals, vertline, fx, avalue, bvalue},
 
-                                fx = ToExpression[ToString[ffx]];
+                                    fx = ToExpression[ToString[ffx]];
 
-                                (* TODO loop all'infinito se lascio le print....*)
-                                (*
-                                Print["function inside second initialization: "];
-                                Print[fx];
-                                *)
+                                    (* TODO loop all'infinito se lascio le print....*)
+                                    (*
+                                    Print["function inside second initialization: "];
+                                    Print[fx];
+                                    *)
 
-                                avalue = N[ToExpression[aa]]; (* used to treat "inputfield"*)
-                                bvalue = N[ToExpression[bb]];
+                                    avalue = N[ToExpression[aa]]; (* used to treat "inputfield"*)
+                                    bvalue = N[ToExpression[bb]];
 
-                                (* if user inputs values outside the slider range, values are "normalized" *)
+                                    (* if user inputs values outside the slider range, values are "normalized" *)
 
-                                If[
-                                  avalue < aa+0.01,
-                                  avalue = aa+0.01;
-                                  warninga = "Hai scelto per a un valore che va fuori dal range!",
-                                  warninga = ""
-                                ];
-                                If[
-                                  bvalue < bb-0.01,
-                                  bvalue = bb-0.01;
-                                  warningb = "Hai scelto per b un valore che va fuori dal range!",
-                                  warningb = ""
-                                ];
-                                If[
-                                  avalue > aa+0.01,
-                                  avalue = aa+0.01;
-                                  warninga = "Hai scelto per a un valore che va fuori dal range!"
-                                ];
-                                If[
-                                  bvalue > bb-0.01,
-                                  bvalue = bb-0.01;
-                                  warningb = "Hai scelto per b un valore che va fuori dal range!"
-                                ];
-
-
-                                (* helper function that draws horizontal red line that displays the bisection range at the first iteration *)
-                                line[f_,{a_,b_},1] := {Min[avalue, bvalue], Max[avalue, bvalue]};
-
-
-                                (* helper function that draws horizontal red line that displays the bisection range at the nth iteration *)
-                                line[f_,{a_,b_},n_] :=
-                                    If[ (f/.x->a) * (f/.x->b) <= 0,
-                                        bisec[f, line[f,{a,b},n -1]],
-                                        {a, b}
+                                    If[
+                                        avalue < aa+0.01,
+                                        avalue = aa+0.01;
+                                        warninga = "Hai scelto per a un valore che va fuori dal range!",
+                                        warninga = ""
+                                    ];
+                                    If[
+                                        bvalue < bb-0.01,
+                                        bvalue = bb-0.01;
+                                        warningb = "Hai scelto per b un valore che va fuori dal range!",
+                                        warningb = ""
+                                    ];
+                                    If[
+                                        avalue > aa+0.01,
+                                        avalue = aa+0.01;
+                                        warninga = "Hai scelto per a un valore che va fuori dal range!"
+                                    ];
+                                    If[
+                                        bvalue > bb-0.01,
+                                        bvalue = bb-0.01;
+                                        warningb = "Hai scelto per b un valore che va fuori dal range!"
                                     ];
 
-                                (* main function that calculate the next iteration's range after checking sign of a and b*)
-                                bisec[f_,{a_, b_}] :=
-                                    If[(f/.x->a)*(f/.x->b) <= 0,
-                                        If[(f/.x->((a + b)/2)) * (f/.x->a) <= 0,
-                                              {a, (a + b)/2},
-                                              If[(f/.x->((a + b)/2)) * (f/.x->b) < 0,
-                                                  {(a + b)/2, b}
-                                              ]
+
+                                    (* helper function that draws horizontal red line that displays the bisection range at the first iteration *)
+                                    line[f_,{a_,b_},1] := {Min[avalue, bvalue], Max[avalue, bvalue]};
+
+
+                                    (* helper function that draws horizontal red line that displays the bisection range at the nth iteration *)
+                                    line[f_,{a_,b_},n_] :=
+                                        If[ (f/.x->a) * (f/.x->b) <= 0,
+                                            bisec[f, line[f,{a,b},n -1]],
+                                            {a, b}
+                                        ];
+
+                                    (* main function that calculate the next iteration's range after checking sign of a and b*)
+                                    bisec[f_,{a_, b_}] :=
+                                        If[(f/.x->a)*(f/.x->b) <= 0,
+                                            If[(f/.x->((a + b)/2)) * (f/.x->a) <= 0,
+                                                {a, (a + b)/2},
+                                                If[(f/.x->((a + b)/2)) * (f/.x->b) < 0,
+                                                    {(a + b)/2, b}
+                                                ]
+                                            ],
+                                            {a, b}
+                                        ];
+
+                                    (* *)
+                                    intervals[f_,{a_,b_},step_] :=
+                                        Table[
+                                            {
+                                                {line[f,{a,b},i][[1]], -(i/yline)},
+                                                {line[f,{a,b},i][[2]], -(i/yline)}
+                                            },
+                                            {i, 1, step}
+                                        ];
+
+                                    vertline[a_] := InfiniteLine[{{a, -1}, {a, 1}}];
+
+                                    Column[{
+                                        If[(fx /. x -> avalue)*(fx /. x -> bvalue) <= 0,
+                                            Column[{
+                                                Row[{
+                                                    "                     ",
+                                                    TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                                    TextCell[line[fx, {avalue, bvalue}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                    TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                                    TextCell[line[fx, {avalue, bvalue}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                    TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
+                                                }],
+                                                Row[{
+                                                    "                     ",
+                                                    TextCell["Ampiezza: ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                                    TextCell[Abs[line[fx, {avalue, bvalue}, nn][[1]]-line[fx, {avalue, bvalue}, nn][[2]]],FontSize->25,FontFamily->"Source Sans Pro"]
+                                                }]
+                                            }],
+                                            Column[{
+                                                Row[{
+                                                    "                     ",
+                                                    TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                                    TextCell[line[fx, {avalue, bvalue}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                    TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                                    TextCell[line[fx, {avalue, bvalue}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                                    TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
+                                                }],
+                                                Row[{
+                                                    "            ",
+                                                    TextCell["L'intervallo scelto non contiene una soluzione",FontSize->25,FontFamily->"Source Sans Pro"]
+                                                }]
+                                            }]
                                         ],
-                                        {a, b}
-                                    ];
 
-                                (* *)
-                                intervals[f_,{a_,b_},step_] :=
-                                    Table[
-                                        {
-                                          {line[f,{a,b},i][[1]], -(i/yline)},
-                                          {line[f,{a,b},i][[2]], -(i/yline)}
-                                        },
-                                        {i, 1, step}
-                                    ];
-
-                                vertline[a_] := InfiniteLine[{{a, -1}, {a, 1}}];
-
-                                Column[{
-                                    If[(fx /. x -> avalue)*(fx /. x -> bvalue) <= 0,
-                                        Column[{
-                                            Row[{
-                                                "                     ",
-                                                TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[line[fx, {avalue, bvalue}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[line[fx, {avalue, bvalue}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
-                                            }],
-                                            Row[{
-                                                "                     ",
-                                                TextCell["Ampiezza: ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[Abs[line[fx, {avalue, bvalue}, nn][[1]]-line[fx, {avalue, bvalue}, nn][[2]]],FontSize->25,FontFamily->"Source Sans Pro"]
-                                            }]
-                                        }],
-                                        Column[{
-                                            Row[{
-                                                "                     ",
-                                                TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[line[fx, {avalue, bvalue}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[line[fx, {avalue, bvalue}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
-                                                TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
-                                            }],
-                                            Row[{
-                                                "            ",
-                                                TextCell["L'intervallo scelto non contiene una soluzione",FontSize->25,FontFamily->"Source Sans Pro"]
-                                            }]
-                                        }]
-                                    ],
-
-                                    Plot[
-                                        fx, {x, interva, intervb},
-                                        PlotRange -> All,
-                                        PlotStyle->Thickness->0.006,
-                                        ImageSize -> {800, 500} ,
-                                        BaseStyle-> {FontSize->30},
-                                        Background->White,
-                                        Epilog -> {
-                                            {Red, Thickness[0.002], Line /@ intervals[fx, {avalue, bvalue}, nn]},
-                                            {Dashed, vertline /@ line[fx, {avalue, bvalue}, nn]},
-                                            If[pm == 0 && it == 0,
-                                              {Darker[Green],PointSize[0.015],Point[{((avalue+bvalue)/2),-(nn/yline)}]}
-                                            ]
-                                        }
-                                    ]
-                                }]
-                            ]
+                                        Plot[
+                                            fx, {x, interva, intervb},
+                                            PlotRange -> All,
+                                            PlotStyle->Thickness->0.006,
+                                            ImageSize -> {800, 500} ,
+                                            BaseStyle-> {FontSize->30},
+                                            Background->White,
+                                            Epilog -> {
+                                                {Red, Thickness[0.002], Line /@ intervals[fx, {avalue, bvalue}, nn]},
+                                                {Dashed, vertline /@ line[fx, {avalue, bvalue}, nn]},
+                                                If[pm == 0 && it == 0,
+                                                    {Darker[Green],PointSize[0.015],Point[{((avalue+bvalue)/2),-(nn/yline)}]}
+                                                ]
+                                            }
+                                        ]
+                                    }]
+                                ]
                         },
                         Paneled->False
                     ]
@@ -814,9 +814,9 @@ SecantInteractive[pm_,it_] :=
 
                 passInput[input_]:= DynamicModule[
                     {
-                      ax,
-                      bx,
-                      iteration
+                        ax,
+                        bx,
+                        iteration
                     },
                     selectedInput = Position[functionsList,input][[1]];
                     interval = intervalsList[[selectedInput]];
@@ -826,10 +826,10 @@ SecantInteractive[pm_,it_] :=
                     bx = bb - 0.01;
 
                     If[input == TraditionalForm[x^2-2],
-                      {
-                        ax = 1.,
-                        bx = 2.
-                      }
+                        {
+                            ax = 1.,
+                            bx = 2.
+                        }
                     ];
 
                     warninga = "";
@@ -840,23 +840,23 @@ SecantInteractive[pm_,it_] :=
 
                         Column[{
                             Row[{
-                              TextCell["a   ", FontSize->23],
-                              TextCell[aa + 0.01, FontSize -> 23],
-                              Slider[Dynamic[ax],{(aa+0.01), (bb-0.01),0.01}],
-                              TextCell[bb - 0.01, FontSize -> 23],
-                              TextCell["   ",FontSize->23],
-                              InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
-                              TextCell["   ", FontSize -> 23],
-                              TextCell[Dynamic[warninga],"Text"]
+                                TextCell["a   ", FontSize->23],
+                                TextCell[aa + 0.01, FontSize -> 23],
+                                Slider[Dynamic[ax],{(aa+0.01), (bb-0.01),0.01}],
+                                TextCell[bb - 0.01, FontSize -> 23],
+                                TextCell["   ",FontSize->23],
+                                InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+                                TextCell["   ", FontSize -> 23],
+                                TextCell[Dynamic[warninga],"Text"]
                             }],
                             Row[{
-                              TextCell["b   ", FontSize->23],
-                              TextCell[aa + 0.01, FontSize -> 23],
-                              Slider[Dynamic[bx],{(aa+0.01), (bb-0.01),0.01}],
-                              TextCell[bb - 0.01, FontSize -> 23],
-                              InputField[Dynamic[bx], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
-                              TextCell["   ",FontSize->23],
-                              TextCell[Dynamic[warningb],"Text"]
+                                TextCell["b   ", FontSize->23],
+                                TextCell[aa + 0.01, FontSize -> 23],
+                                Slider[Dynamic[bx],{(aa+0.01), (bb-0.01),0.01}],
+                                TextCell[bb - 0.01, FontSize -> 23],
+                                InputField[Dynamic[bx], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
+                                TextCell["   ",FontSize->23],
+                                TextCell[Dynamic[warningb],"Text"]
 
                             }],
                             Row[{
@@ -879,29 +879,29 @@ SecantInteractive[pm_,it_] :=
                                 (* if user inputs values outside the slider range, values are "normalized" *)
 
                                 If[
-                                  x0value < a+0.01,
-                                  x0value = a+0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
-                                  warninga = ""
+                                    x0value < a+0.01,
+                                    x0value = a+0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
+                                    warninga = ""
                                 ];
                                 If[
-                                  x1value < a+0.01,
-                                  x1value = a+0.01; warningb = "Hai scelto per b un valore che va fuori dal range!",
-                                  warningb = ""
+                                    x1value < a+0.01,
+                                    x1value = a+0.01; warningb = "Hai scelto per b un valore che va fuori dal range!",
+                                    warningb = ""
                                 ];
                                 If[
-                                  x0value > b-0.01,
-                                  x0value = b-0.01; warninga = "Hai scelto per a un valore che va fuori dal range!"
+                                    x0value > b-0.01,
+                                    x0value = b-0.01; warninga = "Hai scelto per a un valore che va fuori dal range!"
                                 ];
                                 If[
-                                  x1value > b,
-                                  x1value = b-0.01; warningb = "Hai scelto per b un valore che va fuori dal range!"
+                                    x1value > b,
+                                    x1value = b-0.01; warningb = "Hai scelto per b un valore che va fuori dal range!"
                                 ];
 
                                 xValues =
                                     NestList[
                                         {
                                             #[[1]],
-                                            (*x1 - f(x1) * { (x1-x0) /  [ f(x1) - f(x0) ] }*)
+                                        (*x1 - f(x1) * { (x1-x0) /  [ f(x1) - f(x0) ] }*)
                                             #[[1]] - (finalFunction/.x->#[[1]])*((#[[1]] - #[[2]]) / ((finalFunction/.x->#[[1]]) -  (finalFunction/.x->#[[2]])))
                                         } &,
                                         {x1, x0},
@@ -945,21 +945,21 @@ SecantInteractive[pm_,it_] :=
                                             Point[{x0value,0}],
                                             Point[{x1value,0}]
                                         },
-                                      {
-                                        If[x0value == 1 && x1value == 2,
-                                          (* draw point labels only for the starting x0=1 and x1=2 (aka a and b)*)
-                                          {
-                                            Text[
-                                              {1, -1},
-                                              Offset[{0, 70}, {1, -1}]
-                                            ],
-                                            Text[
-                                              {2, 2},
-                                              Offset[{0, 70}, {2, 2}]
+                                        {
+                                            If[x0value == 1 && x1value == 2,
+                                            (* draw point labels only for the starting x0=1 and x1=2 (aka a and b)*)
+                                                {
+                                                    Text[
+                                                        {1, -1},
+                                                        Offset[{0, 70}, {1, -1}]
+                                                    ],
+                                                    Text[
+                                                        {2, 2},
+                                                        Offset[{0, 70}, {2, 2}]
+                                                    ]
+                                                }
                                             ]
-                                      }
-                                        ]
-                                      }
+                                        }
                                     },
                                     Axes -> True,
                                     ImageSize -> {750,450},
@@ -1051,7 +1051,7 @@ FirstExample[] :=
             Paneled->False
         ]
     ];
-    
+
 (* cos(x) *)
 (* slide "Limiti del metodo di Newton (2/2) *)
 SecondExample[] :=
@@ -1156,34 +1156,34 @@ ConvertImageToFullyScaledNinePatch[img_] :=
 (* SetBackground[img_] :=
         SetOptions[SelectedNotebook[],
          System`BackgroundAppearance -> ConvertImageToFullyScaledNinePatch[img_]];*)
-         
+
 (* Helper function that calculate the value of f(x) for a specific given x
 and display it on screen, called in Esercizio[] *)
 AddIteration[i_,fun_,x0_] :=
-Module[{xn=Null},
-        (*NewtonList = NestList[N[Rationalize[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))],3] &, Rationalize[x0], 10]*)
+    Module[{xn=Null},
+    (*NewtonList = NestList[N[Rationalize[(Rationalize[#1] - ((fun /. x->Rationalize[#1])/(D[fun, x]/.x->Rationalize[#1])))],3] &, Rationalize[x0], 10]*)
         Row[{
             TextCell[ Subscript["x", i], FontSize -> 25],
-                TextCell["=", FontSize -> 25],
-                InputField[Dynamic[xn], BaseStyle->FontSize->25, ImageSize -> 130],
-                TextCell["-", FontSize -> 25],
-                FractionBox[ (* area that allows to insert the value of f(x) and f'(x) *)
-                    RowBox[{
-                        TextCell["f(", FontSize -> 25],
-                        InputField[Dynamic[xn], BaseStyle->FontSize->25, ImageSize -> 130],
-                        TextCell[")", FontSize -> 25]}],
-                    RowBox[{TextCell["f'(", FontSize -> 25],
-                        InputField[Dynamic[xn], BaseStyle->FontSize->25, ImageSize -> 130],
-                        TextCell[")", FontSize -> 25]}]
-                ] // DisplayForm, (* shows calculations on screen *)
-                TextCell["  ->  ", FontSize -> 25],
-                TextCell[ Subscript["x", i], FontSize -> 25, FontColor->Blue],
-                TextCell["=", FontSize -> 25, FontColor->Blue],
-                If[ xn==Null,
-                    xn = Subscript[x,i-1];
-                ];
-                Dynamic[N[(Rationalize[xn] - ((fun /. x->Rationalize[xn])/(D[fun, x]/.x->Rationalize[xn])))]]
-                
+            TextCell["=", FontSize -> 25],
+            InputField[Dynamic[xn], BaseStyle->FontSize->25, ImageSize -> 130],
+            TextCell["-", FontSize -> 25],
+            FractionBox[ (* area that allows to insert the value of f(x) and f'(x) *)
+                RowBox[{
+                    TextCell["f(", FontSize -> 25],
+                    InputField[Dynamic[xn], BaseStyle->FontSize->25, ImageSize -> 130],
+                    TextCell[")", FontSize -> 25]}],
+                RowBox[{TextCell["f'(", FontSize -> 25],
+                    InputField[Dynamic[xn], BaseStyle->FontSize->25, ImageSize -> 130],
+                    TextCell[")", FontSize -> 25]}]
+            ] // DisplayForm, (* shows calculations on screen *)
+            TextCell["  ->  ", FontSize -> 25],
+            TextCell[ Subscript["x", i], FontSize -> 25, FontColor->Blue],
+            TextCell["=", FontSize -> 25, FontColor->Blue],
+            If[ xn==Null,
+                xn = Subscript[x,i-1];
+            ];
+            Dynamic[N[(Rationalize[xn] - ((fun /. x->Rationalize[xn])/(D[fun, x]/.x->Rationalize[xn])))]]
+
         }]
     ];
 
@@ -1244,7 +1244,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
                                 TextCell[Subscript["x","0"],FontSize -> 30,FontColor->Blue],
                                 TextCell[" = ", "Text", FontSize -> 30,FontColor->Blue],
                                 TextCell[x0,FontSize->30,FontColor->Blue]
-                                (*InputField[Dynamic[x0],BaseStyle->{FontSize->30,FontColor->Blue},ImageSize->100]*) (* first iteration point *)
+                            (*InputField[Dynamic[x0],BaseStyle->{FontSize->30,FontColor->Blue},ImageSize->100]*) (* first iteration point *)
 
                             }],
                             Dynamic[Column@IterationList], (* add new iteration *)
@@ -1306,9 +1306,9 @@ MethodsComparison[] :=
         },
 
         Manipulate[
-            (* function that does calculations needed for plotting *)
+        (* function that does calculations needed for plotting *)
             Comparison[i,tau],
-            (* manipulate controls *)
+        (* manipulate controls *)
             Column[{
                 Row[{
                 (* control iteration *)
@@ -1317,12 +1317,12 @@ MethodsComparison[] :=
                     TextCell[Dynamic[i],FontSize->25]
                 }],
                 Row[{
-                    (* control tolerance *)
+                (* control tolerance *)
                     TextCell["Tolleranza ",FontSize->25],
                     SetterBar[
                         Dynamic[tau],
                         {0.1, 0.01, 0.001, 0.0001, 0.00001},
-                        (*ImageSize->Full,*)
+                    (*ImageSize->Full,*)
                         BaseStyle->{FontSize->25}
                     ]
                 }]
@@ -1389,50 +1389,50 @@ MethodsComparison[] :=
                     ];
 
                     Row[{
-                        (* bisection *)
+                    (* bisection *)
                         Column[{
                         (* current a and b values *)
-                          TextCell[
-                            Row[{"a = ", N[Rationalize[bisectionRoots[[i]][[1]]],2],
-                              " b = ", N[Rationalize[bisectionRoots[[i]][[2]]],2]
-                            },
-                              Alignment->Center],
-                            "Text",
-                            TextAlignment -> Center,
-                            CellBaseline -> Bottom,
-                            CellSize -> {500, 50},
-                            FontSize->25
-                          ],
+                            TextCell[
+                                Row[{"a = ", N[Rationalize[bisectionRoots[[i]][[1]]],2],
+                                    " b = ", N[Rationalize[bisectionRoots[[i]][[2]]],2]
+                                },
+                                    Alignment->Center],
+                                "Text",
+                                TextAlignment -> Center,
+                                CellBaseline -> Bottom,
+                                CellSize -> {500, 50},
+                                FontSize->25
+                            ],
 
-                          Plot[f[x], {x, 1.5, 4.5},
-                              BaseStyle-> {FontSize->30},
-                              Background->White,
+                            Plot[f[x], {x, 1.5, 4.5},
+                                BaseStyle-> {FontSize->30},
+                                Background->White,
                                 Epilog -> {
-                                  (*
-                                    Directive[{Thick, Green, Dashed}],
-                                    *)
-                                    (* calculation and plot of the subsequent roots for the bisection method *)
+                                (*
+                                  Directive[{Thick, Green, Dashed}],
+                                  *)
+                                (* calculation and plot of the subsequent roots for the bisection method *)
 
-                                    (* draw line passing through approximation *)
-                                  {
-                                    Green, Thick,
-                                    InfiniteLine[
-                                      {(bisectionRoots[[i]][[1]] + bisectionRoots[[i]][[2]]) / 2, 0},
-                                      {0, 1}
-                                    ]
-                                  },
-                                    (* draw lines passing through interval bounds *)
-                                  {
-                                    InfiniteLine[
-                                      {bisectionRoots[[i]][[1]], 0},
-                                      {0, 1}
-                                    ],
-                                    InfiniteLine[
-                                      {bisectionRoots[[i]][[2]], 0},
-                                      {0, 1}
-                                    ]
-                                  },
-                                  {
+                                (* draw line passing through approximation *)
+                                    {
+                                        Green, Thick,
+                                        InfiniteLine[
+                                            {(bisectionRoots[[i]][[1]] + bisectionRoots[[i]][[2]]) / 2, 0},
+                                            {0, 1}
+                                        ]
+                                    },
+                                (* draw lines passing through interval bounds *)
+                                    {
+                                        InfiniteLine[
+                                            {bisectionRoots[[i]][[1]], 0},
+                                            {0, 1}
+                                        ],
+                                        InfiniteLine[
+                                            {bisectionRoots[[i]][[2]], 0},
+                                            {0, 1}
+                                        ]
+                                    },
+                                    {
                                         Green,
                                         PointSize[.01],
                                         Point[{(bisectionRoots[[i]][[1]] + bisectionRoots[[i]][[2]]) / 2, 0}]
@@ -1451,7 +1451,7 @@ MethodsComparison[] :=
 
                             ]
                             , " ",
-                            (* display the current root value for the bisection method *)
+                        (* display the current root value for the bisection method *)
                             TextCell[
                                 Row[{Subscript["x", i], " = ", (bisectionRoots[[i]][[1]] + bisectionRoots[[i]][[2]]) / 2}, Alignment -> Center],
                                 "Text",
@@ -1475,49 +1475,49 @@ MethodsComparison[] :=
                             ],
                             TextCell[Dynamic[textBisection], "Text"]
                         }],
-                        (* secant *)
+                    (* secant *)
                         Column[{
                         (* current a and b values *)
-                          (*
-                          TextCell[
-                            Row[{"a = ", N[Rationalize[secantRoots[[i-1]][[2]]],2],
-                              " b = ", N[Rationalize[secantRoots[[i]][[2]]],2]
-                            },
-                              Alignment->Center],
-                            "Text",
-                            TextAlignment -> Center,
-                            CellBaseline -> Bottom,
-                            CellSize -> {500, 50},
-                            FontSize->20
-                          ],
-                          *)
+                        (*
+                        TextCell[
+                          Row[{"a = ", N[Rationalize[secantRoots[[i-1]][[2]]],2],
+                            " b = ", N[Rationalize[secantRoots[[i]][[2]]],2]
+                          },
+                            Alignment->Center],
+                          "Text",
+                          TextAlignment -> Center,
+                          CellBaseline -> Bottom,
+                          CellSize -> {500, 50},
+                          FontSize->20
+                        ],
+                        *)
                             TextCell[" ",FontSize->25],
                             TextCell[" "],
-                          Plot[f[x], {x, 1.5, 4.5},
+                            Plot[f[x], {x, 1.5, 4.5},
 
-                              BaseStyle-> {FontSize->30},
-                              Background->White,
+                                BaseStyle-> {FontSize->30},
+                                Background->White,
                                 Epilog -> {
-                                  (*
-                                    Directive[{Thick, Green, Dashed}],
-                                    *)
-                                    (* calculation and plot of the subsequent roots for the secant method *)
-                                  {
-                                    Green, Thick,
-                                  InfiniteLine[{secantRoots[[i]][[2]], 0}, {0, 1}]
-                                  },
-                                  (*,
-                                  {
-                                    InfiniteLine[
-                                      {secantRoots[[i-1]][[2]], 0},
-                                      {0, 1}
-                                    ],
-                                    InfiniteLine[
-                                      {secantRoots[[i]][[2]], 0},
-                                      {0, 1}
-                                    ]
-                                  },
+                                (*
+                                  Directive[{Thick, Green, Dashed}],
                                   *)
+                                (* calculation and plot of the subsequent roots for the secant method *)
+                                    {
+                                        Green, Thick,
+                                        InfiniteLine[{secantRoots[[i]][[2]], 0}, {0, 1}]
+                                    },
+                                (*,
+                                {
+                                  InfiniteLine[
+                                    {secantRoots[[i-1]][[2]], 0},
+                                    {0, 1}
+                                  ],
+                                  InfiniteLine[
+                                    {secantRoots[[i]][[2]], 0},
+                                    {0, 1}
+                                  ]
+                                },
+                                *)
                                     {
                                         Green,
                                         PointSize[.01],
@@ -1536,7 +1536,7 @@ MethodsComparison[] :=
                                 PlotStyle -> Thickness[0.006]
                             ],
                             " ",
-                            (* display the current root value for the secant method *)
+                        (* display the current root value for the secant method *)
                             TextCell[
                                 Row[{Subscript["x", i], " = ", secantRoots[[i]][[2]]}, Alignment -> Center],
                                 "Text",
@@ -1559,7 +1559,7 @@ MethodsComparison[] :=
                             ],
                             TextCell[Dynamic[textSecant], "Text"]
                         }],
-                        (* Newton *)
+                    (* Newton *)
                         Column[{
                             TextCell[" ",FontSize->25],
                             Plot[f[x], {x, 1.5, 4.5},
@@ -1568,7 +1568,7 @@ MethodsComparison[] :=
                                 Background->White,
                                 Epilog -> {
                                     Directive[{Thick, Green, Dashed}],
-                                    (* calculation and plot of the subsequent roots for the bNewton'a method *)
+                                (* calculation and plot of the subsequent roots for the bNewton'a method *)
                                     InfiniteLine[{newtonRoots[[i]], 0}, {0, 1}],
                                     {
                                         Green,
@@ -1587,7 +1587,7 @@ MethodsComparison[] :=
                                 LabelStyle -> Directive[FontSize->15],
                                 PlotStyle -> Thickness[0.006]
                             ],
-                            (* display the current root value for the Newton's method *)
+                        (* display the current root value for the Newton's method *)
                             TextCell[
                                 Row[{Subscript["x", i], " = ", newtonRoots[[i]]}, Alignment -> Center],
                                 "Text",
@@ -1623,9 +1623,9 @@ MethodsComparison[] :=
         *)
         ] (* end manipulate *)
     ]; (* end dynamicmodule *)
-         
- (* Interactive algorithm that shows step by step the application of Bisection's method,
-  slide "Algoritmo" under the section "Metodo di bisezione" *)
+
+(* Interactive algorithm that shows step by step the application of Bisection's method,
+ slide "Algoritmo" under the section "Metodo di bisezione" *)
 (* TODO display current iteration number while iterating, check strange behaviour, e.g. when secant is slower than
 bisection*)
 (* TODO show f(c) also when convergence is reached, f(c) is important since tolerance is checked on it too
@@ -1641,8 +1641,8 @@ AlgoBisez[] :=
         zz = ToExpression["b"];
         tt1 = ToExpression["\[Tau]"];
         ff = x^2 - 2;
-      iterationBisezStep = 1;
-	soluzione = x/. FindRoot[ff,{x,1}];
+        iterationBisezStep = 1;
+        soluzione = x/. FindRoot[ff,{x,1}];
         Manipulate[
             BisectionAlgorithm[ww, zz, tt1],
 
@@ -1666,218 +1666,218 @@ AlgoBisez[] :=
             Initialization :> {
                 BisectionAlgorithm[w_, z_, t1_] := DynamicModule[
                     {cValB, fcValB},
-					(* variables initialization *)
-					
+                (* variables initialization *)
+
                     a1 = N[ToExpression[w]];
                     If[w != ToExpression["a"], w = a1];
                     b1 = N[ToExpression[z]];
                     If[z != ToExpression["b"], z = b1];
                     If[t1 == ToString["\[Tau]"], "", ""];
-                                                                                                 
+
                     Column[{
                         Row[{
                             TextCell["Finch\[EAcute] | a - b | > \[Tau]", FontSize -> 25]
                         }],
-                            Row[{
-                                Column[{
-                                    Row[{
-                                        TextCell["  1. Calcolo c = ", FontSize -> 25],
-                                        FractionBox[
-                                            RowBox[{
-                                                TextCell["a+b", FontSize -> 25]
-                                            }],
-                                            RowBox[{
-                                                TextCell["2", FontSize -> 25]
-                                            }]
-                                        ] // DisplayForm
-                                    }],
-                                    Row[{
-                                        TextCell["  2a. Se f(c) = 0 ho la soluzione ", FontSize -> 25]
-                                    }],
-                                    Row[{
-                                        TextCell["  2b. Se segno(f(c)) = segno(f(a)) ", FontSize -> 25]
-                                    }],
-                                    Row[{
-                                        TextCell["         a = c", FontSize -> 25]
-                                    }],
-                                    Row[{
-                                        TextCell["      Altrimenti", FontSize -> 25]
-                                    }],
-                                    Row[{
-                                        TextCell["         b = c", FontSize -> 25]
-                                    }]
-                                }],
-
-                                Column[{
-                                    Spacer[20],
-Row[{ TextCell[" Iterazione ", FontSize -> 25, FontColor -> Gray],
-TextCell[iterationBisezStep, FontSize -> 25, FontColor -> Gray]
-}],
-                                    Row[{ (* interactive area that shows step by step calculations *)
-                                        TextCell["    c = ", FontSize -> 25, FontColor -> Gray],
-                                        Column[{
-                                            TextCell[
-                                                FractionBox[
-                                                    RowBox[{
-                                                        TextCell[w + z, FontSize -> 25]
-                                                    }],
-                                                    RowBox[{
-                                                        TextCell["2", FontSize -> 25]
-                                                    }]
-                                                ] // DisplayForm,
-                                                FontSize -> 25,
-                                                FontColor -> Gray
-                                            ]
+                        Row[{
+                            Column[{
+                                Row[{
+                                    TextCell["  1. Calcolo c = ", FontSize -> 25],
+                                    FractionBox[
+                                        RowBox[{
+                                            TextCell["a+b", FontSize -> 25]
                                         }],
-                                        Column[{
-                                            (* check if the tolerance has been reached *)
-                                            If[ToString[w] != ToString["a"] && ToString[z] != ToString["b"] && ToString[t1] != ToString["\[Tau]"],
-iterationBisezStep = iterationBisezStep + 1;
-                                                If[Abs[w - z] > ToExpression[ToString[t1]],
-                                                    cVal1B = ((w + z)/2) // N, (* if it's not reached, calculate f(c)  *)
-                                                    (* if it's reached, shows a dialog box *)
-
-                                                    CreateDialog[
-                                                        Column[{
-                                                            Row[{
-                                                                TextCell["Approssimazione ", FontSize -> 25]
-                                                            }],
-                                                            Row[{
-                                                                TextCell["con tolleranza ", FontSize -> 25],
-                                                                TextCell[t1, FontSize -> 25]
-                                                            }],
-                                                            Row[{
-                                                                TextCell["Raggiunta", FontSize -> 25]
-                                                            }],
-                                                          Row[{
-                                                            TextCell["! Smettere di reiterare !", FontSize -> 20]
-                                                          }],
-                                                          Row[{
-                                                            TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
-                                                          }]
-                                                        }, Alignment -> Center]
-                                                    ];
- cValB = ""
-                                                ],
-                                                cVal1B = "" (* // if input values are not inserted yet *)
-                                           ];
-                                            cValB = cVal1B;
-                                            TextCell[" = ", FontSize -> 25, FontColor -> Gray]
-                                        }],
-                                        Column[{
-                                            TextCell[cValB, FontSize -> 25, FontColor -> Gray]
+                                        RowBox[{
+                                            TextCell["2", FontSize -> 25]
                                         }]
-                                    }],
-
-                                    Spacer[50],
-                                    Spacer[30],
-                                    Row[{
-                                        (* check if the tolerance is reached, if  not shows the result of f(c) *) 
-                                       If[ToString[w] != ToString["a"] && ToString[z] != ToString["b"] && ToString[t1] != ToString["\[Tau]"],
-                                         
-                                                Row[{
-                                                    TextCell[" Calcolo f(c) = ", FontSize -> 25, FontColor -> Gray],
-                                                    fcValB = ff /. x -> cValB;
-
-                                                    TextCell[ToExpression[ToString[fcValB]], FontSize -> 25, FontColor -> Gray]
-                                                }],
-                                                TextCell[""]
-]
-                                    }],
-
-                                    Spacer[50],
-                                    Row[{
-                                        (* after f(c) is calculated, we check if the sign of f(a) is equal to the sign of f(c) *)
-                                        If[ToString[cValB] != ToString[""],
-                                            Row[{
-                                                TextCell["Controllo se segno(f(", FontSize -> 25, FontColor -> Gray],
-                                                TextCell[cValB, FontSize -> 25, FontColor -> Gray],
-                                                TextCell[")) = segno(f(", FontSize -> 25, FontColor -> Gray],
-                                                TextCell[Dynamic[w], FontSize -> 25, FontColor -> Gray],
-                                                TextCell["))", FontSize -> 25, FontColor -> Gray]
-                                            }],
-                                            ""
-                                        ]
-                                    }],
-                                    Spacer[50]
+                                    ] // DisplayForm
+                                }],
+                                Row[{
+                                    TextCell["  2a. Se f(c) = 0 ho la soluzione ", FontSize -> 25]
+                                }],
+                                Row[{
+                                    TextCell["  2b. Se segno(f(c)) = segno(f(a)) ", FontSize -> 25]
+                                }],
+                                Row[{
+                                    TextCell["         a = c", FontSize -> 25]
+                                }],
+                                Row[{
+                                    TextCell["      Altrimenti", FontSize -> 25]
+                                }],
+                                Row[{
+                                    TextCell["         b = c", FontSize -> 25]
                                 }]
                             }],
 
-                            Row[{
-                                "                       ",
-                                Button[ (* button that allows to calculate the next Bisection's iteration*)
-                                    TextCell["Reitera", FontSize -> 25],
-                                    If[a1 < soluzione && b1 > soluzione,
-{
-                                    (* check if the tolerance is reached *)
-                                    If[Abs[w - z] >= ToExpression[ToString[t1]],
-                                        If[(ff /. x -> w)*(ff /. x -> cValB) >= 0, (* check if sign f(a) = sign f(c) *)
-                                            { (* if true, a = c *)
-                                                If[ToString[cValB] != ToString[""],
-                                                    ww = cValB,
-                                                    Break[]
-                                                ];
-                                                zz = z;
-                                                tt1 = t1
-                                            },
-                                            { (* if false, b = c *)
-                                                If[ToString[cValB] != ToString[""], zz = cValB, Break[]];
-                                                ww = w;
-                                                tt1 = t1
-                                            }
-                                        ],
-
-										                    (* if tolerance is reached shows a dialog box *)
-                                        CreateDialog[
-                                                        Column[{
-                                                            Row[{
-                                                                TextCell["Approssimazione ", FontSize -> 25]
-                                                            }],
-                                                            Row[{
-                                                                TextCell["con tolleranza ", FontSize -> 25],
-                                                                TextCell[t1, FontSize -> 25]
-                                                            }],
-                                                            Row[{
-                                                                TextCell["Raggiunta", FontSize -> 25]
-                                                            }],
-                                                          Row[{
-                                                            TextCell["! Smettere di reiterare !", FontSize -> 20]
-                                                          }],
-                                                          Row[{
-                                                            TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
-                                                          }]
-                                                        }, Alignment -> Center]
-                                                    ]
-                                    ]},{ CreateDialog[
-                                            Column[{
-                                                Row[{TextCell["Attenzione!", FontSize -> 25]}],
-                                                Row[{
-                                                  TextCell["Nessuna soluzione per i valori a e b scelti.", FontSize -> 25]
+                            Column[{
+                                Spacer[20],
+                                Row[{ TextCell[" Iterazione ", FontSize -> 25, FontColor -> Gray],
+                                    TextCell[iterationBisezStep, FontSize -> 25, FontColor -> Gray]
+                                }],
+                                Row[{ (* interactive area that shows step by step calculations *)
+                                    TextCell["    c = ", FontSize -> 25, FontColor -> Gray],
+                                    Column[{
+                                        TextCell[
+                                            FractionBox[
+                                                RowBox[{
+                                                    TextCell[w + z, FontSize -> 25]
                                                 }],
-                                               
-                                                  Row[{
-                                                    TextCell["! Scegliere altri valori !", FontSize -> 20]
-                                                  }],
-                                                  Row[{
-                                                    TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
-                                                  }]
-                                            }, Alignment -> Center]
+                                                RowBox[{
+                                                    TextCell["2", FontSize -> 25]
+                                                }]
+                                            ] // DisplayForm,
+                                            FontSize -> 25,
+                                            FontColor -> Gray
                                         ]
-                                        }],
-                                    ImageSize -> 200
-                                ], "           ",
-Button[
- TextCell["Cancella", FontSize -> 25],
-ww = ToExpression["a"];
-        zz = ToExpression["b"];
-        tt1 = ToExpression["\[Tau]"];
-        ff = x^2 - 2;
-      iterationBisezStep = 1,
+                                    }],
+                                    Column[{
+                                    (* check if the tolerance has been reached *)
+                                        If[ToString[w] != ToString["a"] && ToString[z] != ToString["b"] && ToString[t1] != ToString["\[Tau]"],
+                                            iterationBisezStep = iterationBisezStep + 1;
+                                            If[Abs[w - z] > ToExpression[ToString[t1]],
+                                                cVal1B = ((w + z)/2) // N, (* if it's not reached, calculate f(c)  *)
+                                            (* if it's reached, shows a dialog box *)
 
- ImageSize -> 200
-]
+                                                CreateDialog[
+                                                    Column[{
+                                                        Row[{
+                                                            TextCell["Approssimazione ", FontSize -> 25]
+                                                        }],
+                                                        Row[{
+                                                            TextCell["con tolleranza ", FontSize -> 25],
+                                                            TextCell[t1, FontSize -> 25]
+                                                        }],
+                                                        Row[{
+                                                            TextCell["Raggiunta", FontSize -> 25]
+                                                        }],
+                                                        Row[{
+                                                            TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                                        }],
+                                                        Row[{
+                                                            TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                                        }]
+                                                    }, Alignment -> Center]
+                                                ];
+                                                cValB = ""
+                                            ],
+                                            cVal1B = "" (* // if input values are not inserted yet *)
+                                        ];
+                                        cValB = cVal1B;
+                                        TextCell[" = ", FontSize -> 25, FontColor -> Gray]
+                                    }],
+                                    Column[{
+                                        TextCell[cValB, FontSize -> 25, FontColor -> Gray]
+                                    }]
+                                }],
+
+                                Spacer[50],
+                                Spacer[30],
+                                Row[{
+                                (* check if the tolerance is reached, if  not shows the result of f(c) *)
+                                    If[ToString[w] != ToString["a"] && ToString[z] != ToString["b"] && ToString[t1] != ToString["\[Tau]"],
+
+                                        Row[{
+                                            TextCell[" Calcolo f(c) = ", FontSize -> 25, FontColor -> Gray],
+                                            fcValB = ff /. x -> cValB;
+
+                                            TextCell[ToExpression[ToString[fcValB]], FontSize -> 25, FontColor -> Gray]
+                                        }],
+                                        TextCell[""]
+                                    ]
+                                }],
+
+                                Spacer[50],
+                                Row[{
+                                (* after f(c) is calculated, we check if the sign of f(a) is equal to the sign of f(c) *)
+                                    If[ToString[cValB] != ToString[""],
+                                        Row[{
+                                            TextCell["Controllo se segno(f(", FontSize -> 25, FontColor -> Gray],
+                                            TextCell[cValB, FontSize -> 25, FontColor -> Gray],
+                                            TextCell[")) = segno(f(", FontSize -> 25, FontColor -> Gray],
+                                            TextCell[Dynamic[w], FontSize -> 25, FontColor -> Gray],
+                                            TextCell["))", FontSize -> 25, FontColor -> Gray]
+                                        }],
+                                        ""
+                                    ]
+                                }],
+                                Spacer[50]
                             }]
+                        }],
+
+                        Row[{
+                            "                       ",
+                            Button[ (* button that allows to calculate the next Bisection's iteration*)
+                                TextCell["Reitera", FontSize -> 25],
+                                If[a1 < soluzione && b1 > soluzione,
+                                    {
+                                    (* check if the tolerance is reached *)
+                                        If[Abs[w - z] >= ToExpression[ToString[t1]],
+                                            If[(ff /. x -> w)*(ff /. x -> cValB) >= 0, (* check if sign f(a) = sign f(c) *)
+                                                { (* if true, a = c *)
+                                                    If[ToString[cValB] != ToString[""],
+                                                        ww = cValB,
+                                                        Break[]
+                                                    ];
+                                                    zz = z;
+                                                    tt1 = t1
+                                                },
+                                                { (* if false, b = c *)
+                                                    If[ToString[cValB] != ToString[""], zz = cValB, Break[]];
+                                                    ww = w;
+                                                    tt1 = t1
+                                                }
+                                            ],
+
+                                        (* if tolerance is reached shows a dialog box *)
+                                            CreateDialog[
+                                                Column[{
+                                                    Row[{
+                                                        TextCell["Approssimazione ", FontSize -> 25]
+                                                    }],
+                                                    Row[{
+                                                        TextCell["con tolleranza ", FontSize -> 25],
+                                                        TextCell[t1, FontSize -> 25]
+                                                    }],
+                                                    Row[{
+                                                        TextCell["Raggiunta", FontSize -> 25]
+                                                    }],
+                                                    Row[{
+                                                        TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                                    }],
+                                                    Row[{
+                                                        TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                                    }]
+                                                }, Alignment -> Center]
+                                            ]
+                                        ]},{ CreateDialog[
+                                    Column[{
+                                        Row[{TextCell["Attenzione!", FontSize -> 25]}],
+                                        Row[{
+                                            TextCell["Nessuna soluzione per i valori a e b scelti.", FontSize -> 25]
+                                        }],
+
+                                        Row[{
+                                            TextCell["! Scegliere altri valori !", FontSize -> 20]
+                                        }],
+                                        Row[{
+                                            TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                        }]
+                                    }, Alignment -> Center]
+                                ]
+                                }],
+                                ImageSize -> 200
+                            ], "           ",
+                            Button[
+                                TextCell["Cancella", FontSize -> 25],
+                                ww = ToExpression["a"];
+                                zz = ToExpression["b"];
+                                tt1 = ToExpression["\[Tau]"];
+                                ff = x^2 - 2;
+                                iterationBisezStep = 1,
+
+                                ImageSize -> 200
+                            ]
                         }]
+                    }]
                 ]
             }, Paneled -> False
         ]
@@ -1892,7 +1892,7 @@ AlgoSec[] :=
         bb = ToExpression["b"];
         \[Tau]\[Tau] = ToExpression["\[Tau]"];
         ff = x^2 - 2;
-	iterationSecStep = 0;
+        iterationSecStep = 0;
         Manipulate[
             SecAlgorithm[aa, bb, \[Tau]\[Tau]],
 
@@ -1916,7 +1916,7 @@ AlgoSec[] :=
             Initialization :> {
                 SecAlgorithm[a_, b_, t_] := DynamicModule[
                     { cVal, fcVal, r, rr, radiciSol, rad},
-                    (* variables initialization *)
+                (* variables initialization *)
                     a1 = N[ToExpression[a]];
                     If[a != ToExpression["a"], a = a1];
                     b1 = N[ToExpression[b]];
@@ -1924,315 +1924,315 @@ AlgoSec[] :=
                     If[t == ToString["\[Tau]"], "", ""];
 
                     Column[{
-                         Row[{ (* theorical area *)
-                             TextCell["Finch\[EAcute] | a - b | > \[Tau]", FontSize -> 25]
-                         }],
-                         Row[{
-                             Column[{
-                                 Row[{
-                                     TextCell["  1. Calcolo c = a - ", FontSize -> 25],
-                                     FractionBox[
-                                                 RowBox[{TextCell["f(a)*(b-a)", FontSize -> 25]}],
-                                                 RowBox[{TextCell["f(b)-f(a)", FontSize -> 25]}]
-                                                 ] // DisplayForm
-                                 }],
-                                 Row[{
-                                     Column[{
+                        Row[{ (* theorical area *)
+                            TextCell["Finch\[EAcute] | a - b | > \[Tau]", FontSize -> 25]
+                        }],
+                        Row[{
+                            Column[{
+                                Row[{
+                                    TextCell["  1. Calcolo c = a - ", FontSize -> 25],
+                                    FractionBox[
+                                        RowBox[{TextCell["f(a)*(b-a)", FontSize -> 25]}],
+                                        RowBox[{TextCell["f(b)-f(a)", FontSize -> 25]}]
+                                    ] // DisplayForm
+                                }],
+                                Row[{
+                                    Column[{
 
-                                         TextCell["  2a. Se f(c) = 0 ho la soluzione ",
-                                                  FontSize -> 25],
-                                         Spacer[30],
-                                         Row[{
+                                        TextCell["  2a. Se f(c) = 0 ho la soluzione ",
+                                            FontSize -> 25],
+                                        Spacer[30],
+                                        Row[{
 
-                                             TextCell["  2b. Se segno(c) = segno(a) ",
-                                                      FontSize -> 25]
-                                         }],
-                                         Row[{
-                                             TextCell["         a = c", FontSize -> 25]
-                                         }],
-                                         Row[{
-                                             TextCell["      Altrimenti", FontSize -> 25]
-                                         }],
-                                         Row[{
-                                             TextCell["         b = c", FontSize -> 25]
-                                         }]
-                                     }]
-                                 }]
-                             }],
-                             Column[{
-                                 Spacer[20],
-                                 Row[{ (* interactive area that shows step by step calculations *)
-                                     Column[{
-                                         Row[{
-                                             Column[{
-                                                 Row[{
-
-                                                     If[ToString[a] != ToString["a"] &&
-                                                        ToString[b] != ToString["b"] &&
-                                                        ToString[t] != ToString["\[Tau]"],
-                                                        (* check if the tolerance has been reached *)
-                                                        If[Abs[a - b] >= ToExpression[ToString[t]],
-                                                           { (* if not, make the calculations *)
-
-                                                               faVal = ff /. x -> a;
-                                                               fbVal = ff /. x -> b;
-                                                               cVal1 = a - ((faVal*(b - a))/(fbVal - faVal));
-                                                               r = x /. Solve[ff == 0, x];
-                                                               rr = N[r[[2]]];
-
-                                                               If[ToString[cVal1] ==
-                                                                  ToString[rr],
-                                                                 CreateDialog[
-                                                                     Column[{
-                                                                         Row[{TextCell["Approssimazione ",FontSize -> 25]}],
-                                                                         Row[{TextCell["con tolleranza ", FontSize -> 25],TextCell[t, FontSize -> 25]}],
-                                                                         Row[{TextCell["Raggiunta", FontSize -> 25]}],
-                                                                         Row[{
-                                                                           TextCell["! Smettere di reiterare !", FontSize -> 20]
-                                                                         }],
-                                                                       Row[{
-                                                                         TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
-                                                                       }]
-                                                                     },Alignment -> Center]]
-                                                               ]
-                                                           },
-                                                           {
-                                                              (* if it's reached, shows a dialog box *)
-                                                               CreateDialog[
-                                                                            Column[{
-                                                                              Row[{TextCell["Approssimazione ",FontSize -> 25]}],
-                                                                              Row[{TextCell["con tolleranza ", FontSize -> 25],TextCell[t, FontSize -> 25]}],
-                                                                              Row[{TextCell["Raggiunta", FontSize -> 25]},
-                                                                                Row[{
-                                                                                  TextCell["! Smettere di reiterare !", FontSize -> 20]
-                                                                                }],
-                                                                                Row[{
-                                                                                  TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
-                                                                                }]
-
-                                                                     ]},
-                                                                                   Alignment -> Center]]
-                                                           }]
-                                                        ];
-                                                     cVal = N[cVal1];
-
-Column[{
-
-						If[ToString[faVal] != ToString[""] &&
-                                                        ToString[fbVal] != ToString[""],
-{
-iterationSecStep = iterationSecStep + 1;
-Column[{
-Row[{
- TextCell[" Iterazione ", FontSize -> 25, FontColor -> Gray],
-                                                                    TextCell[iterationSecStep, FontSize -> 25, FontColor -> Gray]
-}]
-}]},
-""
-],
-                                                             
-                                                     If[ToString[faVal] != ToString[""] &&
-                                                        ToString[fbVal] != ToString[""],
-{
-Column[{
-                                                        Row[{
-                                                         TextCell[" c = ", FontSize -> 25,
-                                                                  FontColor -> Gray],
-                                                         TextCell[a, FontSize -> 25, FontColor -> Gray],
-                                                         TextCell[" - ", FontSize -> 25, FontColor -> Gray],
-                                                         FractionBox[
-
-                                                                     RowBox[{TextCell[faVal, FontSize -> 25,
-                                                                                      FontColor -> Gray],
-                                                             TextCell["*(", FontSize -> 25,
-                                                                      FontColor -> Gray],
-                                                             TextCell[b, FontSize -> 25, FontColor -> Gray],
-                                                             TextCell["-", FontSize -> 25, FontColor -> Gray],
-                                                             TextCell[a, FontSize -> 25, FontColor -> Gray],
-                                                             TextCell[")", FontSize -> 25, FontColor -> Gray]}],
-
-                                                                     RowBox[{TextCell[fbVal, FontSize -> 25,
-                                                                                      FontColor -> Gray],
-                                                             If[faVal >= 0,
-                                                                TextCell["-", FontSize -> 25, FontColor -> Gray];
-                                                                TextCell[faVal, FontSize -> 25,
-                                                                         FontColor -> Gray],
-                                                                TextCell[faVal, FontSize -> 25, FontColor -> Gray]]
-                                                         }]
-                                                                     ] // DisplayForm,
-                                                         (*cVal=cVal1;*)
-
-                                                         TextCell[" = ", FontSize -> 25, FontColor -> Gray],
-                                                         TextCell[cVal, FontSize -> 25, FontColor -> Gray]
-                                                     }]
-}]
-}, ""
-                                                        ]
-                                           
-                                         
-}]
-
-
-                                         }],
-                                         Spacer[50],
-                                         Spacer[30],
-Column[{
-                                         Row[{
-
-                                             If[ToString[a] != ToString["a"] &&
-                                                ToString[b] != ToString["b"] &&
-                                                ToString[t] != ToString["\[Tau]"],
-                                                If[Abs[a - b] > ToExpression[ToString[t]],
-                                                   Row[{
-
-                                                    TextCell[" Calcolo f(c) = ",
-                                                             FontSize -> 25, FontColor -> Gray],
-
-                                                    fcVal = ff /. x -> cVal;
-radiciSol = x /. NSolve[ff==0,x];
-rad= radiciSol[[2]];
-						soluzioneSec = ff /. x -> rad;
-If[ToString[cVal]  == ToString[rad],{
-TextCell[ToExpression[ToString[Round[soluzioneSec]]],
-                                                             FontSize -> 25, FontColor -> Gray]
-},
-                                                   { TextCell[ToExpression[ToString[fcVal]],
-                                                             FontSize -> 25, FontColor -> Gray]}]
-                                                }],
-                                                   ""
-                                                   ],
-                                                ""
-                                                ]
-                                         }]
-}],
-                                         Spacer[50],
-Column[{
-                                         Row[{
-
-                                             If[ToString[cVal] != ToString[""] &&
-                                                ToString[cVal] != ToString["cVal1"] &&
-                                                ToString[a] != ToString[""],
+                                            TextCell["  2b. Se segno(c) = segno(a) ",
+                                                FontSize -> 25]
+                                        }],
+                                        Row[{
+                                            TextCell["         a = c", FontSize -> 25]
+                                        }],
+                                        Row[{
+                                            TextCell["      Altrimenti", FontSize -> 25]
+                                        }],
+                                        Row[{
+                                            TextCell["         b = c", FontSize -> 25]
+                                        }]
+                                    }]
+                                }]
+                            }],
+                            Column[{
+                                Spacer[20],
+                                Row[{ (* interactive area that shows step by step calculations *)
+                                    Column[{
+                                        Row[{
+                                            Column[{
                                                 Row[{
 
-                                                 TextCell["Controllo se segno(", FontSize -> 25,
-                                                          FontColor -> Gray],
+                                                    If[ToString[a] != ToString["a"] &&
+                                                        ToString[b] != ToString["b"] &&
+                                                        ToString[t] != ToString["\[Tau]"],
+                                                    (* check if the tolerance has been reached *)
+                                                        If[Abs[a - b] >= ToExpression[ToString[t]],
+                                                            { (* if not, make the calculations *)
 
-                                                 TextCell[cVal, FontSize -> 25,
-                                                          FontColor -> Gray],
+                                                                faVal = ff /. x -> a;
+                                                                fbVal = ff /. x -> b;
+                                                                cVal1 = a - ((faVal*(b - a))/(fbVal - faVal));
+                                                                r = x /. Solve[ff == 0, x];
+                                                                rr = N[r[[2]]];
 
-                                                 TextCell[") = segno(", FontSize -> 25,
-                                                          FontColor -> Gray],
+                                                                If[ToString[cVal1] ==
+                                                                    ToString[rr],
+                                                                    CreateDialog[
+                                                                        Column[{
+                                                                            Row[{TextCell["Approssimazione ",FontSize -> 25]}],
+                                                                            Row[{TextCell["con tolleranza ", FontSize -> 25],TextCell[t, FontSize -> 25]}],
+                                                                            Row[{TextCell["Raggiunta", FontSize -> 25]}],
+                                                                            Row[{
+                                                                                TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                                                            }],
+                                                                            Row[{
+                                                                                TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                                                            }]
+                                                                        },Alignment -> Center]]
+                                                                ]
+                                                            },
+                                                            {
+                                                            (* if it's reached, shows a dialog box *)
+                                                                CreateDialog[
+                                                                    Column[{
+                                                                        Row[{TextCell["Approssimazione ",FontSize -> 25]}],
+                                                                        Row[{TextCell["con tolleranza ", FontSize -> 25],TextCell[t, FontSize -> 25]}],
+                                                                        Row[{TextCell["Raggiunta", FontSize -> 25]},
+                                                                            Row[{
+                                                                                TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                                                            }],
+                                                                            Row[{
+                                                                                TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                                                            }]
 
-                                                 TextCell[Dynamic[a], FontSize -> 25,
-                                                          FontColor -> Gray],
-                                                 TextCell[")", FontSize -> 25, FontColor -> Gray]
-                                             }],
+                                                                        ]},
+                                                                        Alignment -> Center]]
+                                                            }]
+                                                    ];
+                                                    cVal = N[cVal1];
 
-                                                ""]
-                                         }]
-      }]
- }]
-}],
-                                         Spacer[50]
-                                     }]
-                                 }]
-                             }]
-                         }],
-                         Row[{
-                         "                       ",
-                             Button[TextCell["Reitera", FontSize -> 25],
-                                 If[Abs[a - b] >= ToExpression[ToString[t]],
-                                     If[(ff /. x -> a)*(ff /. x -> cVal) >= 0,
-                                         {
-                                             If[ToString[cVal] != ToString[""],
-                                                 aa = cVal,
-                                                 Break[]
-                                             ];
-                                             bb = b;
-                                             \[Tau]\[Tau] = t
-                                         },
-                                         {
-                                             If[ToString[cVal] != ToString[""],
-                                                 bb = cVal,
-                                                 Break[]
-                                             ];
-                                             aa = a;
-                                             \[Tau]\[Tau] = t
-                                         }
-                                     ],
-                                     CreateDialog[
+                                                    Column[{
 
-                                         Column[{
-                                             Row[{TextCell["Approssimazione3 ", FontSize -> 25]}],
-                                             Row[{
-                                                 TextCell["con tolleranza ", FontSize -> 25],
-                                                 TextCell[t, FontSize -> 25]
-                                             }],
-                                             Row[{TextCell["Raggiunta", FontSize -> 25]}],
-                                           Row[{
-                                             TextCell["! Smettere di reiterare !", FontSize -> 20]
-                                           }],
-                                           Row[{
-                                             TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
-                                           }]
-                                         }, Alignment -> Center]
-                                     ]
-                                 ], ImageSize -> 200
-                             ], "           ",
-Button[
- TextCell["Cancella", FontSize -> 25],
+                                                        If[ToString[faVal] != ToString[""] &&
+                                                            ToString[fbVal] != ToString[""],
+                                                            {
+                                                                iterationSecStep = iterationSecStep + 1;
+                                                                Column[{
+                                                                    Row[{
+                                                                        TextCell[" Iterazione ", FontSize -> 25, FontColor -> Gray],
+                                                                        TextCell[iterationSecStep, FontSize -> 25, FontColor -> Gray]
+                                                                    }]
+                                                                }]},
+                                                            ""
+                                                        ],
 
-        aa = ToExpression["a"];
-        bb = ToExpression["b"];
-        \[Tau]\[Tau] = ToExpression["\[Tau]"];
-faVal = ""; fbVal = ""; cVal1 = "";
-        ff = x^2 - 2;
-      iterationSecStep = 0,
+                                                        If[ToString[faVal] != ToString[""] &&
+                                                            ToString[fbVal] != ToString[""],
+                                                            {
+                                                                Column[{
+                                                                    Row[{
+                                                                        TextCell[" c = ", FontSize -> 25,
+                                                                            FontColor -> Gray],
+                                                                        TextCell[a, FontSize -> 25, FontColor -> Gray],
+                                                                        TextCell[" - ", FontSize -> 25, FontColor -> Gray],
+                                                                        FractionBox[
 
- ImageSize -> 200
-]
-                         }]
+                                                                            RowBox[{TextCell[faVal, FontSize -> 25,
+                                                                                FontColor -> Gray],
+                                                                                TextCell["*(", FontSize -> 25,
+                                                                                    FontColor -> Gray],
+                                                                                TextCell[b, FontSize -> 25, FontColor -> Gray],
+                                                                                TextCell["-", FontSize -> 25, FontColor -> Gray],
+                                                                                TextCell[a, FontSize -> 25, FontColor -> Gray],
+                                                                                TextCell[")", FontSize -> 25, FontColor -> Gray]}],
+
+                                                                            RowBox[{TextCell[fbVal, FontSize -> 25,
+                                                                                FontColor -> Gray],
+                                                                                If[faVal >= 0,
+                                                                                    TextCell["-", FontSize -> 25, FontColor -> Gray];
+                                                                                    TextCell[faVal, FontSize -> 25,
+                                                                                        FontColor -> Gray],
+                                                                                    TextCell[faVal, FontSize -> 25, FontColor -> Gray]]
+                                                                            }]
+                                                                        ] // DisplayForm,
+                                                                    (*cVal=cVal1;*)
+
+                                                                        TextCell[" = ", FontSize -> 25, FontColor -> Gray],
+                                                                        TextCell[cVal, FontSize -> 25, FontColor -> Gray]
+                                                                    }]
+                                                                }]
+                                                            }, ""
+                                                        ]
+
+
+                                                    }]
+
+
+                                                }],
+                                                Spacer[50],
+                                                Spacer[30],
+                                                Column[{
+                                                    Row[{
+
+                                                        If[ToString[a] != ToString["a"] &&
+                                                            ToString[b] != ToString["b"] &&
+                                                            ToString[t] != ToString["\[Tau]"],
+                                                            If[Abs[a - b] > ToExpression[ToString[t]],
+                                                                Row[{
+
+                                                                    TextCell[" Calcolo f(c) = ",
+                                                                        FontSize -> 25, FontColor -> Gray],
+
+                                                                    fcVal = ff /. x -> cVal;
+                                                                    radiciSol = x /. NSolve[ff==0,x];
+                                                                    rad= radiciSol[[2]];
+                                                                    soluzioneSec = ff /. x -> rad;
+                                                                    If[ToString[cVal]  == ToString[rad],{
+                                                                        TextCell[ToExpression[ToString[Round[soluzioneSec]]],
+                                                                            FontSize -> 25, FontColor -> Gray]
+                                                                    },
+                                                                        { TextCell[ToExpression[ToString[fcVal]],
+                                                                            FontSize -> 25, FontColor -> Gray]}]
+                                                                }],
+                                                                ""
+                                                            ],
+                                                            ""
+                                                        ]
+                                                    }]
+                                                }],
+                                                Spacer[50],
+                                                Column[{
+                                                    Row[{
+
+                                                        If[ToString[cVal] != ToString[""] &&
+                                                            ToString[cVal] != ToString["cVal1"] &&
+                                                            ToString[a] != ToString[""],
+                                                            Row[{
+
+                                                                TextCell["Controllo se segno(", FontSize -> 25,
+                                                                    FontColor -> Gray],
+
+                                                                TextCell[cVal, FontSize -> 25,
+                                                                    FontColor -> Gray],
+
+                                                                TextCell[") = segno(", FontSize -> 25,
+                                                                    FontColor -> Gray],
+
+                                                                TextCell[Dynamic[a], FontSize -> 25,
+                                                                    FontColor -> Gray],
+                                                                TextCell[")", FontSize -> 25, FontColor -> Gray]
+                                                            }],
+
+                                                            ""]
+                                                    }]
+                                                }]
+                                            }]
+                                        }],
+                                        Spacer[50]
+                                    }]
+                                }]
+                            }]
+                        }],
+                        Row[{
+                            "                       ",
+                            Button[TextCell["Reitera", FontSize -> 25],
+                                If[Abs[a - b] >= ToExpression[ToString[t]],
+                                    If[(ff /. x -> a)*(ff /. x -> cVal) >= 0,
+                                        {
+                                            If[ToString[cVal] != ToString[""],
+                                                aa = cVal,
+                                                Break[]
+                                            ];
+                                            bb = b;
+                                            \[Tau]\[Tau] = t
+                                        },
+                                        {
+                                            If[ToString[cVal] != ToString[""],
+                                                bb = cVal,
+                                                Break[]
+                                            ];
+                                            aa = a;
+                                            \[Tau]\[Tau] = t
+                                        }
+                                    ],
+                                    CreateDialog[
+
+                                        Column[{
+                                            Row[{TextCell["Approssimazione3 ", FontSize -> 25]}],
+                                            Row[{
+                                                TextCell["con tolleranza ", FontSize -> 25],
+                                                TextCell[t, FontSize -> 25]
+                                            }],
+                                            Row[{TextCell["Raggiunta", FontSize -> 25]}],
+                                            Row[{
+                                                TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                            }],
+                                            Row[{
+                                                TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
+                                            }]
+                                        }, Alignment -> Center]
+                                    ]
+                                ], ImageSize -> 200
+                            ], "           ",
+                            Button[
+                                TextCell["Cancella", FontSize -> 25],
+
+                                aa = ToExpression["a"];
+                                bb = ToExpression["b"];
+                                \[Tau]\[Tau] = ToExpression["\[Tau]"];
+                                faVal = ""; fbVal = ""; cVal1 = "";
+                                ff = x^2 - 2;
+                                iterationSecStep = 0,
+
+                                ImageSize -> 200
+                            ]
+                        }]
                     }]
                 ]
             },
             Paneled -> False
         ]
     ];
-         
+
 (* Interactive algotithm that shows step by step the application of Newton's method *)
 (* slide "Algoritmo" under the section "Metodo di Newton" *)
 AlgoNewton[] :=
     DynamicModule[
-				{xii, \[Tau]\[Tau], ff,ii},
-				ii=0;
-				xii = Subscript[x,ii];
-				\[Tau]\[Tau] = ToExpression["\[Tau]"];
-				ff=(x^2)-2;
-				Manipulate[
-						drawAlgo[xii,\[Tau]\[Tau],ff,ii],
+        {xii, \[Tau]\[Tau], ff,ii},
+        ii=0;
+        xii = Subscript[x,ii];
+        \[Tau]\[Tau] = ToExpression["\[Tau]"];
+        ff=(x^2)-2;
+        Manipulate[
+            drawAlgo[xii,\[Tau]\[Tau],ff,ii],
 
-						Column[{
+            Column[{
                 Row[{
                     TextCell["Sia f = ", FontSize -> 25], TextCell[TraditionalForm[ff], FontSize -> 25]
                 }],
-								Row[{
-										TextCell[" Approssimazione ", FontSize -> 25],
-										InputField[Dynamic[xii], ImageSize -> 200,	Alignment -> Center, BaseStyle -> FontSize -> 25]
-								}],
-								Spacer[50],
-								Row[{
-										TextCell[" Tolleranza ", FontSize -> 25],
-										TextCell["\[Tau] ", FontSize -> 35],
-										InputField[Dynamic[\[Tau]\[Tau]], ImageSize -> 200,	Alignment -> Center,	BaseStyle -> FontSize -> 25]
-								}]
+                Row[{
+                    TextCell[" Approssimazione ", FontSize -> 25],
+                    InputField[Dynamic[xii], ImageSize -> 200,	Alignment -> Center, BaseStyle -> FontSize -> 25]
+                }],
+                Spacer[50],
+                Row[{
+                    TextCell[" Tolleranza ", FontSize -> 25],
+                    TextCell["\[Tau] ", FontSize -> 35],
+                    InputField[Dynamic[\[Tau]\[Tau]], ImageSize -> 200,	Alignment -> Center,	BaseStyle -> FontSize -> 25]
+                }]
             }],
 
-						Initialization :> {
-								drawAlgo[xi_,\[Tau]_,f_,i_]:= Module[
-										{xi1},
-										If[xi!=Subscript[x,0],
-												xi=N[ToExpression[xi]]
-										];
+            Initialization :> {
+                drawAlgo[xi_,\[Tau]_,f_,i_]:= Module[
+                    {xi1},
+                    If[xi!=Subscript[x,0],
+                        xi=N[ToExpression[xi]]
+                    ];
                     Column[{
                         Row[{
                             TextCell["Per k = 0, 1, 2, ...", FontSize -> 25]
@@ -2320,7 +2320,7 @@ AlgoNewton[] :=
                                 }],
                                 Spacer[50]
                             }]
-                            
+
                         }],
                         Row[{
                             "                       ",
@@ -2347,7 +2347,7 @@ AlgoNewton[] :=
                                                         TextCell["Raggiunta", FontSize -> 25]
                                                     }],
                                                     Row[{
-                                                      TextCell["! Smettere di reiterare !", FontSize -> 20]
+                                                        TextCell["! Smettere di reiterare !", FontSize -> 20]
                                                     }],
                                                     Row[{
                                                         TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
@@ -2362,14 +2362,14 @@ AlgoNewton[] :=
                             ]
                         }]
                     }]
-								]
-						},
-						Paneled -> False
-				]
+                ]
+            },
+            Paneled -> False
+        ]
     ];
 
 End[];
 
 Protect["LearningNewtonsMethod`*"];
-    
+
 EndPackage[]
