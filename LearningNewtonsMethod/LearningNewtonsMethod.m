@@ -26,6 +26,7 @@ NewtonInteractive::usage = "Animated Newton's Method";
 SimplifiedNewtonInteractive::usage = "Simplified version of Newton's method with a single Manipulate";
 ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
 BisectionInteractive::usage = "Interactive Bisection Method BisectionMethod[pm=0/1,it=0/1] pm->PopupMenu, it->Interactive";
+SimplifiedBisectionInteractive::usage="Simplified version of Newton's method with a single Manipulate";
 FirstExample::usage = "Shows the cases in which the Newton's method fails ";
 SecondExample::usage = "Shows the cases in which the Newton's method fails";
 MethodsComparison::usage = "Show convergence to solution using three different methods";
@@ -772,6 +773,204 @@ BisectionInteractive[pm_,it_] :=
             },
             Paneled->False
         ]
+    ];
+
+
+SimplifiedBisectionInteractive[pm_,it_] :=
+    DynamicModule[
+        {listFunctions,listIntervals,passf,f,warninga,warningb,ax,bx,interva,intervb,stepx,yline,BisezMethod},
+
+        listFunctions = {
+            TraditionalForm[x^2 - 2],
+            TraditionalForm[Sin[x]],
+            TraditionalForm[Cos[1/2x+1]],
+            TraditionalForm[x*Log[x]-2],
+            TraditionalForm[Cos[x]]
+        };
+
+        f = TraditionalForm[x^2-2];
+        interva = 0;
+        intervb = 4;
+        yline = 10;
+        ax=1.;
+        bx=2.;
+        warninga = "";
+        warningb = "";
+
+        Manipulate[
+            BisezMethod[f,ax,bx,stepx],
+
+            Column[{
+                Row[{
+                    TextCell["Funzione: ", FontSize->25],
+                    If[pm == 1,
+                        PopupMenu[Dynamic[f], listFunctions, MenuStyle->{FontSize->23}],
+                        TextCell[TraditionalForm[x^2-2], FontSize->25]
+                    ]
+                }],
+                Row[{
+                    TextCell["a   ", FontSize -> 23],
+                    TextCell[interva + 0.01, FontSize -> 23],
+                    Slider[Dynamic[ax], {(interva + 0.01), (intervb - 0.01), 0.01}],
+                    TextCell[intervb - 0.01, FontSize -> 23],
+                    TextCell["   ", FontSize -> 25],
+                    InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+                    TextCell["   ", FontSize -> 25]
+                (* text filled when input for a is a value outside range *)
+                    TextCell[Dynamic[warninga], "Text"]
+
+                }],
+                Row[{
+                    TextCell["b   ", FontSize->23],
+                    TextCell[interva+0.01, FontSize->23],
+                    Slider[Dynamic[bx],{(interva+0.01), (intervb-0.01),0.01}],
+                    TextCell[intervb-0.01, FontSize->23],
+                    TextCell["   ",FontSize->25],
+                    InputField[Dynamic[bx], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
+                    TextCell["   ",FontSize->25],
+                (* text filled when input for b is a value outside range *)
+                    TextCell[Dynamic[warningb], "Text"]
+
+                }],
+                Row[{
+                    If[it==1,TextCell["Iterazioni ", FontSize->23]],
+                    If[it==1,Slider[Dynamic[stepx],{1,12,1}]],
+                    If[it==1,TextCell[" ",FontSize->25]],
+                    If[it==1,TextCell[Dynamic[stepx],FontSize->23],stepx=1;]
+                }]
+            }],
+
+            Initialization :> {
+
+                BisezMethod[ffx_, aa_, bb_, nn_]:=	DynamicModule[
+                    {line, bisec, intervals, vertline, fx, avalue, bvalue},
+
+                    If[ffx == TraditionalForm[x^2 - 2],yline=5];
+                    If[ffx == TraditionalForm[Sin[x]],yline=35];
+                    If[ffx == TraditionalForm[Cos[1/2x+1]],yline=45];
+                    If[ffx == TraditionalForm[x*Log[x]-2],yline=20];
+                    If[ffx == TraditionalForm[Cos[x]],yline=35];
+                    fx = ToExpression[ToString[ffx]];
+
+
+                    avalue = N[ToExpression[aa]]; (* used to treat "inputfield"*)
+                    bvalue = N[ToExpression[bb]];
+
+                    (* if user inputs values outside the slider range, values are "normalized" *)
+
+                    If[
+                        avalue < interva+0.01,
+                        avalue = interva+0.01;
+                        warninga = "Hai scelto per a un valore che va fuori dal range!",
+                        warninga = ""
+                    ];
+                    If[
+                        bvalue < interva+0.01,
+                        bvalue = interva+0.01;
+                        warningb = "Hai scelto per b un valore che va fuori dal range!",
+                        warningb = ""
+                    ];
+                    If[
+                        avalue > intervb-0.01,
+                        avalue = intervb-0.01;
+                        warninga = "Hai scelto per a un valore che va fuori dal range!"
+                    ];
+                    If[
+                        bvalue > intervb-0.01,
+                        bvalue = intervb-0.01;
+                        warningb = "Hai scelto per b un valore che va fuori dal range!"
+                    ];
+
+
+                    (* helper function that draws horizontal red line that displays the bisection range at the first iteration *)
+                    line[f_,{a_,b_},1] := {Min[avalue, bvalue], Max[avalue, bvalue]};
+
+
+                    (* helper function that draws horizontal red line that displays the bisection range at the nth iteration *)
+                    line[f_,{a_,b_},n_] :=
+                        If[ (f/.x->a) * (f/.x->b) <= 0,
+                            bisec[f, line[f,{a,b},n -1]],
+                            {a, b}
+                        ];
+
+                    (* main function that calculate the next iteration's range after checking sign of a and b*)
+                    bisec[f_,{a_, b_}] :=
+                        If[(f/.x->a)*(f/.x->b) <= 0,
+                            If[(f/.x->((a + b)/2)) * (f/.x->a) <= 0,
+                                {a, (a + b)/2},
+                                If[(f/.x->((a + b)/2)) * (f/.x->b) < 0,
+                                    {(a + b)/2, b}
+                                ]
+                            ],
+                            {a, b}
+                        ];
+
+                    (* *)
+                    intervals[f_,{a_,b_},step_] :=
+                        Table[
+                            {
+                                {line[f,{a,b},i][[1]], -(i/yline)},
+                                {line[f,{a,b},i][[2]], -(i/yline)}
+                            },
+                            {i, 1, step}
+                        ];
+
+                    vertline[a_] := InfiniteLine[{{a, -1}, {a, 1}}];
+
+                    Column[{
+                        If[(fx /. x -> avalue)*(fx /. x -> bvalue) <= 0,
+                            Column[{
+                                Row[{
+                                    "                     ",
+                                    TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                    TextCell[line[fx, {avalue, bvalue}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                    TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                    TextCell[line[fx, {avalue, bvalue}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                    TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
+                                }],
+                                Row[{
+                                    "                     ",
+                                    TextCell["Ampiezza: ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                    TextCell[Abs[line[fx, {avalue, bvalue}, nn][[1]]-line[fx, {avalue, bvalue}, nn][[2]]],FontSize->25,FontFamily->"Source Sans Pro"]
+                                }]
+                            }],
+                            Column[{
+                                Row[{
+                                    "                     ",
+                                    TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                    TextCell[line[fx, {avalue, bvalue}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                    TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
+                                    TextCell[line[fx, {avalue, bvalue}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
+                                    TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
+                                }],
+                                Row[{
+                                    "            ",
+                                    TextCell["L'intervallo scelto non contiene una soluzione",FontSize->25,FontFamily->"Source Sans Pro"]
+                                }]
+                            }]
+                        ],
+
+                        Plot[
+                            fx, {x, interva, intervb},
+                            PlotRange -> All,
+                            PlotStyle->Thickness->0.006,
+                            ImageSize -> {800, 500} ,
+                            BaseStyle-> {FontSize->30},
+                            Background->White,
+                            Epilog -> {
+                                {Red, Thickness[0.002], Line /@ intervals[fx, {avalue, bvalue}, nn]},
+                                {Dashed, vertline /@ line[fx, {avalue, bvalue}, nn]},
+                                If[pm == 0 && it == 0,
+                                    {Darker[Green],PointSize[0.015],Point[{((avalue+bvalue)/2),-(nn/yline)}]}
+                                ]
+                            }
+                        ]
+                    }]
+                ]
+            },
+            Paneled->False
+        ]
+
     ];
 
 (* slide "Metodo delle secanti (\*/3)" *)
