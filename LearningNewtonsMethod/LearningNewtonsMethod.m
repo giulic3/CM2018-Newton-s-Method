@@ -531,8 +531,8 @@ SimplifiedNewtonInteractive[pm_, it_] :=
 call with it = 1 to display graph with multiple iterations
 slide "Metodo di bisezione (1/5),(3/5),(4/5)" *)
 
-(* TODO fix warning texts logic, and test with all the interactive, fix all the Interactive that CRAAACK *)
-(* TODO add labels (x,y) for each interactive, maybe *)
+(* BODO fix warning texts logic, and test with all the interactive, fix all the Interactive that CRAAACK *)
+(* BODO add labels (x,y) for each interactive, maybe *)
 BisectionInteractive[pm_,it_] :=
     DynamicModule[
         {listFunctions,listIntervals,passf,ff,warninga,warningb},
@@ -544,7 +544,7 @@ BisectionInteractive[pm_,it_] :=
             {0,2,10},
             {0,3.14,30}
         };
-        (* TODO add another function here*)
+        (* BODO add another function here*)
         listFunctions = {
             TraditionalForm[x^2 - 2],
             TraditionalForm[Sin[x]],
@@ -584,7 +584,7 @@ BisectionInteractive[pm_,it_] :=
                     Print[ff];
                     (* select the position (index) of the first occurrence of ff inside ListFunctions *)
                     Print["Now selecting function from functions list..."];
-                    selectedInput = Position[listFunctions,ff][[1]]; (* TODO error here!*)
+                    selectedInput = Position[listFunctions,ff][[1]]; (* BODO error here!*)
                     Print["Just selected function from functions list..."];
                     interv = listIntervals[[ selectedInput ]];
                     interva = interv[[1]][[1]];
@@ -646,7 +646,7 @@ BisectionInteractive[pm_,it_] :=
 
                                     fx = ToExpression[ToString[ffx]];
 
-                                    (* TODO loop all'infinito se lascio le print....*)
+                                    (* BODO loop all'infinito se lascio le print....*)
                                     (*
                                     Print["function inside second initialization: "];
                                     Print[fx];
