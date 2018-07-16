@@ -32,6 +32,7 @@ SecondExample::usage = "Shows the cases in which the Newton's method fails";
 MethodsComparison::usage = "Show convergence to solution using three different methods";
 AlgoNewton::usage="Interactive Newton's method for finding roots";
 SecantInteractive::usage = "Interactively show step of iteration in the secant method";
+SimplifiedSecantInteractive::usage = "Simplified version of secant's method with a single Manipulate";
 Bolzano::usage = "Show root graph example step by step: press a button to advance";
 AlgoBisez::usage = "Interactive Bisection method for finding roots";
 AlgoSec::usage = "Interactive Secant method for finding roots";
@@ -409,7 +410,7 @@ NewtonInteractive[pm_,it_] :=
 
 SimplifiedNewtonInteractive[pm_, it_] :=
     DynamicModule[
-        {newton, f, a, b, n, x0, functionsList},
+        {newton, f, a, b, n, x0, functionsList, warning},
 
     (* list of functions that can be selected from the popup menu *)
         functionsList = {
@@ -423,8 +424,9 @@ SimplifiedNewtonInteractive[pm_, it_] :=
 
         f = TraditionalForm[x^2-2];
         (* TODO decide how to select intervals *)
-        a = 0.1;
+        a = 0;
         b = 4;
+        warning = "";
 
         (* TODO do newton computations here and in the manipulate body just retrieve the values *)
 
@@ -449,7 +451,7 @@ SimplifiedNewtonInteractive[pm_, it_] :=
                     TextCell["   ", FontSize -> 25],
                     TextCell[a,FontSize->23],
                     TextCell["   ", FontSize -> 25],
-                    Slider[Dynamic[x0],{a,b,0.01}],
+                    Slider[Dynamic[x0], {a,b,0.01}],
                     TextCell[" ",FontSize->25],
                     TextCell[b,FontSize->23],
                     TextCell["   ", FontSize -> 25],
@@ -466,18 +468,30 @@ SimplifiedNewtonInteractive[pm_, it_] :=
                 }]
             }],
             Initialization:>{
-                newton[inputFun_,x0value_,a_,b_,n_] := Module[
-                    {list,finalFunction,listArrow,x0},
+                newton[inputFun_,x0value_,a_,b_,n_] := DynamicModule[
+                    {list,finalFunction,listArrow, x0},
 
-                    x0 = N[ToExpression[x0value]];
+                  (* TODO add control on input field that takes whatever it finds at the moment *)
+                  x0 = N[ToExpression[x0value]];
+
+                  If[
+                      (x0 == Null) || (x0 == ""),
+                      x0 = 1.
+                    ];
+
+                  (* x0 = N[ToExpression[x0value]]; *)
                     (* warning logic *)
                     If[
-                        x0 < a,
-                        x0 = a+0.01; warning = "Hai scelto un valore che va fuori dal range!"
+                        x0 < a + 0.01,
+                        x0 = a + 0.01;
+                        warning = "Hai scelto per x0 un valore che va fuori dal range!",
+                        warning = ""
                     ];
+
                     If[
-                        x0 > b,
-                        x0 = b-0.01; warning = "Hai scelto per a un valore che va fuori dal range!"
+                        x0 > b - 0.01,
+                        x0 = b - 0.01;
+                        warning = "Hai scelto per x0 un valore che va fuori dal range!"
                     ];
 
                     (* creating the xi series *)
@@ -521,9 +535,9 @@ SimplifiedNewtonInteractive[pm_, it_] :=
                         ]
                     }]
                 ]
-            }
-        ],
-        Paneled->False
+            },
+          Paneled->False
+        ]
     ]
 
 
@@ -1182,6 +1196,190 @@ SecantInteractive[pm_,it_] :=
             Paneled->False
         ]
     ];
+
+SimplifiedSecantInteractive[pm_,it_] :=
+	DynamicModule[
+		{
+			Secant, (* name of the function that computes the secant method *)
+			ff, (* function chosen from the popup-menu *)
+			functionsList, (* list of functions to choose from in the popup-menu *)
+			aa, bb,  (* plotting intervals *)
+			ax, bx, (* method's intervals i.e. x0 and x1 *)
+			iteration,
+			warninga, warningb
+		},
+
+
+		functionsList = {
+			TraditionalForm[x^2 - 2],
+			TraditionalForm[x^4 - 2],
+			TraditionalForm[(x/2)^2+2Sin[x]+Cos[x]-10],
+			TraditionalForm[3x+Sin[x]-Exp[x]],
+			TraditionalForm[Cos[x]],
+			TraditionalForm[x-Sin[x]-(1/2)]
+		};
+
+		ff = TraditionalForm[x^2-2];
+
+		(* this corresponds to what is written in the notebook *)
+		(*
+		If[ == TraditionalForm[x^2-2],
+			{
+				ax = 1.,
+				bx = 2.
+			}
+		];
+		*)
+		ax = 1.;
+		bx = 2.;
+		(* plotting intervals *)
+		aa = 0;
+		bb = 4;
+		warninga = "";
+		warningb = "";
+
+
+		Manipulate[
+			Secant[ff,N[ax],N[bx],aa,bb,iteration],
+			Row[{
+				TextCell["Funzione: ", FontSize->25],
+				If[pm == 1,
+					PopupMenu[Dynamic[ff], functionsList, MenuStyle->{FontSize->23}],
+					TextCell[TraditionalForm[x^2-2], FontSize->25]
+				]
+			}],
+
+			Column[{
+				Row[{
+					TextCell["a   ", FontSize->23],
+					TextCell[aa + 0.01, FontSize -> 23],
+					Slider[Dynamic[ax],{(aa+0.01), (bb-0.01),0.01}],
+					TextCell[bb - 0.01, FontSize -> 23],
+					TextCell["   ",FontSize->23],
+					InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+					TextCell["   ", FontSize -> 23],
+					TextCell[Dynamic[warninga],"Text"]
+				}],
+				Row[{
+					TextCell["b   ", FontSize->23],
+					TextCell[aa + 0.01, FontSize -> 23],
+					Slider[Dynamic[bx],{(aa+0.01), (bb-0.01),0.01}],
+					TextCell[bb - 0.01, FontSize -> 23],
+					InputField[Dynamic[bx], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
+					TextCell["   ",FontSize->23],
+					TextCell[Dynamic[warningb],"Text"]
+
+				}],
+				Row[{
+					If[it == 1,TextCell["Iterazioni ", FontSize->23]],
+					If[it == 1,Slider[Dynamic[iteration],{0,6,1}]],
+					If[it == 1,TextCell[" ",FontSize->23]],
+					If[it == 1,TextCell[Dynamic[iteration],FontSize->23],iteration=0;]
+				}]
+			}], (* end column *)
+
+			Initialization:>{
+
+				Secant[inputFun_,x0_,x1_,a_,b_,i_] := DynamicModule[
+					{xValues,finalFunction, x0value, x1value},
+
+					finalFunction = ToExpression[ToString[inputFun]];
+					x0value = N[ToExpression[x0]];
+					x1value = N[ToExpression[x1]];
+
+					(* if user inputs values outside the slider range, values are "normalized" *)
+
+					If[
+						x0value < a+0.01,
+						x0value = a+0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
+						warninga = ""
+					];
+					If[
+						x1value < a+0.01,
+						x1value = a+0.01; warningb = "Hai scelto per b un valore che va fuori dal range!",
+						warningb = ""
+					];
+					If[
+						x0value > b-0.01,
+						x0value = b-0.01; warninga = "Hai scelto per a un valore che va fuori dal range!"
+					];
+					If[
+						x1value > b,
+						x1value = b-0.01; warningb = "Hai scelto per b un valore che va fuori dal range!"
+					];
+
+					xValues =
+						NestList[
+							{
+								#[[1]],
+							(*x1 - f(x1) * { (x1-x0) /  [ f(x1) - f(x0) ] }*)
+								#[[1]] - (finalFunction/.x->#[[1]])*((#[[1]] - #[[2]]) / ((finalFunction/.x->#[[1]]) -  (finalFunction/.x->#[[2]])))
+							} &,
+							{x1, x0},
+							i
+						];
+
+					Plot[
+						finalFunction, {x, a, b},
+						PlotRange -> {{a,b},Full},
+						AxesLabel -> {Style["x", 16], Style["y", 16]},
+						PlotStyle -> Thickness[0.006],
+						BaseStyle-> {FontSize->30},
+						Background->White,
+						Epilog -> {
+							{
+								Thickness[0.002],
+								MapIndexed[
+									{
+										Darker[Green],
+										Line[{
+											{#1[[1]], finalFunction/.x->#[[1]]},
+											{#1[[2]], finalFunction/.x->#[[2]]}
+										}]
+									} &,
+									xValues
+								]
+							},
+							{
+								Thickness[0.002], Black,
+								Line[({{#1, 0}, {#1, finalFunction/.x->#1}} &) /@ Flatten[xValues]]
+						},
+						{
+							PointSize[0.01],
+							Darker[Green],
+							(Point[{#1, 0}] &) /@ Flatten[xValues]
+				},
+				{(* x0 and x1 points are black *)
+					PointSize[0.01],
+					Black,
+					Point[{x0value,0}],
+					Point[{x1value,0}]
+				},
+				{
+					If[x0value == 1 && x1value == 2,
+					(* draw point labels only for the starting x0=1 and x1=2 (aka a and b)*)
+						{
+							Text[
+								{1, -1},
+								Offset[{0, 70}, {1, -1}]
+							],
+							Text[
+								{2, 2},
+								Offset[{0, 70}, {2, 2}]
+							]
+						}
+					]
+				}
+					},
+						Axes -> True,
+						ImageSize -> {750,450},
+						AxesLabel -> {Style["x", 16], Style["y", 16]}
+					]
+				]
+			},
+			Paneled->False
+		]
+	];
 
 (* these two functions show cases/examples in which the Newton's method fails *)
 (* xlog(x)-1*)
