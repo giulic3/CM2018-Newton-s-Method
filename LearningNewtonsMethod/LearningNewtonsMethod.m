@@ -814,7 +814,7 @@ SimplifiedBisectionInteractive[pm_,it_] :=
                     Slider[Dynamic[ax], {(interva + 0.01), (intervb - 0.01), 0.01}],
                     TextCell[intervb - 0.01, FontSize -> 23],
                     TextCell["   ", FontSize -> 25],
-                    InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+                    InputField[Dynamic[ax], Number, ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
                     TextCell["   ", FontSize -> 25]
                 (* text filled when input for a is a value outside range *)
                     TextCell[Dynamic[warninga], "Text"]
@@ -826,7 +826,7 @@ SimplifiedBisectionInteractive[pm_,it_] :=
                     Slider[Dynamic[bx],{(interva+0.01), (intervb-0.01),0.01}],
                     TextCell[intervb-0.01, FontSize->23],
                     TextCell["   ",FontSize->25],
-                    InputField[Dynamic[bx], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
+                    InputField[Dynamic[bx], Number, ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
                     TextCell["   ",FontSize->25],
                 (* text filled when input for b is a value outside range *)
                     TextCell[Dynamic[warningb], "Text"]
@@ -852,9 +852,19 @@ SimplifiedBisectionInteractive[pm_,it_] :=
                     If[ffx == TraditionalForm[Cos[x]],yline=35];
                     fx = ToExpression[ToString[ffx]];
 
+                    If[
+                        aa===Null,
+                        {avalue=1.,ax=1.},
+                        avalue = N[ToExpression[aa]];
+                    ];
+                    If[
+                        bb===Null,
+                        {bvalue=2.;bx=2.},
+                        bvalue = N[ToExpression[bb]];
+                    ];
 
-                    avalue = N[ToExpression[aa]]; (* used to treat "inputfield"*)
-                    bvalue = N[ToExpression[bb]];
+                     (* used to treat "inputfield"*)
+
 
                     (* if user inputs values outside the slider range, values are "normalized" *)
 
@@ -880,7 +890,6 @@ SimplifiedBisectionInteractive[pm_,it_] :=
                         bvalue = intervb-0.01;
                         warningb = "Hai scelto per b un valore che va fuori dal range!"
                     ];
-
 
                     (* helper function that draws horizontal red line that displays the bisection range at the first iteration *)
                     line[f_,{a_,b_},1] := {Min[avalue, bvalue], Max[avalue, bvalue]};
