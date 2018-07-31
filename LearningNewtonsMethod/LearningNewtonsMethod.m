@@ -1614,7 +1614,17 @@ the first point from which start the iteration *)
 (* called in ReadInputFile[] *)
 (* TODO add more explanations on how to give input, e.g. don't ctrl+c but write the number explicitly *)
 Esercizio[funzione_, a_, b_,x0_] :=
-    DynamicModule[ {plot,testoRow1,testoRow2,buttonNew,fun,i,IterationList,Iter2Result,Risultato,xn},
+    DynamicModule[ {
+        plot,
+        testoRow1,testoRow2, testoRow3, testoRow4,
+        buttonNew,
+        fun,
+        i,
+        IterationList,
+        Iter2Result,
+        Risultato,
+        xn
+    },
         fun = ToExpression[funzione]; (* the current function *)
         (* plot the current function *)
         plot =
@@ -1632,7 +1642,9 @@ Esercizio[funzione_, a_, b_,x0_] :=
             ];
         (* exercise's text *)
         testoRow1 = "Calcolare un'approssimazione dello zero usando il Metodo di Newton,";
-        testoRow2 = "a partire dalla prima approssimazione data";
+        testoRow2 = "a partire dalla prima approssimazione data\n";
+        testoRow3 = "Per iniziare scrivere (non copiare e incollare!) il valore della prima approssimazione data nella prima casella di controllo \ne premere invio.";
+        testoRow4 = "Procedere premendo su 'Aggiungi iterazione' e riscrivere il valore della nuova approssimazione\nottenuta nello step precedente nella riga successiva.\nAl termine scrivere il valore nella casella finale e fare clic su 'Verifica'.";
         buttonNew = Button[Style["Nuovo Esercizio", FontSize -> 20], ImageSize -> 150];
         Off[FindRoot::cvmit];
         i = 1;
@@ -1647,7 +1659,11 @@ Esercizio[funzione_, a_, b_,x0_] :=
                         " ",
                         Column[{
                             Row[{TextCell[testoRow1, "Text", FontSize -> 28]}], (* text exercise *)
-                            Row[{TextCell[testoRow2, "Text", FontSize -> 28]}] (* text exercise *)
+                            Row[{TextCell[testoRow2, "Text", FontSize -> 28]}], (* text exercise *)
+                            (* further explanations *)
+	                        Row[{TextCell[testoRow3, "Text", FontSize -> 23]}],
+	                        Row[{TextCell[testoRow4, "Text", FontSize -> 23]}]
+
                         }]
                     }, "                         "],
                     Row[{
@@ -1656,7 +1672,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
                         Column[{
                             Row[{}],
                             Row[{
-                                TextCell["Funzione Data:", "Text", FontSize -> 30],
+                                TextCell["Funzione data:", "Text", FontSize -> 30],
                                 TextCell["    f(x) = ", "Text", FontSize -> 30,FontColor->Blue],
                                 TextCell[TraditionalForm[fun], "Text", FontSize -> 30,FontColor->Blue]}],  (* function *)
                             Row[{
@@ -1678,7 +1694,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
                                 }, ImageSize->200],
                             Row[{ (* in this section is verified the result inserted by the user *)
                                 TextCell["Inserisci il risultato: ", "Text", FontSize -> 30],
-                                InputField[Dynamic[Risultato], BaseStyle->FontSize->25, ImageSize->150],
+                                InputField[Dynamic[Risultato], Number, BaseStyle->FontSize->25, ImageSize->150],
                                 "  ",
                                 Button[Style["Verifica", FontSize -> 20],
                                     {
