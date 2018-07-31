@@ -1663,7 +1663,7 @@ Esercizio[funzione_, a_, b_,x0_] :=
                                 }, ImageSize->200],
                             Row[{ (* in this section is verified the result inserted by the user *)
                                 TextCell["Inserisci il risultato: ", "Text", FontSize -> 30],
-                                InputField[Dynamic[Risultato], String, BaseStyle->FontSize->25, ImageSize->150],
+                                InputField[Dynamic[Risultato], BaseStyle->FontSize->25, ImageSize->150],
                                 "  ",
                                 Button[Style["Verifica", FontSize -> 20],
                                     {
