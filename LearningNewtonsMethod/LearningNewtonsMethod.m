@@ -828,7 +828,7 @@ SimplifiedBisectionInteractive[pm_,it_] :=
                     Slider[Dynamic[ax], {(interva + 0.01), (intervb - 0.01), 0.01}],
                     TextCell[intervb - 0.01, FontSize -> 23],
                     TextCell["   ", FontSize -> 25],
-                    InputField[Dynamic[ax], Number, ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+                    InputField[Dynamic[SetPrecision[ax,3], (ax = #) &], Number, ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
                     TextCell["   ", FontSize -> 25]
                 (* text filled when input for a is a value outside range *)
                     TextCell[Dynamic[warninga], "Text"]
@@ -840,7 +840,7 @@ SimplifiedBisectionInteractive[pm_,it_] :=
                     Slider[Dynamic[bx],{(interva+0.01), (intervb-0.01),0.01}],
                     TextCell[intervb-0.01, FontSize->23],
                     TextCell["   ",FontSize->25],
-                    InputField[Dynamic[bx], Number, ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
+                    InputField[Dynamic[SetPrecision[bx,3], (bx = #) &], Number, ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
                     TextCell["   ",FontSize->25],
                 (* text filled when input for b is a value outside range *)
                     TextCell[Dynamic[warningb], "Text"]
@@ -1256,7 +1256,7 @@ SimplifiedSecantInteractive[pm_,it_] :=
 					Slider[Dynamic[ax],{(aa+0.01), (bb-0.01),0.01}],
 					TextCell[bb - 0.01, FontSize -> 23],
 					TextCell["   ",FontSize->23],
-					InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
+					InputField[Dynamic[SetPrecision[ax,3], (ax = #) &], Number, ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
 					TextCell["   ", FontSize -> 23],
 					TextCell[Dynamic[warninga],"Text"]
 				}],
@@ -1265,7 +1265,7 @@ SimplifiedSecantInteractive[pm_,it_] :=
 					TextCell[aa + 0.01, FontSize -> 23],
 					Slider[Dynamic[bx],{(aa+0.01), (bb-0.01),0.01}],
 					TextCell[bb - 0.01, FontSize -> 23],
-					InputField[Dynamic[bx], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
+					InputField[Dynamic[SetPrecision[bx,3], (bx = #) &], Number, ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
 					TextCell["   ",FontSize->23],
 					TextCell[Dynamic[warningb],"Text"]
 
@@ -1284,8 +1284,23 @@ SimplifiedSecantInteractive[pm_,it_] :=
 					{xValues,finalFunction, x0value, x1value},
 
 					finalFunction = ToExpression[ToString[inputFun]];
+                    (* check illegal values in InputField *)
+                    If[
+                        x0 === Null,
+                        {x0value = 1., ax = 1},
+	                    x0value = N[ToExpression[x0]];
+                    ];
+                    If[
+                        x1 === Null,
+                        {x1value = 2., bx = 1},
+	                    x1value = N[ToExpression[x1]];
+
+                    ]
+
+                    (*
 					x0value = N[ToExpression[x0]];
 					x1value = N[ToExpression[x1]];
+                    *)
 
 					(* if user inputs values outside the slider range, values are "normalized" *)
 
