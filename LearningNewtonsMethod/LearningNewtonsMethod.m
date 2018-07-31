@@ -2350,7 +2350,7 @@ AlgoSec[] :=
                                         Spacer[30],
                                         Row[{
 
-                                            TextCell["  2b. Se segno(c) = segno(a) ",
+                                            TextCell["  2b. Se segno(f(c)) = segno(f(a)) ",
                                                 FontSize -> 25]
                                         }],
                                         Row[{
@@ -2520,18 +2520,18 @@ AlgoSec[] :=
                                                             ToString[a] != ToString[""],
                                                             Row[{
 
-                                                                TextCell["Controllo se segno(", FontSize -> 25,
+                                                                TextCell["Controllo se segno(f(", FontSize -> 25,
                                                                     FontColor -> Gray],
 
                                                                 TextCell[cVal, FontSize -> 25,
                                                                     FontColor -> Gray],
 
-                                                                TextCell[") = segno(", FontSize -> 25,
+                                                                TextCell[")) = segno(f(", FontSize -> 25,
                                                                     FontColor -> Gray],
 
                                                                 TextCell[Dynamic[a], FontSize -> 25,
                                                                     FontColor -> Gray],
-                                                                TextCell[")", FontSize -> 25, FontColor -> Gray]
+                                                                TextCell["))", FontSize -> 25, FontColor -> Gray]
                                                             }],
 
                                                             ""]
