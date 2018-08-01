@@ -23,16 +23,13 @@ GoHomepage::usage = "Return to the homepage";
 ReadInputFile::usage = "Reads expressions from 'inputExp' file";
 NormalizeRangeValues::usage = "Checks if values inserted belong or not to the specified interval, and if not, it normalizes them";
 NewtonInteractive::usage = "Animated Newton's Method";
-SimplifiedNewtonInteractive::usage = "Simplified version of Newton's method with a single Manipulate";
 ConvertImageToFullyScaledNinePatch::usage = "Set notebook background image";
 BisectionInteractive::usage = "Interactive Bisection Method BisectionMethod[pm=0/1,it=0/1] pm->PopupMenu, it->Interactive";
-SimplifiedBisectionInteractive::usage="Simplified version of Newton's method with a single Manipulate";
 FirstExample::usage = "Shows the cases in which the Newton's method fails ";
 SecondExample::usage = "Shows the cases in which the Newton's method fails";
 MethodsComparison::usage = "Show convergence to solution using three different methods";
 AlgoNewton::usage="Interactive Newton's method for finding roots";
 SecantInteractive::usage = "Interactively show step of iteration in the secant method";
-SimplifiedSecantInteractive::usage = "Simplified version of secant's method with a single Manipulate";
 Bolzano::usage = "Show root graph example step by step: press a button to advance";
 AlgoBisez::usage = "Interactive Bisection method for finding roots";
 AlgoSec::usage = "Interactive Secant method for finding roots";
@@ -274,141 +271,7 @@ ReadInputFile[] :=
 
 (* Function that shows an interactive manipulate,
  slide "Metodo di Newton (2/3 *)
-NewtonInteractive[pm_,it_] :=
-    DynamicModule[
-        {newton,ff,passInput,listaIntervalli,listaFunzioni,selectedInput,aa,bb,interv},
-    (* plotting interval for each function *)
-        listaIntervalli={
-            {0.375, 3},
-            {0, 2*3.14},
-            {0, 2*3.14},
-            {-4, 8},
-            {0, 6},
-            {0, 2*3.14}
-        (*{-3, 6}*)
-        };
-
-        (* list of functions that can be selected from the popup menu *)
-        listaFunzioni={
-            TraditionalForm[x^2-2],
-            TraditionalForm[Cos[x]],
-            TraditionalForm[Sin[x]],
-            TraditionalForm[-9 + (x-2)^2],
-            TraditionalForm[-4 + x - 3*(x)^2 + (x)^3],
-            TraditionalForm[Sin[x]*Cos[x]]
-        (*TraditionalForm[-1 + x^2*Log2[x]]*)
-        };
-
-        ff=TraditionalForm[x^2-2];
-
-        Manipulate[
-            passInput[ff],
-            Row[{
-                TextCell["  Funzione: ", FontSize->25],
-                If[pm==1,
-                    PopupMenu[Dynamic[ff], listaFunzioni, MenuStyle->{FontSize->23}],
-                    TextCell[TraditionalForm[x^2-2], FontSize->23]
-                ]
-            }],
-            Initialization:>{
-                passInput[input_]:= DynamicModule[
-                (* nn number of it and x00 starting point *)
-                    {nn,x00},
-                (* select the position (index) of the first occurrence of input inside listaFunzioni *)
-                    selectedInput = Position[listaFunzioni,input][[1]];
-                    (* select the corresponding plotting interval *)
-                    interv = listaIntervalli[[ selectedInput ]];
-                    (* aa and bb store bounds of the selected interval *)
-                    aa = interv[[1]][[1]];
-                    bb = interv[[1]][[2]];
-                    warning="";
-                    Manipulate[ (* options *)
-                        newton[input, N[x00], aa, bb, nn],
-                        Column[{
-                            Row[{
-                                TextCell[" ",FontSize->25],
-                                TextCell[Subscript[x,0], FontSize->23],
-                                TextCell["   ", FontSize -> 25],
-                                TextCell[aa+0.01,FontSize->23],
-                                TextCell["   ", FontSize -> 25],
-                                Slider[Dynamic[x00],{aa+0.01,bb-0.01,0.01}],
-                                TextCell[" ",FontSize->25],
-                                TextCell[bb-0.01,FontSize->23],
-                                TextCell["   ", FontSize -> 25],
-                                InputField[Dynamic[x00], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
-                                TextCell["   ", FontSize -> 25],
-                                TextCell[Dynamic[warning], "Text"]
-                            }],
-                            Row[{
-                                If[it==1,TextCell[" Iterazioni ", FontSize->23]],
-                                If[it==1,Slider[Dynamic[nn],{1,12,1}]],
-                                If[it==1,TextCell[" ",FontSize->25]],
-                                If[it==1,TextCell[Dynamic[nn],FontSize->23],nn=1;]
-                            }]
-                        }],
-
-                        Initialization:>{
-                            newton[inputFun_,x0value_,a_,b_,n_] := Module[
-                                {list,funzioneFinale,listArrow,x0},
-                                x0 = N[ToExpression[x0value]];
-                                If[
-                                    x0 < a,
-                                    x0 = a+0.01; warning = "Hai scelto un valore che va fuori dal range!"
-                                ];
-                                If[
-                                    x0 > b,
-                                    x0 = b-0.01; warning = "Hai scelto per a un valore che va fuori dal range!"
-                                ];
-                                funzioneFinale = ToExpression[ToString[inputFun]];
-                                list = NestList[ (#1 - ((funzioneFinale/.x->#1)/(D[funzioneFinale,x]/.x->#1))) & ,x0, n];
-                                Clear[listArrow];
-                                listArrow = {{list[[1]],0}};
-                                For[i=1,i<=n,i++,
-                                    listArrow = Append[listArrow,{list[[i]],funzioneFinale/.x->list[[i]]}];
-                                    listArrow = Append[listArrow,{list[[i+1]],0}];
-                                ];
-
-                                Column[{
-                                    Row[{
-                                        "                         ",
-                                        TextCell[Subscript["x", n],FontSize->25,FontFamily->"Source Sans Pro"],
-                                        TextCell[ " = ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                        TextCell[list[[nn]],FontSize->25,FontFamily->"Source Sans Pro"]
-                                    }],
-                                    Plot[
-                                        funzioneFinale, {x, aa, bb},
-                                        PlotRange -> {{aa,bb},Full},
-                                        AxesLabel -> {Style["x", 30], Style["y", 30]},
-                                        PlotStyle -> Thickness[0.006],
-                                        BaseStyle-> {FontSize->30},
-                                        Background->White,
-                                        Epilog -> {
-                                            {
-                                                Darker[Green],
-                                                Thickness[0.002],
-                                                If[n>0,Line[{listArrow}]]
-                                            },
-                                            {
-                                                Darker[Green],
-                                                PointSize[0.015],
-                                                Point[{list[[i]], 0}]
-                                            }
-                                        },
-                                        ImageSize -> {800,500}
-                                    ]
-                                }]
-                            ]
-
-                        },
-                        Paneled->False
-                    ]
-                ]
-            },
-            Paneled->False
-        ]
-    ];
-
-SimplifiedNewtonInteractive[pm_, it_] :=
+NewtonInteractive[pm_, it_] :=
     DynamicModule[
         {newton, f, a, b, n, x0, functionsList, warning},
 
@@ -423,12 +286,10 @@ SimplifiedNewtonInteractive[pm_, it_] :=
         };
 
         f = TraditionalForm[x^2-2];
-        (* TODO decide how to select intervals *)
         a = 0;
         b = 4;
         warning = "";
 
-        (* TODO do newton computations here and in the manipulate body just retrieve the values *)
 
         Manipulate[
         (* manipulate options *)
@@ -471,7 +332,6 @@ SimplifiedNewtonInteractive[pm_, it_] :=
                 newton[inputFun_,x0value_,a_,b_,n_] := DynamicModule[
                     {list,finalFunction,listArrow, x0},
 
-                  (* TODO add control on input field that takes whatever it finds at the moment *)
                   x0 = N[ToExpression[x0value]];
 
                   If[
@@ -545,252 +405,7 @@ SimplifiedNewtonInteractive[pm_, it_] :=
 call with it = 1 to display graph with multiple iterations
 slide "Metodo di bisezione (1/5),(3/5),(4/5)" *)
 
-(* BODO fix warning texts logic, and test with all the interactive, fix all the Interactive that CRAAACK *)
-(* BODO add labels (x,y) for each interactive, maybe *)
 BisectionInteractive[pm_,it_] :=
-    DynamicModule[
-        {listFunctions,listIntervals,passf,ff,warninga,warningb},
-
-        listIntervals = {
-            {0,4,5},
-            {(1/2*3.14), (1.5*3.14),30},
-            {0,2,40},
-            {0,2,10},
-            {0,3.14,30}
-        };
-        (* BODO add another function here*)
-        listFunctions = {
-            TraditionalForm[x^2 - 2],
-            TraditionalForm[Sin[x]],
-            TraditionalForm[Cos[2x]Sin[x]],
-            TraditionalForm[x*Log[x]+x^3],
-            TraditionalForm[Cos[x]]
-        };
-
-        ff = TraditionalForm[x^2-2];
-
-        Manipulate[
-            passf[ff],
-            Row[{
-                TextCell["Funzione: ", FontSize->25],
-                If[pm == 1,
-                    PopupMenu[Dynamic[ff], listFunctions, MenuStyle->{FontSize->23}],
-                    TextCell[TraditionalForm[x^2-2], FontSize->25]
-                ]
-            }],
-
-            Initialization :> {
-
-                passf[fun_]:=	DynamicModule[
-                    {
-                        ax,
-                        bx,
-                        stepx,
-                        BisezMethod,
-                        selectedInput,
-                        interv,
-                        interva,
-                        intervb,
-                        yline
-                    },
-
-                    Print["function inside first initialization: "];
-                    Print[ff];
-                    (* select the position (index) of the first occurrence of ff inside ListFunctions *)
-                    Print["Now selecting function from functions list..."];
-                    selectedInput = Position[listFunctions,ff][[1]]; (* BODO error here!*)
-                    Print["Just selected function from functions list..."];
-                    interv = listIntervals[[ selectedInput ]];
-                    interva = interv[[1]][[1]];
-                    intervb = interv[[1]][[2]];
-                    yline = interv[[1]][[3]];
-                    ax=interva+0.01;
-                    bx=intervb-0.01;
-                    If[fun == TraditionalForm[x^2-2],
-                        {
-                            ax = 1.,
-                            bx = 2.
-                        }
-                    ];
-                    warninga = "";
-                    warningb = "";
-
-
-                    Manipulate[
-                        BisezMethod[fun, ax, bx, stepx],
-
-                        Column[{
-                            Row[{
-                                TextCell["a   ", FontSize -> 23],
-                                TextCell[interva + 0.01, FontSize -> 23],
-                                Slider[Dynamic[ax], {(interva + 0.01), (intervb - 0.01), 0.01}],
-                                TextCell[intervb - 0.01, FontSize -> 23],
-                                TextCell["   ", FontSize -> 25],
-                                InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
-                                TextCell["   ", FontSize -> 25]
-                            (* text filled when input for a is a value outside range *)
-                                TextCell[Dynamic[warninga], "Text"]
-
-                            }],
-                            Row[{
-                                TextCell["b   ", FontSize->23],
-                                TextCell[interva+0.01, FontSize->23],
-                                Slider[Dynamic[bx],{(interva+0.01), (intervb-0.01),0.01}],
-                                TextCell[intervb-0.01, FontSize->23],
-                                TextCell["   ",FontSize->25],
-                                InputField[Dynamic[bx], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
-                                TextCell["   ",FontSize->25],
-                            (* text filled when input for b is a value outside range *)
-                                TextCell[Dynamic[warningb], "Text"]
-
-                            }],
-                            Row[{
-                                If[it==1,TextCell["Iterazioni ", FontSize->23]],
-                                If[it==1,Slider[Dynamic[stepx],{1,12,1}]],
-                                If[it==1,TextCell[" ",FontSize->25]],
-                                If[it==1,TextCell[Dynamic[stepx],FontSize->23],stepx=1;]
-                            }]
-                        }],
-
-
-                        Initialization :> {
-                            BisezMethod[ffx_, aa_, bb_, nn_] :=
-                                Module[
-                                    {line, bisec, intervals, vertline, fx, avalue, bvalue},
-
-                                    fx = ToExpression[ToString[ffx]];
-
-                                    (* BODO loop all'infinito se lascio le print....*)
-                                    (*
-                                    Print["function inside second initialization: "];
-                                    Print[fx];
-                                    *)
-
-                                    avalue = N[ToExpression[aa]]; (* used to treat "inputfield"*)
-                                    bvalue = N[ToExpression[bb]];
-
-                                    (* if user inputs values outside the slider range, values are "normalized" *)
-
-                                    If[
-                                        avalue < aa+0.01,
-                                        avalue = aa+0.01;
-                                        warninga = "Hai scelto per a un valore che va fuori dal range!",
-                                        warninga = ""
-                                    ];
-                                    If[
-                                        bvalue < bb-0.01,
-                                        bvalue = bb-0.01;
-                                        warningb = "Hai scelto per b un valore che va fuori dal range!",
-                                        warningb = ""
-                                    ];
-                                    If[
-                                        avalue > aa+0.01,
-                                        avalue = aa+0.01;
-                                        warninga = "Hai scelto per a un valore che va fuori dal range!"
-                                    ];
-                                    If[
-                                        bvalue > bb-0.01,
-                                        bvalue = bb-0.01;
-                                        warningb = "Hai scelto per b un valore che va fuori dal range!"
-                                    ];
-
-
-                                    (* helper function that draws horizontal red line that displays the bisection range at the first iteration *)
-                                    line[f_,{a_,b_},1] := {Min[avalue, bvalue], Max[avalue, bvalue]};
-
-
-                                    (* helper function that draws horizontal red line that displays the bisection range at the nth iteration *)
-                                    line[f_,{a_,b_},n_] :=
-                                        If[ (f/.x->a) * (f/.x->b) <= 0,
-                                            bisec[f, line[f,{a,b},n -1]],
-                                            {a, b}
-                                        ];
-
-                                    (* main function that calculate the next iteration's range after checking sign of a and b*)
-                                    bisec[f_,{a_, b_}] :=
-                                        If[(f/.x->a)*(f/.x->b) <= 0,
-                                            If[(f/.x->((a + b)/2)) * (f/.x->a) <= 0,
-                                                {a, (a + b)/2},
-                                                If[(f/.x->((a + b)/2)) * (f/.x->b) < 0,
-                                                    {(a + b)/2, b}
-                                                ]
-                                            ],
-                                            {a, b}
-                                        ];
-
-                                    (* *)
-                                    intervals[f_,{a_,b_},step_] :=
-                                        Table[
-                                            {
-                                                {line[f,{a,b},i][[1]], -(i/yline)},
-                                                {line[f,{a,b},i][[2]], -(i/yline)}
-                                            },
-                                            {i, 1, step}
-                                        ];
-
-                                    vertline[a_] := InfiniteLine[{{a, -1}, {a, 1}}];
-
-                                    Column[{
-                                        If[(fx /. x -> avalue)*(fx /. x -> bvalue) <= 0,
-                                            Column[{
-                                                Row[{
-                                                    "                     ",
-                                                    TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                    TextCell[line[fx, {avalue, bvalue}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
-                                                    TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                    TextCell[line[fx, {avalue, bvalue}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
-                                                    TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
-                                                }],
-                                                Row[{
-                                                    "                     ",
-                                                    TextCell["Ampiezza: ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                    TextCell[Abs[line[fx, {avalue, bvalue}, nn][[1]]-line[fx, {avalue, bvalue}, nn][[2]]],FontSize->25,FontFamily->"Source Sans Pro"]
-                                                }]
-                                            }],
-                                            Column[{
-                                                Row[{
-                                                    "                     ",
-                                                    TextCell["Intervallo: [ ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                    TextCell[line[fx, {avalue, bvalue}, nn][[1]],FontSize->25,FontFamily->"Source Sans Pro"],
-                                                    TextCell[", ",FontSize->25,FontFamily->"Source Sans Pro"],
-                                                    TextCell[line[fx, {avalue, bvalue}, nn][[2]],FontSize->25,FontFamily->"Source Sans Pro"],
-                                                    TextCell[" ]",FontSize->25,FontFamily->"Source Sans Pro"]
-                                                }],
-                                                Row[{
-                                                    "            ",
-                                                    TextCell["L'intervallo scelto non contiene una soluzione",FontSize->25,FontFamily->"Source Sans Pro"]
-                                                }]
-                                            }]
-                                        ],
-
-                                        Plot[
-                                            fx, {x, interva, intervb},
-                                            PlotRange -> All,
-                                            PlotStyle->Thickness->0.006,
-                                            ImageSize -> {800, 500} ,
-                                            BaseStyle-> {FontSize->30},
-                                            Background->White,
-                                            Epilog -> {
-                                                {Red, Thickness[0.002], Line /@ intervals[fx, {avalue, bvalue}, nn]},
-                                                {Dashed, vertline /@ line[fx, {avalue, bvalue}, nn]},
-                                                If[pm == 0 && it == 0,
-                                                    {Darker[Green],PointSize[0.015],Point[{((avalue+bvalue)/2),-(nn/yline)}]}
-                                                ]
-                                            }
-                                        ]
-                                    }]
-                                ]
-                        },
-                        Paneled->False
-                    ]
-                ]
-            },
-            Paneled->False
-        ]
-    ];
-
-
-SimplifiedBisectionInteractive[pm_,it_] :=
     DynamicModule[
         {listFunctions,listIntervals,passf,f,warninga,warningb,ax,bx,interva,intervb,stepx,yline,BisezMethod},
 
@@ -799,7 +414,9 @@ SimplifiedBisectionInteractive[pm_,it_] :=
             TraditionalForm[Sin[x]],
             TraditionalForm[Cos[1/2x+1]],
             TraditionalForm[x*Log[x]-2],
-            TraditionalForm[Cos[x]]
+            TraditionalForm[Cos[x]],
+	        TraditionalForm[x-Sin[x]-(1/2)]
+
         };
 
         f = TraditionalForm[x^2-2];
@@ -998,206 +615,6 @@ SimplifiedBisectionInteractive[pm_,it_] :=
 
 (* slide "Metodo delle secanti (\*/3)" *)
 SecantInteractive[pm_,it_] :=
-    DynamicModule[
-        {Secant, passInput, intervalsList, functionsList, selectedInput, aa, bb, interval,ff, warninga, warningb},
-
-        intervalsList = {
-            {0,4},
-            {0.4,1.8},
-            {0,10},
-            {-1,1.5},
-            {(-1/4)Pi, Pi},
-            {0.4,1.8}
-        };
-
-        functionsList = {
-            TraditionalForm[x^2 - 2],
-            TraditionalForm[x^4 - 2],
-            TraditionalForm[(x/2)^2+2Sin[x]+Cos[x]-10],
-            TraditionalForm[3x+Sin[x]-Exp[x]],
-            TraditionalForm[Cos[x]],
-            TraditionalForm[x-Sin[x]-(1/2)]
-        };
-
-        ff = TraditionalForm[x^2-2];
-
-        Manipulate[
-            passInput[ff],
-
-            Row[{
-                TextCell["Funzione: ", FontSize->25],
-                If[pm == 1,
-                    PopupMenu[Dynamic[ff], functionsList, MenuStyle->{FontSize->23}],
-                    TextCell[TraditionalForm[x^2-2], FontSize->25]
-                ]
-            }],
-
-            Initialization:> {
-
-                passInput[input_]:= DynamicModule[
-                    {
-                        ax,
-                        bx,
-                        iteration
-                    },
-                    selectedInput = Position[functionsList,input][[1]];
-                    interval = intervalsList[[selectedInput]];
-                    aa = interval[[1]][[1]];
-                    bb = interval[[1]][[2]];
-                    ax = aa + 0.01;
-                    bx = bb - 0.01;
-
-                    If[input == TraditionalForm[x^2-2],
-                        {
-                            ax = 1.,
-                            bx = 2.
-                        }
-                    ];
-
-                    warninga = "";
-                    warningb = "";
-
-                    Manipulate[
-                        Secant[input,N[ax],N[bx],aa,bb,iteration],
-
-                        Column[{
-                            Row[{
-                                TextCell["a   ", FontSize->23],
-                                TextCell[aa + 0.01, FontSize -> 23],
-                                Slider[Dynamic[ax],{(aa+0.01), (bb-0.01),0.01}],
-                                TextCell[bb - 0.01, FontSize -> 23],
-                                TextCell["   ",FontSize->23],
-                                InputField[Dynamic[ax], ImageSize -> 150, Alignment -> Center, BaseStyle -> FontSize -> 25],
-                                TextCell["   ", FontSize -> 23],
-                                TextCell[Dynamic[warninga],"Text"]
-                            }],
-                            Row[{
-                                TextCell["b   ", FontSize->23],
-                                TextCell[aa + 0.01, FontSize -> 23],
-                                Slider[Dynamic[bx],{(aa+0.01), (bb-0.01),0.01}],
-                                TextCell[bb - 0.01, FontSize -> 23],
-                                InputField[Dynamic[bx], ImageSize -> 150,Alignment->Center, BaseStyle -> FontSize -> 25],
-                                TextCell["   ",FontSize->23],
-                                TextCell[Dynamic[warningb],"Text"]
-
-                            }],
-                            Row[{
-                                If[it == 1,TextCell["Iterazioni ", FontSize->23]],
-                                If[it == 1,Slider[Dynamic[iteration],{0,6,1}]],
-                                If[it == 1,TextCell[" ",FontSize->23]],
-                                If[it == 1,TextCell[Dynamic[iteration],FontSize->23],iteration=0;]
-                            }]
-                        }],
-
-                        Initialization:>{
-
-                            Secant[inputFun_,x0_,x1_,a_,b_,i_] := Module[
-                                {xValues,finalFunction, x0value, x1value},
-
-                                finalFunction = ToExpression[ToString[inputFun]];
-                                x0value = N[ToExpression[x0]];
-                                x1value = N[ToExpression[x1]];
-
-                                (* if user inputs values outside the slider range, values are "normalized" *)
-
-                                If[
-                                    x0value < a+0.01,
-                                    x0value = a+0.01; warninga = "Hai scelto per a un valore che va fuori dal range!",
-                                    warninga = ""
-                                ];
-                                If[
-                                    x1value < a+0.01,
-                                    x1value = a+0.01; warningb = "Hai scelto per b un valore che va fuori dal range!",
-                                    warningb = ""
-                                ];
-                                If[
-                                    x0value > b-0.01,
-                                    x0value = b-0.01; warninga = "Hai scelto per a un valore che va fuori dal range!"
-                                ];
-                                If[
-                                    x1value > b,
-                                    x1value = b-0.01; warningb = "Hai scelto per b un valore che va fuori dal range!"
-                                ];
-
-                                xValues =
-                                    NestList[
-                                        {
-                                            #[[1]],
-                                        (*x1 - f(x1) * { (x1-x0) /  [ f(x1) - f(x0) ] }*)
-                                            #[[1]] - (finalFunction/.x->#[[1]])*((#[[1]] - #[[2]]) / ((finalFunction/.x->#[[1]]) -  (finalFunction/.x->#[[2]])))
-                                        } &,
-                                        {x1, x0},
-                                        i
-                                    ];
-
-
-                                Plot[
-                                    finalFunction, {x, a, b},
-                                    PlotRange -> {{a,b},Full},
-                                    AxesLabel -> {Style["x", 16], Style["y", 16]},
-                                    PlotStyle -> Thickness[0.006],
-                                    BaseStyle-> {FontSize->30},
-                                    Background->White,
-                                    Epilog -> {
-                                        {
-                                            Thickness[0.002],
-                                            MapIndexed[
-                                                {
-                                                    Darker[Green],
-                                                    Line[{
-                                                        {#1[[1]], finalFunction/.x->#[[1]]},
-                                                        {#1[[2]], finalFunction/.x->#[[2]]}
-                                                    }]
-                                                } &,
-                                                xValues
-                                            ]
-                                        },
-                                        {
-                                            Thickness[0.002], Black,
-                                            Line[({{#1, 0}, {#1, finalFunction/.x->#1}} &) /@ Flatten[xValues]]
-                                        },
-                                        {
-                                            PointSize[0.01],
-                                            Darker[Green],
-                                            (Point[{#1, 0}] &) /@ Flatten[xValues]
-                                        },
-                                        {(* x0 and x1 points are black *)
-                                            PointSize[0.01],
-                                            Black,
-                                            Point[{x0value,0}],
-                                            Point[{x1value,0}]
-                                        },
-                                        {
-                                            If[x0value == 1 && x1value == 2,
-                                            (* draw point labels only for the starting x0=1 and x1=2 (aka a and b)*)
-                                                {
-                                                    Text[
-                                                        {1, -1},
-                                                        Offset[{0, 70}, {1, -1}]
-                                                    ],
-                                                    Text[
-                                                        {2, 2},
-                                                        Offset[{0, 70}, {2, 2}]
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    Axes -> True,
-                                    ImageSize -> {750,450},
-                                    AxesLabel -> {Style["x", 16], Style["y", 16]}
-                                ]
-                            ]
-                        },
-                        Paneled->False
-                    ]
-                ]
-            },
-            Paneled->False
-        ]
-    ];
-
-SimplifiedSecantInteractive[pm_,it_] :=
 	DynamicModule[
 		{
 			Secant, (* name of the function that computes the secant method *)
@@ -1612,7 +1029,6 @@ AddIteration[i_,fun_,x0_] :=
 gets in input the function, the initial interval point, the final interval point and
 the first point from which start the iteration *)
 (* called in ReadInputFile[] *)
-(* TODO add more explanations on how to give input, e.g. don't ctrl+c but write the number explicitly *)
 Esercizio[funzione_, a_, b_,x0_] :=
     DynamicModule[ {
         plot,
@@ -2063,7 +1479,7 @@ MethodsComparison[] :=
 
 (* Interactive algorithm that shows step by step the application of Bisection's method,
  slide "Algoritmo" under the section "Metodo di bisezione" *)
-(* TODO display current iteration number while iterating, check strange behaviour, e.g. when secant is slower than
+(*  check strange behaviour, e.g. when secant is slower than
 bisection*)
 (* TODO show f(c) also when convergence is reached, f(c) is important since tolerance is checked on it too
 (maybe we should apply tolerance logic to y too, this could explain Secant slowness)
@@ -2636,7 +2052,7 @@ AlgoSec[] :=
         ]
     ];
 
-(* Interactive algotithm that shows step by step the application of Newton's method *)
+(* Interactive algorithm that shows step by step the application of Newton's method *)
 (* slide "Algoritmo" under the section "Metodo di Newton" *)
 AlgoNewton[] :=
     DynamicModule[
