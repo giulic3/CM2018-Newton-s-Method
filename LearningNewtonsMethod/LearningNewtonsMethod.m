@@ -630,7 +630,7 @@ SecantInteractive[pm_,it_] :=
 		functionsList = {
 			TraditionalForm[x^2 - 2],
 			TraditionalForm[x^4 - 2],
-			TraditionalForm[(x/2)^2+2Sin[x]+Cos[x]-10],
+			TraditionalForm[2Sin[x]Cos[x]],
 			TraditionalForm[3x+Sin[x]-Exp[x]],
 			TraditionalForm[Cos[x]],
 			TraditionalForm[x-Sin[x]-(1/2)]
@@ -1479,14 +1479,7 @@ MethodsComparison[] :=
 
 (* Interactive algorithm that shows step by step the application of Bisection's method,
  slide "Algoritmo" under the section "Metodo di bisezione" *)
-(*  check strange behaviour, e.g. when secant is slower than
-bisection*)
-(* TODO show f(c) also when convergence is reached, f(c) is important since tolerance is checked on it too
-(maybe we should apply tolerance logic to y too, this could explain Secant slowness)
-the last f(c) is wrong in Secant, this applies to all the 3 algorithms
-in AlgoBisez the last f(c) disappears.
 
-*)
 AlgoBisez[] :=
     DynamicModule[ (* variables declaration *)
         {ww, zz, tt1, ff,soluzione, iterationBisezStep},
@@ -1735,22 +1728,28 @@ AlgoBisez[] :=
             }, Paneled -> False
         ]
     ];
-(* Interactive algotithm that shows step by step the application of Secant's method *)
+(* Interactive algorithm that shows step by step the application of Secant's method *)
 (* slide "Algoritmo" under the section "Metodo delle secanti" *)
 AlgoSec[] :=
     DynamicModule[ (* variables declaration *)
-        {aa, bb, cc, \[Tau]\[Tau], ff, faVal, fbVal, cVal1, radice, soluzioneSec, iterationSecStep},
+        {aa, bb, cc, \[Tau]\[Tau], ff, faVal, fbVal, cVal1, radice, soluzioneSec, iterationSecStep, cValuesList, roundCounter, initFlag},
         faVal = ""; fbVal = ""; cVal1 = "";
         aa = ToExpression["a"];
         bb = ToExpression["b"];
         \[Tau]\[Tau] = ToExpression["\[Tau]"];
         ff = x^2 - 2;
         iterationSecStep = 0;
+        (* this contains the xk series *)
+        cValuesList = {};
+        (*
+        roundCounter = 1;
+        *)
+        initFlag = True;
         Manipulate[
             SecAlgorithm[aa, bb, \[Tau]\[Tau]],
-
             Column[{
-                Row[{ (* input fields that allows to insert a,b and the tolerance value  *)
+            (* input fields that allow to insert a,b and the tolerance value  *)
+                Row[{
                     TextCell["Sia f = ", FontSize -> 25],
                     TextCell[TraditionalForm[ff], FontSize -> 25]
                 }],
@@ -1765,22 +1764,47 @@ AlgoSec[] :=
                     InputField[Dynamic[\[Tau]\[Tau]], ImageSize -> 100, Alignment -> Center, BaseStyle -> FontSize -> 25]
                 }]
             }],
-
+	        (* it is evaluated only the first time *)
             Initialization :> {
+
                 SecAlgorithm[a_, b_, t_] := DynamicModule[
                     { cVal, fcVal, r, rr, radiciSol, rad},
-                (* variables initialization *)
-                    a1 = N[ToExpression[a]];
+
+                    (* variables initialization *)
+	                a1 = N[ToExpression[a]];
                     If[a != ToExpression["a"], a = a1];
                     b1 = N[ToExpression[b]];
                     If[b != ToExpression["b"], b = b1];
-                    If[t == ToString["\[Tau]"], "", ""];
 
+                    (* if we're in the THIRD round (it means we've inserted a and b in the input fields *)
+	                (*)8
+                    If[roundCounter == 3,
+	                    {
+		                    cValuesList = Append[cValuesList,aa];
+	                        cValuesList = Append[cValuesList,bb];
+	                    }
+                    ];
+
+	                (* patch *)
+	                roundCounter = roundCounter + 1;
+					*)
+
+	                If[ToString[a] != ToString["a"] && ToString[b] != ToString["b"] && initFlag == True,
+		                {
+			                cValuesList = Append[cValuesList,aa];
+			                cValuesList = Append[cValuesList,bb];
+			                initFlag = False;
+		                }
+	                ];
+
+
+                    (* left column: explaining the algorithm in black *)
                     Column[{
-                        Row[{ (* theorical area *)
+                        Row[{
                             TextCell["Finch\[EAcute] | a - b | > \[Tau]", FontSize -> 25]
                         }],
                         Row[{
+	                        (* left column for the text in black *)
                             Column[{
                                 Row[{
                                     TextCell["  1. Calcolo c = a - ", FontSize -> 25],
@@ -1819,22 +1843,23 @@ AlgoSec[] :=
                                         Row[{
                                             Column[{
                                                 Row[{
-
+                                                    (* check if values have been inserted in place of a,b,tau *)
                                                     If[ToString[a] != ToString["a"] &&
                                                         ToString[b] != ToString["b"] &&
                                                         ToString[t] != ToString["\[Tau]"],
-                                                    (* check if the tolerance has been reached *)
-                                                        If[Abs[a - b] >= ToExpression[ToString[t]],
+                                                        (* check if the tolerance has been reached *)
+                                                        If[Abs[cValuesList[[-2]] - cValuesList[[-1]]] >= ToExpression[ToString[t]],
                                                             { (* if not, make the calculations *)
 
+	                                                            (* debug print *)
+	                                                            Print["a - b = ", Abs[a-b]];
                                                                 faVal = ff /. x -> a;
                                                                 fbVal = ff /. x -> b;
                                                                 cVal1 = a - ((faVal*(b - a))/(fbVal - faVal));
                                                                 r = x /. Solve[ff == 0, x];
                                                                 rr = N[r[[2]]];
-
-                                                                If[ToString[cVal1] ==
-                                                                    ToString[rr],
+	                                                            (* why here *)
+                                                                If[ToString[cVal1] == ToString[rr],
                                                                     CreateDialog[
                                                                         Column[{
                                                                             Row[{TextCell["Approssimazione ",FontSize -> 25]}],
@@ -1846,10 +1871,12 @@ AlgoSec[] :=
                                                                             Row[{
                                                                                 TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
                                                                             }]
-                                                                        },Alignment -> Center]]
+                                                                        }, Alignment -> Center]]
                                                                 ]
                                                             },
                                                             {
+
+	                                                            Print["sono nel check giusto..."];
                                                             (* if it's reached, shows a dialog box *)
                                                                 CreateDialog[
                                                                     Column[{
@@ -1925,7 +1952,6 @@ AlgoSec[] :=
 
                                                     }]
 
-
                                                 }],
                                                 Spacer[50],
                                                 Spacer[30],
@@ -1935,13 +1961,17 @@ AlgoSec[] :=
                                                         If[ToString[a] != ToString["a"] &&
                                                             ToString[b] != ToString["b"] &&
                                                             ToString[t] != ToString["\[Tau]"],
-                                                            If[Abs[a - b] > ToExpression[ToString[t]],
+                                                            (* check if tolerance has been reached *)
+                                                            If[Abs[cValuesList[[-2]] - cValuesList[[-1]]] > ToExpression[ToString[t]],
                                                                 Row[{
 
                                                                     TextCell[" Calcolo f(c) = ",
                                                                         FontSize -> 25, FontColor -> Gray],
 
                                                                     fcVal = ff /. x -> cVal;
+                                                                    (* debug print *)
+                                                                    Print["c = ", cVal];
+
                                                                     radiciSol = x /. NSolve[ff==0,x];
                                                                     rad= radiciSol[[2]];
                                                                     soluzioneSec = ff /. x -> rad;
@@ -1994,29 +2024,34 @@ AlgoSec[] :=
                         Row[{
                             "                       ",
                             Button[TextCell["Reitera", FontSize -> 25],
-                                If[Abs[a - b] >= ToExpression[ToString[t]],
-                                    If[(ff /. x -> a)*(ff /. x -> cVal) >= 0,
-                                        {
-                                            If[ToString[cVal] != ToString[""],
-                                                aa = cVal,
-                                                Break[]
-                                            ];
-                                            bb = b;
-                                            \[Tau]\[Tau] = t
-                                        },
-                                        {
-                                            If[ToString[cVal] != ToString[""],
-                                                bb = cVal,
-                                                Break[]
-                                            ];
-                                            aa = a;
-                                            \[Tau]\[Tau] = t
-                                        }
-                                    ],
-                                    CreateDialog[
+                                (* this updates a or b according to the sign of f(c) *)
+                                If[Abs[cValuesList[[-2]] - cValuesList[[-1]]] >= ToExpression[ToString[t]],
+	                                {
+		                                cValuesList = Append[cValuesList, cVal];
+		                                Print["lista di xk = ", cValuesList];
 
+		                                If[(ff /. x -> a)*(ff /. x -> cVal) >= 0,
+	                                        {
+	                                            If[ToString[cVal] != ToString[""],
+	                                                aa = cVal,
+	                                                Break[]
+	                                            ];
+	                                            bb = b;
+	                                            \[Tau]\[Tau] = t
+	                                        },
+	                                        {
+	                                            If[ToString[cVal] != ToString[""],
+	                                                bb = cVal,
+	                                                Break[]
+	                                            ];
+	                                            aa = a;
+	                                            \[Tau]\[Tau] = t
+	                                        }
+                                    ]},
+	                                (* dialog box that states that the tolerance has been reached *)
+                                    CreateDialog[
                                         Column[{
-                                            Row[{TextCell["Approssimazione3 ", FontSize -> 25]}],
+                                            Row[{TextCell["Approssimazione ", FontSize -> 25]}],
                                             Row[{
                                                 TextCell["con tolleranza ", FontSize -> 25],
                                                 TextCell[t, FontSize -> 25]
@@ -2034,7 +2069,7 @@ AlgoSec[] :=
                             ], "           ",
                             Button[
                                 TextCell["Cancella", FontSize -> 25],
-
+	                            (* reset values to default *)
                                 aa = ToExpression["a"];
                                 bb = ToExpression["b"];
                                 \[Tau]\[Tau] = ToExpression["\[Tau]"];
@@ -2047,7 +2082,7 @@ AlgoSec[] :=
                         }]
                     }]
                 ]
-            },
+            }, (* end Manipulate Initialization *)
             Paneled -> False
         ]
     ];
@@ -2129,6 +2164,7 @@ AlgoNewton[] :=
                                     TextCell["       k = k + 1 ",FontSize->25]
                                 }]
                             }],
+                            (* right column, dynamic gray text*)
                             Column[{
                                 Spacer[50],
                                 Row[{
