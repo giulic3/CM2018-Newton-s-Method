@@ -1850,9 +1850,6 @@ AlgoSec[] :=
                                                         (* check if the tolerance has been reached *)
                                                         If[Abs[cValuesList[[-2]] - cValuesList[[-1]]] >= ToExpression[ToString[t]],
                                                             { (* if not, make the calculations *)
-
-	                                                            (* debug print *)
-	                                                            Print["a - b = ", Abs[a-b]];
                                                                 faVal = ff /. x -> a;
                                                                 fbVal = ff /. x -> b;
                                                                 cVal1 = a - ((faVal*(b - a))/(fbVal - faVal));
@@ -1876,19 +1873,18 @@ AlgoSec[] :=
                                                             },
                                                             {
 
-	                                                            Print["sono nel check giusto..."];
                                                             (* if it's reached, shows a dialog box *)
                                                                 CreateDialog[
                                                                     Column[{
                                                                         Row[{TextCell["Approssimazione ",FontSize -> 25]}],
                                                                         Row[{TextCell["con tolleranza ", FontSize -> 25],TextCell[t, FontSize -> 25]}],
-                                                                        Row[{TextCell["Raggiunta", FontSize -> 25]},
+                                                                        Row[{TextCell["Raggiunta", FontSize -> 25]}],
                                                                             Row[{
                                                                                 TextCell["! Smettere di reiterare !", FontSize -> 20]
                                                                             }],
                                                                             Row[{
                                                                                 TextCell["Cliccare sulla x per chiudere", FontSize -> 20]
-                                                                            }]
+                                                                            }
 
                                                                         ]},
                                                                         Alignment -> Center]]
@@ -1969,8 +1965,6 @@ AlgoSec[] :=
                                                                         FontSize -> 25, FontColor -> Gray],
 
                                                                     fcVal = ff /. x -> cVal;
-                                                                    (* debug print *)
-                                                                    Print["c = ", cVal];
 
                                                                     radiciSol = x /. NSolve[ff==0,x];
                                                                     rad= radiciSol[[2]];
@@ -2028,7 +2022,6 @@ AlgoSec[] :=
                                 If[Abs[cValuesList[[-2]] - cValuesList[[-1]]] >= ToExpression[ToString[t]],
 	                                {
 		                                cValuesList = Append[cValuesList, cVal];
-		                                Print["lista di xk = ", cValuesList];
 
 		                                If[(ff /. x -> a)*(ff /. x -> cVal) >= 0,
 	                                        {
@@ -2075,6 +2068,7 @@ AlgoSec[] :=
                                 \[Tau]\[Tau] = ToExpression["\[Tau]"];
                                 faVal = ""; fbVal = ""; cVal1 = "";
                                 ff = x^2 - 2;
+                                cValuesList={}; initFlag=True;
                                 iterationSecStep = 0,
 
                                 ImageSize -> 200
